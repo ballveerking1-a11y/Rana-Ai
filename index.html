@@ -2,274 +2,321 @@
 <html lang="ur" dir="rtl">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Sikandar Azam AI — v7.5 (Settings Update)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sikandar AI — JARVIS HUD v8.0</title>
     
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
-            --primary: #00f2ff;
-            --secondary: #7000ff;
-            --bg: #05070a;
-            --card: rgba(15, 23, 42, 0.9);
-            --border: rgba(255, 255, 255, 0.1);
-            --text: #e2e8f0;
-            --radius: 24px;
+            --cyan: #00f2ff;
+            --blue: #0066ff;
+            --dark-bg: #000814;
+            --glass: rgba(0, 242, 255, 0.05);
+            --border: rgba(0, 242, 255, 0.2);
+            --glow: 0 0 15px rgba(0, 242, 255, 0.4);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--bg);
+            background-color: var(--dark-bg);
             background-image: 
-                radial-gradient(circle at 10% 20%, rgba(112, 0, 255, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(0, 242, 255, 0.15) 0%, transparent 40%);
-            color: var(--text);
-            font-family: 'Inter', sans-serif;
+                radial-gradient(circle at 50% 50%, #001d3d 0%, #000814 100%),
+                url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            color: var(--cyan);
+            font-family: 'Rajdhani', sans-serif;
             height: 100vh;
             overflow: hidden;
             display: flex;
+            perspective: 1000px;
         }
 
-        /* Sidebar */
-        .sidebar {
-            width: 300px;
-            background: rgba(2, 6, 23, 0.95);
-            border-left: 1px solid var(--border);
+        /* --- JARVIS HUD ELEMENTS --- */
+        .hud-frame {
+            position: fixed; inset: 0;
+            border: 20px solid transparent;
+            border-image: url('https://i.imgur.com/8BqQ6pX.png') 30 stretch;
+            pointer-events: none; opacity: 0.3; z-index: 10;
+        }
+
+        /* Floating Sidebar History */
+        .side-hud {
+            width: 320px;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            margin: 20px;
+            border-radius: 5px;
             display: flex;
             flex-direction: column;
-            padding: 20px;
-            backdrop-filter: blur(20px);
             z-index: 100;
+            box-shadow: var(--glow);
         }
 
-        .brand h1 {
-            font-size: 22px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 800;
-            text-align: center;
+        .hud-header {
+            padding: 15px;
+            background: rgba(0, 242, 255, 0.1);
+            border-bottom: 2px solid var(--cyan);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex; justify-content: space-between;
         }
 
-        .history-container { flex: 1; overflow-y: auto; margin: 20px 0; }
+        .history-list {
+            flex: 1; overflow-y: auto; padding: 10px;
+        }
+
         .history-item {
-            background: rgba(255,255,255,0.03);
-            padding: 12px;
-            border-radius: 12px;
-            margin-bottom: 8px;
-            font-size: 13px;
-            cursor: pointer;
-            border: 1px solid transparent;
-            transition: 0.3s;
+            padding: 10px; margin-bottom: 5px;
+            background: rgba(0, 242, 255, 0.03);
+            border-right: 3px solid var(--cyan);
+            font-family: 'Noto Nastaliq Urdu', serif;
+            font-size: 12px; cursor: pointer; transition: 0.3s;
         }
-        .history-item:hover { border-color: var(--primary); }
+        .history-item:hover { background: rgba(0, 242, 255, 0.1); transform: translateX(-5px); }
 
-        /* Main Content */
-        .main-content {
+        /* Main HUD Content */
+        .main-hud {
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 40px;
             position: relative;
         }
 
-        .reactor-core {
+        /* Arc Reactor Mic */
+        .arc-container {
+            position: relative;
+            width: 250px; height: 250px;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .arc-ring {
+            position: absolute; width: 100%; height: 100%;
+            border: 2px dashed var(--cyan);
+            border-radius: 50%;
+            animation: rotate 10s linear infinite;
+        }
+
+        .arc-ring-inner {
+            position: absolute; width: 80%; height: 80%;
+            border: 4px double var(--blue);
+            border-radius: 50%;
+            animation: rotate-rev 5s linear infinite;
+        }
+
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes rotate-rev { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+
+        .arc-core {
             width: 100px; height: 100px;
-            background: radial-gradient(circle, var(--primary), var(--secondary));
+            background: radial-gradient(circle, var(--cyan) 0%, var(--blue) 100%);
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            cursor: pointer; position: relative; z-index: 5;
-            box-shadow: 0 0 30px var(--secondary);
-            transition: 0.3s;
+            cursor: pointer; z-index: 5;
+            box-shadow: 0 0 50px var(--blue);
+            transition: 0.4s;
+            border: 4px solid #fff;
         }
-        .reactor-core:hover { transform: scale(1.1); }
-        
-        .pulse-ring {
-            position: absolute; width: 150px; height: 150px;
-            border: 2px solid var(--primary); border-radius: 50%;
-            animation: pulse 2s infinite; opacity: 0.5;
+        .arc-core i { font-size: 40px; color: var(--dark-bg); text-shadow: none; }
+        .arc-core:active { transform: scale(0.9); }
+
+        /* Output Box */
+        .response-hud {
+            width: 80%; max-width: 800px;
+            margin-top: 50px;
+            padding: 30px;
+            background: rgba(0, 10, 20, 0.8);
+            border: 1px solid var(--cyan);
+            position: relative;
+            clip-path: polygon(0% 15%, 5% 0%, 95% 0%, 100% 15%, 100% 85%, 95% 100%, 5% 100%, 0% 85%);
+        }
+        .response-hud::before {
+            content: "SYSTEM DIAGNOSTIC";
+            position: absolute; top: 5px; left: 20px; font-size: 10px; opacity: 0.5;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.5; }
-            100% { transform: scale(1.5); opacity: 0; }
-        }
-
-        .response-box {
-            width: 100%; max-width: 700px;
-            margin-top: 40px; background: var(--card);
-            border: 1px solid var(--border); padding: 25px;
-            border-radius: var(--radius); backdrop-filter: blur(15px);
-            text-align: center; font-family: 'Noto Nastaliq Urdu', serif;
-            min-height: 100px;
-        }
-
-        /* Settings Modal */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
+        /* --- SETTINGS PANEL (Professional) --- */
+        .settings-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.9);
             display: none; align-items: center; justify-content: center; z-index: 1000;
         }
-        .modal-box {
-            background: #0f172a; border: 1px solid var(--primary);
-            padding: 30px; border-radius: 20px; width: 400px;
+        .settings-card {
+            width: 500px;
+            background: var(--dark-bg);
+            border: 1px solid var(--cyan);
+            padding: 40px;
+            position: relative;
+            box-shadow: var(--glow);
         }
-        .modal-box h2 { margin-bottom: 20px; color: var(--primary); }
-        .modal-box label { display: block; margin-bottom: 5px; font-size: 14px; }
-        .modal-box input {
-            width: 100%; padding: 12px; margin-bottom: 20px;
-            background: rgba(255,255,255,0.05); border: 1px solid var(--border);
-            border-radius: 10px; color: white; outline: none;
+        .settings-card h2 { font-family: 'Orbitron', sans-serif; color: var(--cyan); margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+        .input-group { margin-bottom: 25px; }
+        .input-group label { display: block; font-size: 12px; margin-bottom: 8px; letter-spacing: 1px; color: var(--blue); }
+        .input-group input {
+            width: 100%; padding: 12px; background: rgba(0, 242, 255, 0.05);
+            border: 1px solid var(--border); color: white; font-family: 'Orbitron', sans-serif;
+            outline: none; transition: 0.3s;
         }
-        .modal-box input:focus { border-color: var(--primary); }
-        .btn-save {
-            width: 100%; padding: 12px; background: var(--primary);
-            border: none; border-radius: 10px; font-weight: bold; cursor: pointer;
+        .input-group input:focus { border-color: var(--cyan); background: rgba(0, 242, 255, 0.1); }
+        
+        .btn-jarvis {
+            width: 100%; padding: 15px; background: transparent; border: 1px solid var(--cyan);
+            color: var(--cyan); font-family: 'Orbitron', sans-serif; cursor: pointer;
+            overflow: hidden; position: relative; transition: 0.3s;
         }
+        .btn-jarvis:hover { background: var(--cyan); color: var(--dark-bg); box-shadow: var(--glow); }
 
-        /* Preview Panel */
-        #preview-panel {
-            position: fixed; top: 0; right: -100%; width: 50%; height: 100%;
-            background: white; z-index: 200; transition: 0.5s;
-            display: flex; flex-direction: column;
+        /* Floating Controls */
+        .bottom-controls {
+            position: fixed; bottom: 30px; right: 30px; display: flex; gap: 15px;
         }
-        #preview-panel.active { right: 0; }
-        .preview-header { background: #1a1a1a; color: white; padding: 15px; display: flex; justify-content: space-between; }
-
-        .settings-btn {
-            position: absolute; bottom: 20px; left: 20px;
-            background: rgba(255,255,255,0.1); width: 50px; height: 50px;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: 0.3s;
+        .ctrl-btn {
+            width: 60px; height: 60px; border-radius: 50%; border: 1px solid var(--cyan);
+            display: flex; align-items: center; justify-content: center;
+            background: var(--glass); color: var(--cyan); cursor: pointer; transition: 0.3s;
         }
-        .settings-btn:hover { background: var(--primary); color: black; transform: rotate(90deg); }
+        .ctrl-btn:hover { background: var(--cyan); color: black; box-shadow: var(--glow); }
 
     </style>
 </head>
 <body>
 
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="brand"><h1>Sikandar Azam AI</h1></div>
-        <div class="history-container" id="historyBox"></div>
-        <div class="settings-btn" onclick="toggleSettings()"><i class="fas fa-cog"></i></div>
+    <div class="hud-frame"></div>
+
+    <!-- Sidebar History -->
+    <aside class="side-hud">
+        <div class="hud-header">
+            <span>Data Logs</span>
+            <i class="fas fa-microchip"></i>
+        </div>
+        <div class="history-list" id="historyBox"></div>
+        <div style="padding: 10px; font-size: 10px; text-align: center; border-top: 1px solid var(--border);">
+            CPU: 12% | RAM: 2.4GB
+        </div>
     </aside>
 
-    <!-- Main -->
-    <main class="main-content">
-        <div class="reactor-container">
-            <div class="pulse-ring"></div>
-            <div class="reactor-core" onclick="startSikandar()">
-                <i class="fas fa-microphone fa-2x" style="color: white;"></i>
+    <!-- Main Content -->
+    <main class="main-hud">
+        <div class="arc-container" id="arcWrapper">
+            <div class="arc-ring"></div>
+            <div class="arc-ring-inner"></div>
+            <div class="arc-core" onclick="startSikandar()">
+                <i class="fas fa-microphone" id="micIcon"></i>
             </div>
         </div>
 
-        <div id="status" style="margin-top: 20px; color: var(--primary); font-size: 12px; letter-spacing: 2px;">اسٹینڈ بائی</div>
+        <div id="status" style="margin-top: 20px; font-family: 'Orbitron', sans-serif; font-size: 12px; opacity: 0.7;">
+            SYSTEM: ONLINE
+        </div>
 
-        <div class="response-box" id="output">"جی سر سکندر اعظم، میں حاضر ہوں۔"</div>
+        <div class="response-hud" id="output">
+            <p style="font-family: 'Noto Nastaliq Urdu', serif; font-size: 18px; line-height: 2;">
+                "سر سکندر اعظم، میں آپ کی ہدایات کا منتظر ہوں۔"
+            </p>
+        </div>
     </main>
 
-    <!-- Settings Modal -->
-    <div class="modal-overlay" id="settingsModal">
-        <div class="modal-box">
-            <h2>⚙️ سیٹنگز</h2>
-            <label>Groq API Key:</label>
-            <input type="password" id="apiKeyInput" placeholder="اپنی API Key یہاں ڈالیں">
-            
-            <label>Model Name:</label>
-            <input type="text" id="modelInput" placeholder="مثال: llama3-70b-8192">
-            
-            <button class="btn-save" onclick="saveSettings()">سیٹنگز محفوظ کریں</button>
-            <p onclick="toggleSettings()" style="text-align: center; margin-top: 15px; cursor: pointer; font-size: 12px; color: #ff4444;">بند کریں</p>
+    <!-- Floating Actions -->
+    <div class="bottom-controls">
+        <div class="ctrl-btn" onclick="togglePreview()" title="Code Preview"><i class="fas fa-code"></i></div>
+        <div class="ctrl-btn" onclick="toggleSettings()" title="System Calibration"><i class="fas fa-sliders-h"></i></div>
+    </div>
+
+    <!-- Settings Panel -->
+    <div class="settings-overlay" id="settingsModal">
+        <div class="settings-card">
+            <h2>SYSTEM CALIBRATION</h2>
+            <div class="input-group">
+                <label>GROQ ENCRYPTION KEY</label>
+                <input type="password" id="apiKeyInput" placeholder="Enter API Key...">
+            </div>
+            <div class="input-group">
+                <label>NEURAL NETWORK MODEL</label>
+                <input type="text" id="modelInput" placeholder="e.g. llama3-70b-8192">
+            </div>
+            <button class="btn-jarvis" onclick="saveSettings()">CALIBRATE SYSTEM</button>
+            <p onclick="toggleSettings()" style="text-align: center; margin-top: 20px; font-size: 12px; cursor: pointer; color: var(--blue);">ABORT CALIBRATION</p>
         </div>
     </div>
 
     <!-- Preview Panel -->
-    <div id="preview-panel">
-        <div class="preview-header">
-            <span>لائیو پریویو</span>
-            <div>
-                <button onclick="downloadCode()" style="background: #22c55e; border:none; padding:5px 10px; border-radius:5px; color:white; cursor:pointer;">ڈاؤن لوڈ</button>
-                <button onclick="document.getElementById('preview-panel').classList.remove('active')" style="background: #ef4444; border:none; padding:5px 10px; border-radius:5px; color:white; cursor:pointer;">بند کریں</button>
-            </div>
+    <div id="preview-panel" style="position:fixed; top:0; left:-100%; width:100%; height:100%; background:white; z-index:2000; transition:0.6s;">
+        <div style="background:#000; color:#00f2ff; padding:15px; display:flex; justify-content:space-between;">
+            <span style="font-family:'Orbitron';">LIVE CODE RENDERER</span>
+            <button onclick="togglePreview()" style="background:red; color:white; border:none; padding:5px 15px; cursor:pointer;">CLOSE</button>
         </div>
-        <iframe id="preview-frame" style="flex: 1; border: none;"></iframe>
+        <iframe id="preview-frame" style="width:100%; height:calc(100% - 50px); border:none;"></iframe>
     </div>
 
     <script>
-        // --- App State ---
+        // --- System Configuration ---
         let config = {
-            apiKey: localStorage.getItem('sk_api_key') || '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',
-            model: localStorage.getItem('sk_model_name') || 'llama3-70b-8192'
+            apiKey: localStorage.getItem('jarvis_key') || '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',
+            model: localStorage.getItem('jarvis_model') || 'llama3-70b-8192'
         };
 
         const outputEl = document.getElementById('output');
         const statusEl = document.getElementById('status');
+        const arcWrapper = document.getElementById('arcWrapper');
         const previewFrame = document.getElementById('preview-frame');
+        const previewPanel = document.getElementById('preview-panel');
         let lastGeneratedCode = "";
 
-        // --- Settings Logic ---
-        function toggleSettings() {
-            const modal = document.getElementById('settingsModal');
-            document.getElementById('apiKeyInput').value = config.apiKey;
-            document.getElementById('modelInput').value = config.model;
-            modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
-        }
-
-        function saveSettings() {
-            const newKey = document.getElementById('apiKeyInput').value;
-            const newModel = document.getElementById('modelInput').value;
-            
-            if(newKey && newModel) {
-                config.apiKey = newKey;
-                config.model = newModel;
-                localStorage.setItem('sk_api_key', newKey);
-                localStorage.setItem('sk_model_name', newModel);
-                alert("سیٹنگز محفوظ ہو گئیں!");
-                toggleSettings();
-            } else {
-                alert("براہ کرم تمام خانے پُر کریں۔");
-            }
-        }
-
-        // --- Voice Logic ---
+        // --- Voice Engine ---
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         const recognition = new SpeechRecognition();
         recognition.lang = 'ur-PK';
 
-        recognition.onstart = () => { statusEl.innerText = "سن رہا ہوں..."; };
-        recognition.onend = () => { statusEl.innerText = "اسٹینڈ بائی"; };
-        recognition.onresult = (event) => { processCommand(event.results[0][0].transcript); };
+        recognition.onstart = () => {
+            statusEl.innerText = "SYSTEM: LISTENING...";
+            arcWrapper.style.filter = "hue-rotate(90deg) brightness(1.5)";
+        };
+
+        recognition.onend = () => {
+            statusEl.innerText = "SYSTEM: STANDBY";
+            arcWrapper.style.filter = "none";
+        };
+
+        recognition.onresult = (event) => {
+            const cmd = event.results[0][0].transcript;
+            processCommand(cmd);
+        };
 
         function startSikandar() { recognition.start(); }
 
+        // --- Command Center ---
         async function processCommand(cmd) {
-            outputEl.innerText = `آپ: ${cmd}`;
+            saveToHistory(cmd);
             
-            // Special Functions
-            if(cmd.includes('وقت')) { speak(`سر، ابھی وقت ہے ${new Date().toLocaleTimeString('ur-PK')}`); return; }
-            if(cmd.includes('تاریخ')) { speak(`سر، آج تاریخ ہے ${new Date().toLocaleDateString('ur-PK')}`); return; }
-            
-            if(cmd.includes('Play Store') || cmd.includes('پلے اسٹور')) {
-                let search = cmd.replace(/پلے اسٹور|پر|ڈھونڈو|سرچ کرو|Play Store|search/g, "").trim();
-                speak("سر، پلے اسٹور کھول رہا ہوں...");
-                window.open(`https://play.google.com/store/search?q=${encodeURIComponent(search)}&c=apps`);
+            if (cmd.includes('وقت')) {
+                speak(`سر، موجودہ وقت ${new Date().toLocaleTimeString('ur-PK')} ہے۔`);
+                return;
+            }
+            if (cmd.includes('تاریخ')) {
+                speak(`سر، آج کی تاریخ ${new Date().toLocaleDateString('ur-PK')} ہے۔`);
+                return;
+            }
+            if (cmd.includes('Play Store') || cmd.includes('پلے اسٹور')) {
+                let app = cmd.replace(/پلے اسٹور|سرچ|ڈھونڈو|Play Store/g, "").trim();
+                speak(`سر، پلے اسٹور پر ${app || 'ایپس'} تلاش کر رہا ہوں۔`);
+                window.open(`https://play.google.com/store/search?q=${encodeURIComponent(app)}&c=apps`);
                 return;
             }
 
             askAI(cmd);
         }
 
-        // --- AI API ---
+        // --- Neural Network (Groq API) ---
         async function askAI(prompt) {
-            statusEl.innerText = "سوچ رہا ہوں...";
+            statusEl.innerText = "SYSTEM: PROCESSING...";
             try {
                 const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
                     method: "POST",
@@ -280,45 +327,62 @@
                     body: JSON.stringify({
                         model: config.model,
                         messages: [
-                            { role: "system", content: "You are Sikandar Azam AI. Respond in Urdu. If code is asked, provide inside ```html block." },
+                            { role: "system", content: "You are JARVIS. Respond in professional Urdu. For HTML requests, give ONLY code inside ```html blocks." },
                             { role: "user", content: prompt }
                         ]
                     })
                 });
 
                 const data = await response.json();
-                if(data.error) throw new Error(data.error.message);
-
                 const aiReply = data.choices[0].message.content;
-                
+
                 if (aiReply.includes("```html")) {
                     lastGeneratedCode = aiReply.match(/```html([\s\S]*?)```/)[1].trim();
                     previewFrame.srcdoc = lastGeneratedCode;
-                    document.getElementById('preview-panel').classList.add('active');
-                    speak("سر، کوڈ تیار ہے۔ پریویو چیک کریں۔");
+                    speak("سر، کوڈ رینڈر کر دیا گیا ہے۔ پریویو چیک کریں۔");
+                    setTimeout(togglePreview, 2000);
                 } else {
                     speak(aiReply);
                 }
             } catch (error) {
-                speak("خرابی: " + error.message);
-            } finally {
-                statusEl.innerText = "اسٹینڈ بائی";
+                speak("سسٹم ایرر: براہ کرم اپنی سیٹنگز چیک کریں۔");
             }
         }
 
         function speak(text) {
-            outputEl.innerText = text;
+            outputEl.innerHTML = `<p style="font-family:'Noto Nastaliq Urdu'; font-size:18px;">${text}</p>`;
             const uttr = new SpeechSynthesisUtterance(text);
             uttr.lang = 'ur-PK';
             window.speechSynthesis.speak(uttr);
         }
 
-        function downloadCode() {
-            const blob = new Blob([lastGeneratedCode], { type: 'text/html' });
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = 'sikandar_code.html';
-            a.click();
+        // --- UI Interactions ---
+        function toggleSettings() {
+            const modal = document.getElementById('settingsModal');
+            document.getElementById('apiKeyInput').value = config.apiKey;
+            document.getElementById('modelInput').value = config.model;
+            modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        function saveSettings() {
+            config.apiKey = document.getElementById('apiKeyInput').value;
+            config.model = document.getElementById('modelInput').value;
+            localStorage.setItem('jarvis_key', config.apiKey);
+            localStorage.setItem('jarvis_model', config.model);
+            alert("SYSTEM CALIBRATED SUCCESSFULLY.");
+            toggleSettings();
+        }
+
+        function togglePreview() {
+            previewPanel.style.left = (previewPanel.style.left === '0px') ? '-100%' : '0px';
+        }
+
+        function saveToHistory(text) {
+            const box = document.getElementById('historyBox');
+            const item = document.createElement('div');
+            item.className = 'history-item';
+            item.innerText = text;
+            box.prepend(item);
         }
     </script>
 </body>
