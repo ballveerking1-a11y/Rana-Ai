@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sikandar AI — Pro Assistant v9.0</title>
+    <title>Sikandar AI — Ultra Pro v10.0</title>
     
     <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&family=Noto+Nastaliq+Urdu&display=swap" rel="stylesheet">
@@ -13,10 +13,9 @@
         :root {
             --neon: #00f2ff;
             --purple: #7000ff;
-            --bg: #020617;
-            --glass: rgba(15, 23, 42, 0.8);
-            --border: rgba(0, 242, 255, 0.2);
-            --glow: 0 0 20px rgba(0, 242, 255, 0.4);
+            --bg: #010409;
+            --glass: rgba(13, 17, 23, 0.9);
+            --border: rgba(0, 242, 255, 0.3);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -28,271 +27,274 @@
             height: 100vh;
             overflow: hidden;
             display: flex;
-            background-image: 
-                radial-gradient(circle at 50% 50%, #0f172a 0%, #020617 100%);
         }
 
-        /* --- DASHBOARD LAYOUT --- */
+        /* --- UI COMPONENTS --- */
         .sidebar {
-            width: 300px;
+            width: 320px;
             background: var(--glass);
-            backdrop-filter: blur(20px);
             border-left: 1px solid var(--border);
             display: flex;
             flex-direction: column;
             padding: 20px;
-            z-index: 50;
+            z-index: 100;
         }
 
-        .main-stage {
+        .main-screen {
             flex: 1;
             display: flex;
             flex-direction: column;
             position: relative;
+            background: radial-gradient(circle at center, #0d1117 0%, #010409 100%);
         }
 
-        /* --- NEURAL CORE (MIC) --- */
-        .core-container {
+        /* --- CORE VISUALIZER --- */
+        .core-box {
             flex: 1;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
+            flex-direction: column;
         }
 
-        .neural-core {
+        .arc-reactor {
             position: relative;
-            width: 280px;
-            height: 280px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 250px; height: 250px;
+            display: flex; align-items: center; justify-content: center;
             cursor: pointer;
         }
 
-        .ring {
+        .arc-ring {
             position: absolute;
-            border-radius: 50%;
             border: 2px solid transparent;
-            border-top-color: var(--neon);
-            animation: spin var(--d) linear infinite;
-        }
-        .ring-1 { width: 100%; height: 100%; --d: 3s; border-width: 4px; opacity: 0.3; }
-        .ring-2 { width: 85%; height: 85%; --d: 2s; border-top-color: var(--purple); opacity: 0.6; }
-        .ring-3 { width: 70%; height: 70%; --d: 1s; box-shadow: inset 0 0 20px var(--neon); }
-
-        .mic-btn {
-            width: 100px;
-            height: 100px;
-            background: radial-gradient(circle, var(--neon), var(--purple));
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
-            box-shadow: 0 0 50px var(--purple);
-            transition: 0.3s;
+            border-top: 2px solid var(--neon);
+            animation: rotate var(--t) linear infinite;
         }
-        .mic-btn i { font-size: 40px; color: #000; }
-        .listening .mic-btn { animation: pulse 1s infinite alternate; }
+        .r1 { width: 100%; height: 100%; --t: 4s; opacity: 0.2; }
+        .r2 { width: 80%; height: 80%; --t: 3s; border-top-color: var(--purple); opacity: 0.5; }
+        .r3 { width: 60%; height: 60%; --t: 2s; box-shadow: 0 0 20px var(--neon); }
 
-        @keyframes spin { to { transform: rotate(360deg); } }
-        @keyframes pulse { from { transform: scale(1); box-shadow: 0 0 20px var(--neon); } to { transform: scale(1.2); box-shadow: 0 0 60px var(--neon); } }
+        .core-glow {
+            width: 80px; height: 80px;
+            background: var(--neon);
+            border-radius: 50%;
+            box-shadow: 0 0 50px var(--neon);
+            z-index: 10;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .core-glow i { color: black; font-size: 30px; }
 
-        /* --- OUTPUT CONSOLE --- */
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* --- CONSOLE --- */
         .console {
-            height: 180px;
-            background: rgba(0,0,0,0.5);
-            border-top: 1px solid var(--border);
+            height: 150px;
+            background: rgba(0, 0, 0, 0.8);
+            border-top: 2px solid var(--border);
             padding: 20px;
             font-family: 'Noto Nastaliq Urdu', serif;
-            font-size: 18px;
+            font-size: 20px;
             text-align: center;
-            overflow-y: auto;
+            color: var(--neon);
         }
 
-        /* --- SETTINGS MODAL --- */
-        .modal {
-            position: fixed; inset: 0;
-            background: rgba(0,0,0,0.9);
+        /* --- MODALS & BUTTONS --- */
+        .settings-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.95);
             display: none; align-items: center; justify-content: center; z-index: 1000;
         }
-        .modal-content {
-            background: #0f172a; border: 1px solid var(--neon);
-            padding: 40px; border-radius: 20px; width: 450px;
-            box-shadow: var(--glow);
+        .settings-card {
+            background: #0d1117; border: 1px solid var(--neon);
+            padding: 30px; border-radius: 15px; width: 400px;
         }
-        .modal-content h2 { font-family: 'Orbitron'; color: var(--neon); margin-bottom: 25px; }
-        .field { margin-bottom: 20px; }
-        .field label { display: block; font-size: 12px; color: var(--neon); margin-bottom: 8px; }
-        .field input {
-            width: 100%; padding: 12px; background: rgba(255,255,255,0.05);
-            border: 1px solid var(--border); color: white; border-radius: 8px; outline: none;
+        .settings-card h2 { font-family: 'Orbitron'; margin-bottom: 20px; color: var(--neon); }
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; font-size: 12px; margin-bottom: 5px; color: #888; }
+        .input-group input {
+            width: 100%; padding: 10px; background: #161b22;
+            border: 1px solid #30363d; color: white; border-radius: 5px; outline: none;
         }
-        .btn-save {
-            width: 100%; padding: 15px; background: var(--neon);
-            color: black; font-weight: bold; border: none; border-radius: 8px; cursor: pointer;
+        .btn-action {
+            width: 100%; padding: 12px; background: var(--neon);
+            color: black; font-weight: bold; border: none; border-radius: 5px; cursor: pointer;
         }
 
-        /* --- PREVIEW PANEL --- */
-        #preview-panel {
-            position: fixed; top: 0; left: -100%; width: 100%; height: 100%;
-            background: #fff; z-index: 2000; transition: 0.5s;
-        }
-        #preview-panel.active { left: 0; }
-        .preview-header { background: #111; color: var(--neon); padding: 15px; display: flex; justify-content: space-between; }
-
-        /* --- BOTTOM NAV --- */
-        .controls {
-            position: absolute; bottom: 200px; right: 30px;
-            display: flex; flex-direction: column; gap: 15px;
-        }
-        .btn-ctrl {
-            width: 55px; height: 55px; border-radius: 50%;
+        .side-btn {
+            position: absolute; bottom: 180px; left: 30px;
+            width: 50px; height: 50px; border-radius: 50%;
             background: var(--glass); border: 1px solid var(--border);
-            color: var(--neon); cursor: pointer; transition: 0.3s;
+            color: var(--neon); cursor: pointer; display: flex; align-items: center; justify-content: center;
         }
-        .btn-ctrl:hover { background: var(--neon); color: black; box-shadow: var(--glow); }
 
+        #preview-panel {
+            position: fixed; right: -100%; top: 0; width: 100%; height: 100%;
+            background: white; z-index: 2000; transition: 0.5s;
+        }
     </style>
 </head>
 <body>
 
-    <!-- Sidebar History -->
+    <!-- Sidebar Logs -->
     <aside class="sidebar">
-        <h3 style="font-family:'Orbitron'; font-size:14px; border-bottom:1px solid var(--border); padding-bottom:10px;">DATA HISTORY</h3>
-        <div id="historyBox" style="flex:1; overflow-y:auto; padding-top:15px;"></div>
-        <div style="font-size: 10px; opacity: 0.5;">SIKANDAR OS v9.0.1</div>
+        <h2 style="font-family:'Orbitron'; font-size:18px; color:var(--neon);">LOGS</h2>
+        <div id="historyLogs" style="flex:1; overflow-y:auto; margin-top:10px; font-size:12px;"></div>
+        <div id="dateTimeDisplay" style="padding:10px; background:rgba(0,0,0,0.3); border-radius:5px; font-family:'Orbitron'; font-size:14px; color:var(--purple);"></div>
     </aside>
 
     <!-- Main Section -->
-    <main class="main-stage">
-        <div class="core-container">
-            <div class="neural-core" id="micBtn" onclick="startRecognition()">
-                <div class="ring ring-1"></div>
-                <div class="ring ring-2"></div>
-                <div class="ring ring-3"></div>
-                <div class="mic-btn">
+    <main class="main-screen">
+        <div class="core-box">
+            <div class="arc-reactor" onclick="startVoice()">
+                <div class="arc-ring r1"></div>
+                <div class="arc-ring r2"></div>
+                <div class="arc-ring r3"></div>
+                <div class="core-glow" id="coreGlow">
                     <i class="fas fa-microphone"></i>
                 </div>
             </div>
-            <div id="status" style="margin-top: 30px; font-family:'Orbitron'; letter-spacing:3px; font-size:12px; color:var(--neon);">SYSTEM READY</div>
+            <p id="statusLabel" style="margin-top:20px; font-family:'Orbitron'; letter-spacing:2px; font-size:10px;">SYSTEM ONLINE</p>
         </div>
 
-        <div class="console" id="output">"جی سر سکندر، حکم کریں؟"</div>
-
-        <!-- Floating Controls -->
-        <div class="controls">
-            <button class="btn-ctrl" onclick="toggleSettings()" title="Settings"><i class="fas fa-cog"></i></button>
-            <button class="btn-ctrl" onclick="togglePreview()" title="Code Preview"><i class="fas fa-code"></i></button>
-            <button class="btn-ctrl" onclick="downloadCode()" title="Download Code"><i class="fas fa-download"></i></button>
+        <div class="console" id="outputConsole">
+            "خوش آمدید، سکندر اعظم سر۔"
         </div>
+
+        <button class="side-btn" onclick="toggleSettings()"><i class="fas fa-cog"></i></button>
     </main>
 
-    <!-- Settings Modal -->
-    <div class="modal" id="settingsModal">
-        <div class="modal-content">
+    <!-- Settings -->
+    <div class="settings-overlay" id="settingsModal">
+        <div class="settings-card">
             <h2>SYSTEM CONFIG</h2>
-            <div class="field">
+            <div class="input-group">
                 <label>GROQ API KEY</label>
-                <input type="password" id="apiKeyInput" placeholder="Paste your key here...">
+                <input type="password" id="apiKeyInput" placeholder="Enter API Key">
             </div>
-            <div class="field">
-                <label>AI MODEL NAME</label>
-                <input type="text" id="modelInput" placeholder="e.g. llama3-70b-8192">
+            <div class="input-group">
+                <label>MODEL NAME</label>
+                <input type="text" id="modelInput" value="llama3-70b-8192">
             </div>
-            <button class="btn-save" onclick="saveSettings()">SAVE & CALIBRATE</button>
-            <p onclick="toggleSettings()" style="color:red; text-align:center; margin-top:15px; cursor:pointer;">CLOSE</p>
+            <button class="btn-action" onclick="saveConfig()">SAVE CONFIGURATION</button>
+            <p onclick="toggleSettings()" style="text-align:center; color:red; margin-top:10px; cursor:pointer;">CLOSE</p>
         </div>
     </div>
 
-    <!-- Live Preview Panel -->
+    <!-- Preview -->
     <div id="preview-panel">
-        <div class="preview-header">
-            <span>Sikandar Code Renderer</span>
-            <button onclick="togglePreview()" style="background:red; color:white; border:none; padding:5px 15px; cursor:pointer;">EXIT</button>
+        <div style="background:#000; color:#00f2ff; padding:10px; display:flex; justify-content:space-between;">
+            <span>LIVE RENDER</span>
+            <button onclick="closePreview()" style="color:red; background:none; border:none; cursor:pointer;">CLOSE</button>
         </div>
-        <iframe id="preview-frame" style="width:100%; height:calc(100% - 50px); border:none;"></iframe>
+        <iframe id="previewFrame" style="width:100%; height:calc(100% - 40px); border:none;"></iframe>
     </div>
 
     <script>
-        // --- Persistence & Config ---
+        // --- Core Configuration & Memory ---
         let config = {
-            apiKey: localStorage.getItem('sk_pro_key') || '',
-            model: localStorage.getItem('sk_pro_model') || 'llama3-70b-8192'
+            apiKey: localStorage.getItem('v10_key') || '',
+            model: localStorage.getItem('v10_model') || 'llama3-70b-8192',
+            memory: JSON.parse(localStorage.getItem('v10_memory') || '[]')
         };
 
-        const outputEl = document.getElementById('output');
-        const statusEl = document.getElementById('status');
-        const micBtn = document.getElementById('micBtn');
-        const previewFrame = document.getElementById('preview-frame');
-        const previewPanel = document.getElementById('preview-panel');
-        let lastCode = "";
+        const outputConsole = document.getElementById('outputConsole');
+        const dateTimeDisplay = document.getElementById('dateTimeDisplay');
+        const historyLogs = document.getElementById('historyLogs');
 
-        // --- Voice Engine ---
+        // --- Time & Date Handler (Pakistan Time) ---
+        function updateTime() {
+            const now = new Date();
+            const options = { timeZone: 'Asia/Karachi', hour12: true, hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            const dateOptions = { timeZone: 'Asia/Karachi', day: 'numeric', month: 'long', year: 'numeric' };
+            
+            const timeStr = now.toLocaleTimeString('en-US', options);
+            const dateStr = now.toLocaleDateString('en-US', dateOptions);
+            
+            dateTimeDisplay.innerHTML = `${timeStr}<br><span style="font-size:10px;">${dateStr}</span>`;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // --- Voice Logic ---
         const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
         recognition.lang = 'ur-PK';
 
         recognition.onstart = () => {
-            micBtn.classList.add('listening');
-            statusEl.innerText = "LISTENING...";
+            document.getElementById('coreGlow').style.background = 'red';
+            document.getElementById('statusLabel').innerText = 'LISTENING...';
         };
 
         recognition.onend = () => {
-            micBtn.classList.remove('listening');
-            statusEl.innerText = "SYSTEM STANDBY";
+            document.getElementById('coreGlow').style.background = 'var(--neon)';
+            document.getElementById('statusLabel').innerText = 'SYSTEM STANDBY';
         };
 
         recognition.onresult = (event) => {
-            const transcript = event.results[0][0].transcript;
-            handleCommand(transcript);
+            const text = event.results[0][0].transcript;
+            handleResponse(text);
         };
 
-        function startRecognition() {
-            if(!config.apiKey) {
-                speak("سر، پہلے سیٹنگز میں جا کر اپنی اے پی آئی کی ڈالیں۔");
-                toggleSettings();
-                return;
-            }
+        function startVoice() {
+            if(!config.apiKey) return alert("Please add API Key in Settings!");
             recognition.start();
         }
 
-        // --- Intelligence Hub ---
-        async function handleCommand(cmd) {
-            updateHistory(cmd);
-            outputEl.innerText = `آپ نے کہا: ${cmd}`;
+        // --- App Package Launcher ---
+        function launchApp(packageName) {
+            // Intent URL to launch Android apps by package name
+            const intentUrl = `intent://#Intent;package=${packageName};action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;end`;
+            window.location.href = intentUrl;
+        }
 
-            // 1. App Launcher Logic
-            const apps = {
-                'یوٹیوب': 'https://www.youtube.com',
-                'واٹس ایپ': 'whatsapp://',
-                'فیس بک': 'https://www.facebook.com',
-                'پلے اسٹور': 'https://play.google.com/store/games',
-                'گوگل میپس': 'https://maps.google.com'
+        // --- Brain Center ---
+        async function handleResponse(input) {
+            updateLog("USER: " + input);
+            outputConsole.innerText = "پروسیسنگ، سکندر اعظم سر...";
+
+            // Package Name Logic (Pre-defined some popular ones)
+            const packageMap = {
+                'یوٹیوب': 'com.google.android.youtube',
+                'واٹس ایپ': 'com.whatsapp',
+                'فیس بک': 'com.facebook.katana',
+                'انسٹاگرام': 'com.instagram.android',
+                'ٹک ٹاک': 'com.zhiliaoapp.musically',
+                'پلے اسٹور': 'com.android.vending',
+                'کیمرہ': 'com.android.camera'
             };
 
-            for (let app in apps) {
-                if (cmd.includes(app)) {
-                    speak(`جی سر، ${app} کھول رہا ہوں۔`);
-                    window.open(apps[app], '_blank');
-                    return;
+            // Check if user wants to open an app
+            if (input.toLowerCase().includes('کھولو') || input.toLowerCase().includes('open')) {
+                for (let key in packageMap) {
+                    if (input.includes(key)) {
+                        speak(`سکندر اعظم سر، ${key} کھول رہا ہوں۔`);
+                        launchApp(packageMap[key]);
+                        return;
+                    }
                 }
             }
 
-            // 2. Time/Date Logic
-            if (cmd.includes('وقت') || cmd.includes('ٹائم')) {
-                speak(`سر، ابھی وقت ہے ${new Date().toLocaleTimeString('ur-PK')}`);
+            // Check for Time & Date in Urdu
+            if (input.includes('وقت') || input.includes('ٹائم')) {
+                const pakTime = new Date().toLocaleTimeString('ur-PK', { timeZone: 'Asia/Karachi' });
+                speak(`سکندر اعظم سر، پاکستان میں اس وقت ${pakTime} ہو رہا ہے۔`);
+                return;
+            }
+            if (input.includes('تاریخ')) {
+                const pakDate = new Date().toLocaleDateString('ur-PK', { timeZone: 'Asia/Karachi', day: 'numeric', month: 'long', year: 'numeric' });
+                speak(`سکندر اعظم سر، آج کی تاریخ ہے ${pakDate}۔`);
                 return;
             }
 
-            // 3. AI Query
-            askAI(cmd);
+            // AI Call
+            askAI(input);
         }
 
         async function askAI(prompt) {
-            statusEl.innerText = "THINKING...";
+            // Memory Context (Last 5 messages)
+            const context = config.memory.slice(-5).map(m => m.role + ": " + m.content).join("\n");
+            
             try {
-                const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
                     method: "POST",
                     headers: {
                         "Authorization": `Bearer ${config.apiKey}`,
@@ -301,71 +303,68 @@
                     body: JSON.stringify({
                         model: config.model,
                         messages: [
-                            { role: "system", content: "You are Sikandar AI, a world-class assistant. Answer in Urdu. If code is requested, provide it ONLY inside ```html blocks." },
-                            { role: "user", content: prompt }
+                            { role: "system", content: "Your name is Sikandar AI. You must ALWAYS address the user as 'Sikandar Azam Sir'. You are a genius professional assistant. Answer in Urdu. Use memory to stay consistent." },
+                            { role: "user", content: `Context:\n${context}\n\nQuestion: ${prompt}` }
                         ]
                     })
                 });
 
-                const data = await response.json();
-                const reply = data.choices[0].message.content;
+                const data = await res.json();
+                const aiMsg = data.choices[0].message.content;
 
-                if (reply.includes("```html")) {
-                    lastCode = reply.match(/```html([\s\S]*?)```/)[1].trim();
-                    previewFrame.srcdoc = lastCode;
-                    speak("سر، کوڈ تیار ہے۔ میں نے پریویو لوڈ کر دیا ہے۔");
-                    togglePreview();
+                // Save to memory
+                config.memory.push({ role: "user", content: prompt });
+                config.memory.push({ role: "assistant", content: aiMsg });
+                if(config.memory.length > 20) config.memory.shift();
+                localStorage.setItem('v10_memory', JSON.stringify(config.memory));
+
+                if (aiMsg.includes("```html")) {
+                    const code = aiMsg.match(/```html([\s\S]*?)```/)[1];
+                    document.getElementById('previewFrame').srcdoc = code;
+                    document.getElementById('preview-panel').style.right = '0';
+                    speak("سکندر اعظم سر، میں نے کوڈ تیار کر دیا ہے، آپ پریویو دیکھ سکتے ہیں۔");
                 } else {
-                    speak(reply);
+                    speak(aiMsg);
                 }
-            } catch (e) {
-                speak("معذرت سر، کنکشن میں خرابی ہے۔ اپنی اے پی آئی کی چیک کریں۔");
+
+            } catch (err) {
+                speak("سکندر اعظم سر، معذرت چاہتا ہوں، سرور سے رابطہ نہیں ہو پا رہا۔");
             }
         }
 
-        // --- UI Utils ---
         function speak(text) {
-            outputEl.innerText = text;
-            const uttr = new SpeechSynthesisUtterance(text);
-            uttr.lang = 'ur-PK';
-            window.speechSynthesis.speak(uttr);
+            outputConsole.innerText = text;
+            updateLog("AI: " + text);
+            const speech = new SpeechSynthesisUtterance(text);
+            speech.lang = 'ur-PK';
+            window.speechSynthesis.speak(speech);
         }
 
+        function updateLog(msg) {
+            const log = document.createElement('div');
+            log.style.marginBottom = '8px';
+            log.style.borderBottom = '1px solid #161b22';
+            log.innerText = msg;
+            historyLogs.prepend(log);
+        }
+
+        // --- Config Handlers ---
         function toggleSettings() {
             const m = document.getElementById('settingsModal');
-            document.getElementById('apiKeyInput').value = config.apiKey;
-            document.getElementById('modelInput').value = config.model;
             m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
         }
 
-        function saveSettings() {
+        function saveConfig() {
             config.apiKey = document.getElementById('apiKeyInput').value;
             config.model = document.getElementById('modelInput').value;
-            localStorage.setItem('sk_pro_key', config.apiKey);
-            localStorage.setItem('sk_pro_model', config.model);
-            alert("SYSTEM UPDATED!");
+            localStorage.setItem('v10_key', config.apiKey);
+            localStorage.setItem('v10_model', config.model);
+            alert("SYSTEM RE-CALIBRATED!");
             toggleSettings();
         }
 
-        function togglePreview() {
-            previewPanel.classList.toggle('active');
-        }
-
-        function downloadCode() {
-            if(!lastCode) return alert("No code to download!");
-            const b = new Blob([lastCode], {type: 'text/html'});
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(b);
-            a.download = "sikandar_project.html";
-            a.click();
-        }
-
-        function updateHistory(text) {
-            const h = document.getElementById('historyBox');
-            const d = document.createElement('div');
-            d.style = "padding:8px; background:rgba(255,255,255,0.05); margin-bottom:5px; font-size:12px; border-right:2px solid var(--neon);";
-            d.innerText = text;
-            h.prepend(d);
+        function closePreview() {
+            document.getElementById('preview-panel').style.right = '-100%';
         }
     </script>
 </body>
