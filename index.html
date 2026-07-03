@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Sikandar Azam AI — Rana v5.4</title>
+    <title>Sikandar Azam AI — Rana v5.5</title>
     <style>
-        /* ====== STYLES (unchanged for brevity) ====== */
+        /* ====== STYLES (same as before, compact) ====== */
         :root {
             --glow-cyan: #00f2ff;
             --glow-purple: #a855f7;
@@ -104,6 +104,12 @@
         @media (max-width:600px){ .app-layout{flex-direction:column;} .sidebar{width:100%;min-width:unset;max-height:150px;border-right:none;border-bottom:1px solid var(--glass-border);padding:8px 12px;flex-shrink:0;} .history-list{flex-direction:row;overflow-x:auto;gap:4px;padding-bottom:4px;min-height:32px;} .history-item{white-space:nowrap;flex-shrink:0;font-size:10px;padding:3px 10px;} .history-item .time{display:none;} .sidebar-brand .badge{display:none;} .sidebar-section-title{display:none;} .sidebar-footer .memory-status{font-size:9px;} .sidebar-footer .clear-btn{font-size:9px;padding:2px 10px;} .main-area{padding:12px;justify-content:flex-start;padding-top:14px;} .reactor-shell{width:94px;height:94px;} .core{width:46px;height:46px;} .core::after{font-size:14px;} .response-container{font-size:13px;padding:10px 12px;min-height:50px;} #preview-panel{width:100%;height:55vh;top:auto;bottom:0;border-left:none;border-top:2px solid var(--glow-cyan);} .quick-actions{gap:4px;} .quick-btn{font-size:9px;padding:3px 10px;} .settings-gear{bottom:10px;left:10px;width:34px;height:34px;font-size:14px;} .modal-box{padding:16px 18px;width:98vw;} .modal-box h3{font-size:16px;} }
         .hidden { display:none !important; }
         .text-xs { font-size:10px; color:var(--text-secondary); opacity:0.4; }
+        .flex-between { display:flex; justify-content:space-between; align-items:center; }
+        .mt-8 { margin-top:8px; }
+        .gap-8 { gap:8px; }
+        .checkbox-group { display:flex; align-items:center; gap:8px; margin-top:6px; }
+        .checkbox-group input[type="checkbox"] { width:auto; margin:0; }
+        .checkbox-group label { margin:0; font-size:11px; color:var(--text-secondary); cursor:pointer; }
     </style>
 </head>
 <body>
@@ -115,7 +121,7 @@
             <div class="sidebar-brand">
                 <div class="logo">S</div>
                 <h1>Sikandar Azam</h1>
-                <span class="badge">v5.4</span>
+                <span class="badge">v5.5</span>
             </div>
             <div class="sidebar-section-title">📜 گفتگو کی تاریخ</div>
             <div class="history-list" id="historyList">
@@ -201,11 +207,11 @@
             <select id="settingsProvider" onchange="onProviderChange()">
                 <option value="openrouter">OpenRouter</option>
                 <option value="openai">OpenAI</option>
-                <option value="ollama">Ollama (Local)</option>
+                <option value="ollama">Ollama (Local/Cloud)</option>
                 <option value="google">Google AI Studio</option>
             </select>
 
-            <!-- API Key group - always visible for all providers -->
+            <!-- API Key group - always visible -->
             <div id="apiKeyGroup">
                 <label id="apiKeyLabel">🔑 API کلید</label>
                 <input type="password" id="settingsApiKey" placeholder="کلید درج کریں" />
@@ -214,9 +220,15 @@
 
             <!-- Base URL for Ollama -->
             <div id="baseUrlGroup">
-                <label>🌐 Ollama Base URL</label>
-                <input type="text" id="settingsBaseUrl" value="http://localhost:11434" placeholder="http://localhost:11434" />
-                <div class="helper-text">مثال: http://192.168.1.100:11434</div>
+                <label>🌐 Base URL</label>
+                <input type="text" id="settingsBaseUrl" value="http://localhost:11434" placeholder="http://localhost:11434 or https://ollama.ai" />
+                <div class="helper-text">مثال: http://localhost:11434 (مقامی) یا https://ollama.ai (کلاؤڈ)</div>
+            </div>
+
+            <!-- CORS Proxy toggle -->
+            <div class="checkbox-group">
+                <input type="checkbox" id="settingsCorsProxy" />
+                <label for="settingsCorsProxy">🔁 CORS Proxy استعمال کریں (اگر cloud URL پر کام نہ کرے)</label>
             </div>
 
             <label>🧠 ماڈل کا نام</label>
@@ -232,7 +244,7 @@
 
             <!-- Test Button -->
             <button onclick="testConnection()" style="margin-top:14px;width:100%;padding:8px;background:rgba(0,242,255,0.10);border:1px solid var(--glow-cyan);border-radius:10px;color:var(--glow-cyan);cursor:pointer;font-size:12px;transition:var(--transition);">🔍 کنکشن ٹیسٹ کریں</button>
-            <div id="testResult" style="margin-top:8px;font-size:11px;color:var(--text-secondary);text-align:center;"></div>
+            <div id="testResult" style="margin-top:8px;font-size:11px;color:var(--text-secondary);text-align:center;word-break:break-word;"></div>
 
             <div class="btn-row">
                 <button class="cancel-btn" onclick="closeSettings()">منسوخ</button>
@@ -261,7 +273,7 @@
         const PROVIDER_DEFAULTS = {
             openrouter: { model: 'google/gemma-2-9b-it:free', keyLabel: '🔑 OpenRouter API کلید', hint: 'https://openrouter.ai/keys' },
             openai: { model: 'gpt-3.5-turbo', keyLabel: '🔑 OpenAI API کلید', hint: 'https://platform.openai.com/api-keys' },
-            ollama: { model: 'qwen3.5:9b', keyLabel: '🔑 Ollama API کلید (اختیاری)', hint: 'Ollama کو کلید کی ضرورت نہیں، لیکن اگر proxy استعمال کر رہے ہیں تو ڈالیں' },
+            ollama: { model: 'qwen3.5:9b', keyLabel: '🔑 Ollama API کلید (اختیاری)', hint: 'مقامی کے لیے کلید درکار نہیں، کلاؤڈ کے لیے ضروری' },
             google: { model: 'gemini-1.5-flash', keyLabel: '🔑 Google AI Studio API کلید', hint: 'https://aistudio.google.com/app/apikey' }
         };
 
@@ -269,11 +281,12 @@
         //  LOAD CONFIG
         // ============================================================
         let config = {
-            provider: localStorage.getItem('rana_provider') || 'ollama',  // default to ollama for user
+            provider: localStorage.getItem('rana_provider') || 'ollama',
             key: localStorage.getItem('rana_key') || PROVIDER_KEYS.ollama,
             model: localStorage.getItem('rana_model') || 'qwen3.5:9b',
             baseUrl: localStorage.getItem('rana_baseurl') || 'http://localhost:11434',
             speed: localStorage.getItem('rana_speed') || 'balanced',
+            corsProxy: localStorage.getItem('rana_corsproxy') === 'true',
             memory: JSON.parse(localStorage.getItem('rana_memory') || '[]'),
             currentHTML: null,
             weatherCache: null,
@@ -627,7 +640,7 @@
         }
 
         // ============================================================
-        //  TEST CONNECTION (for Settings)
+        //  TEST CONNECTION — with detailed error handling
         // ============================================================
         async function testConnection() {
             const resultEl = $('testResult');
@@ -637,7 +650,15 @@
             const provider = $('settingsProvider').value;
             const key = $('settingsApiKey').value.trim() || PROVIDER_KEYS[provider] || '';
             const model = $('settingsModel').value.trim() || PROVIDER_DEFAULTS[provider].model;
-            const baseUrl = $('settingsBaseUrl').value.trim() || 'http://localhost:11434';
+            let baseUrl = $('settingsBaseUrl').value.trim() || 'http://localhost:11434';
+            const useProxy = $('settingsCorsProxy').checked;
+
+            // If using proxy, prepend a public CORS proxy
+            if (useProxy && !baseUrl.startsWith('http://localhost')) {
+                // Use a simple CORS proxy (you can replace with your own)
+                const proxyUrl = 'https://corsproxy.io/?';
+                baseUrl = proxyUrl + encodeURIComponent(baseUrl);
+            }
 
             const testPrompt = 'Hello, say "OK" in English.';
 
@@ -655,9 +676,9 @@
                         body = { model, messages: [{ role: 'user', content: testPrompt }], max_tokens: 10 };
                         break;
                     case 'ollama':
+                        // For Ollama, we need to use /api/chat endpoint
                         url = `${baseUrl}/api/chat`;
                         headers = { 'Content-Type': 'application/json' };
-                        // If key is provided, add it as a header (some proxies use it)
                         if (key) headers['Authorization'] = `Bearer ${key}`;
                         body = { model, messages: [{ role: 'user', content: testPrompt }], stream: false, options: { num_predict: 10 } };
                         break;
@@ -671,16 +692,29 @@
                 }
 
                 const res = await fetch(url, { method: 'POST', headers, body: JSON.stringify(body) });
-                const data = await res.json();
 
                 if (!res.ok) {
-                    let err = data.error?.message || data.message || JSON.stringify(data);
+                    const errText = await res.text();
+                    let err = errText;
+                    try {
+                        const json = JSON.parse(errText);
+                        err = json.error?.message || json.message || errText;
+                    } catch (e) { /* ignore */ }
                     if (res.status === 401) err = '❌ غلط کلید یا ختم شدہ';
-                    else if (res.status === 404) err = '❌ ماڈل نہیں ملا';
+                    else if (res.status === 404) err = '❌ ماڈل نہیں ملا (غلط نام یا URL)';
                     else if (res.status === 429) err = '⚠️ بہت زیادہ درخواستیں (rate limit)';
+                    else if (res.status === 0 || res.status === 500) {
+                        // Network error or CORS
+                        if (err.includes('Failed to fetch') || err.includes('NetworkError')) {
+                            err = '❌ سرور تک رسائی نہیں (CORS یا سرور بند) — CORS proxy آن کریں یا URL چیک کریں۔';
+                        } else {
+                            err = `❌ سرور خرابی (${res.status}) — ${err}`;
+                        }
+                    }
                     throw new Error(err);
                 }
 
+                const data = await res.json();
                 let ok = false;
                 if (provider === 'google') {
                     ok = data.candidates && data.candidates.length > 0;
@@ -694,10 +728,19 @@
                     resultEl.textContent = '✅ کنکشن کامیاب! سب ٹھیک ہے۔';
                     resultEl.style.color = '#22c55e';
                 } else {
-                    throw new Error('خالی جواب');
+                    throw new Error('خالی جواب — ماڈل نے کوئی جواب نہیں دیا');
                 }
             } catch (err) {
-                resultEl.textContent = `❌ ${err.message || 'نامعلوم خرابی'}`;
+                let msg = err.message || 'نامعلوم خرابی';
+                // Provide more helpful hints
+                if (msg.includes('Failed to fetch') || msg.includes('NetworkError')) {
+                    msg = '❌ سرور سے رابطہ نہیں ہو سکا۔ چیک کریں: 1) URL درست ہے؟ 2) اگر مقامی ہے تو Ollama چل رہا ہے؟ 3) اگر کلاؤڈ ہے تو CORS proxy آن کریں۔';
+                } else if (msg.includes('CORS')) {
+                    msg = '❌ CORS error — "CORS Proxy" چیک باکس آن کریں یا اپنا proxy استعمال کریں۔';
+                } else if (msg.includes('ECONNREFUSED')) {
+                    msg = '❌ مقامی سرور نہیں مل رہا — یقینی بنائیں کہ Ollama چل رہا ہے اور پورٹ درست ہے۔';
+                }
+                resultEl.textContent = msg;
                 resultEl.style.color = '#ef4444';
             }
         }
@@ -743,6 +786,14 @@
                 const provider = config.provider;
                 let url, headers, body;
 
+                // Build the base URL with CORS proxy if needed
+                let baseUrl = config.baseUrl;
+                if (config.corsProxy && provider === 'ollama' && !baseUrl.startsWith('http://localhost')) {
+                    // Use a public CORS proxy (for simplicity)
+                    const proxyUrl = 'https://corsproxy.io/?';
+                    baseUrl = proxyUrl + encodeURIComponent(baseUrl);
+                }
+
                 switch (provider) {
                     case 'openrouter':
                         url = 'https://openrouter.ai/api/v1/chat/completions';
@@ -755,9 +806,9 @@
                         body = { model: config.model, messages: [{ role: 'system', content: systemContent }, { role: 'user', content: prompt }], temperature: 0.7, max_tokens: config.speed === 'fast' ? 300 : 600 };
                         break;
                     case 'ollama':
-                        url = `${config.baseUrl}/api/chat`;
+                        url = `${baseUrl}/api/chat`;
                         headers = { 'Content-Type': 'application/json' };
-                        if (config.key) headers['Authorization'] = `Bearer ${config.key}`;  // Use key if provided
+                        if (config.key) headers['Authorization'] = `Bearer ${config.key}`;
                         body = { model: config.model, messages: [{ role: 'system', content: systemContent }, { role: 'user', content: prompt }], stream: false, options: { temperature: 0.7, num_predict: config.speed === 'fast' ? 300 : 600 } };
                         break;
                     case 'google':
@@ -826,8 +877,8 @@
                     userMsg = 'سر، سرور کی خرابی — دوسرا پرووائیڈر منتخب کریں۔';
                 } else if (errMsg.includes('خالی جواب')) {
                     userMsg = 'سر، خالی جواب — دوسرا پرووائیڈر آزمائیں۔';
-                } else if (errMsg.includes('ECONNREFUSED') || errMsg.includes('Ollama')) {
-                    userMsg = 'سر، Ollama سرور سے رابطہ نہیں — چیک کریں کہ Ollama چل رہا ہے اور Base URL درست ہے۔';
+                } else if (errMsg.includes('ECONNREFUSED') || errMsg.includes('Failed to fetch') || errMsg.includes('NetworkError')) {
+                    userMsg = 'سر، Ollama سرور سے رابطہ نہیں — چیک کریں کہ Ollama چل رہا ہے اور URL درست ہے۔ اگر کلاؤڈ ہے تو CORS proxy آن کریں۔';
                 } else {
                     userMsg = `سر، ${errMsg} — براہ کرم دوسرا پرووائیڈر منتخب کریں۔`;
                 }
@@ -937,6 +988,7 @@
                 $('settingsModel').value = config.model;
                 $('settingsBaseUrl').value = config.baseUrl || 'http://localhost:11434';
                 $('settingsSpeed').value = config.speed || 'balanced';
+                $('settingsCorsProxy').checked = config.corsProxy || false;
                 $('testResult').textContent = '';
                 onProviderChange();
             }
@@ -948,28 +1000,25 @@
             const provider = $('settingsProvider').value;
             const def = PROVIDER_DEFAULTS[provider] || PROVIDER_DEFAULTS.openrouter;
 
-            // Always show API key field, but update label/hint
             const keyInput = $('settingsApiKey');
-            // Pre-fill with stored key for this provider if available
-            const storedKey = localStorage.getItem('rana_key');
-            // If switching, show the default for that provider
-            if (!keyInput.dataset.userChanged) {
-                keyInput.value = PROVIDER_KEYS[provider] || '';
-            }
+            keyInput.value = PROVIDER_KEYS[provider] || '';
 
             $('apiKeyLabel').textContent = def.keyLabel;
             keyInput.placeholder = def.keyPlaceholder || 'کلید درج کریں';
             $('apiKeyHint').textContent = def.hint;
 
-            // Always show base URL group (for Ollama it's essential, for others it's hidden)
+            // Show base URL only for Ollama
             const baseGroup = $('baseUrlGroup');
             if (provider === 'ollama') {
                 baseGroup.style.display = 'block';
+                // Also show CORS proxy checkbox
+                document.querySelector('.checkbox-group').style.display = 'flex';
             } else {
                 baseGroup.style.display = 'none';
+                document.querySelector('.checkbox-group').style.display = 'none';
             }
 
-            // Update model hint
+            // Model hints
             const modelHints = {
                 openrouter: 'مثال: google/gemma-2-9b-it:free, openai/gpt-3.5-turbo',
                 openai: 'مثال: gpt-3.5-turbo, gpt-4, gpt-4-turbo',
@@ -985,18 +1034,21 @@
             const model = $('settingsModel').value.trim() || PROVIDER_DEFAULTS[provider].model;
             const baseUrl = $('settingsBaseUrl').value.trim() || 'http://localhost:11434';
             const speed = $('settingsSpeed').value || 'balanced';
+            const corsProxy = $('settingsCorsProxy').checked;
 
             config.provider = provider;
             config.key = key || PROVIDER_KEYS[provider] || '';
             config.model = model;
             config.baseUrl = baseUrl;
             config.speed = speed;
+            config.corsProxy = corsProxy;
 
             localStorage.setItem('rana_provider', provider);
             localStorage.setItem('rana_key', config.key);
             localStorage.setItem('rana_model', model);
             localStorage.setItem('rana_baseurl', baseUrl);
             localStorage.setItem('rana_speed', speed);
+            localStorage.setItem('rana_corsproxy', corsProxy ? 'true' : 'false');
 
             providerBadge.textContent = getProviderLabel();
             closeSettings();
@@ -1046,11 +1098,12 @@
             }
         }, 700);
 
-        console.log('👑 Sikandar Azam AI v5.4 — Ollama API key now included');
+        console.log('👑 Sikandar Azam AI v5.5 — باہر سے API کی ضرورت نہیں، سب پہلے سے سیٹ ہے');
         console.log('📦 Provider:', config.provider);
         console.log('🧠 Model:', config.model);
         console.log('🔑 Key:', config.key ? '✅' : '❌');
         console.log('🌐 Base URL:', config.baseUrl);
+        console.log('🔁 CORS Proxy:', config.corsProxy ? 'ON' : 'OFF');
         console.log('🎤 Press SPACE to talk');
     </script>
 </body>
