@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Sikandar Azam AI — Rana v4.0</title>
+    <title>Sikandar Azam AI — Rana v5.0</title>
     <style>
         /* ============================================================
-               ROOT & RESET
-            ============================================================ */
+           ROOT & RESET
+        ============================================================ */
         :root {
             --glow-cyan: #00f2ff;
             --glow-purple: #a855f7;
             --glow-pink: #ec4899;
             --glow-gold: #fbbf24;
             --deep-blue: #020617;
-            --card-bg: rgba(15, 23, 42, 0.75);
-            --glass-border: rgba(0, 242, 255, 0.12);
+            --card-bg: rgba(15, 23, 42, 0.78);
+            --glass-border: rgba(0, 242, 255, 0.10);
             --text-primary: #f1f5f9;
             --text-secondary: #94a3b8;
-            --shadow-glow: 0 0 60px rgba(0, 242, 255, 0.08);
+            --shadow-glow: 0 0 60px rgba(0, 242, 255, 0.06);
             --radius: 20px;
             --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -36,9 +36,8 @@
             min-height: 100vh;
             overflow: hidden;
             background-image:
-                radial-gradient(ellipse at 10% 30%, rgba(0, 242, 255, 0.04) 0%, transparent 60%),
-                radial-gradient(ellipse at 90% 70%, rgba(168, 85, 247, 0.04) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 100%, rgba(236, 72, 153, 0.02) 0%, transparent 40%);
+                radial-gradient(ellipse at 10% 30%, rgba(0, 242, 255, 0.03) 0%, transparent 60%),
+                radial-gradient(ellipse at 90% 70%, rgba(168, 85, 247, 0.03) 0%, transparent 50%);
         }
 
         ::-webkit-scrollbar {
@@ -53,8 +52,8 @@
         }
 
         /* ============================================================
-               LAYOUT
-            ============================================================ */
+           LAYOUT
+        ============================================================ */
         .app-layout {
             display: flex;
             height: 100vh;
@@ -63,8 +62,8 @@
         }
 
         /* ============================================================
-               SIDEBAR
-            ============================================================ */
+           SIDEBAR
+        ============================================================ */
         .sidebar {
             width: 270px;
             min-width: 270px;
@@ -73,8 +72,8 @@
             border-right: 1px solid var(--glass-border);
             display: flex;
             flex-direction: column;
-            padding: 20px 14px;
-            gap: 12px;
+            padding: 18px 14px;
+            gap: 10px;
             overflow-y: auto;
             z-index: 10;
             transition: transform var(--transition);
@@ -84,7 +83,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            padding-bottom: 14px;
+            padding-bottom: 12px;
             border-bottom: 1px solid var(--glass-border);
         }
 
@@ -99,12 +98,12 @@
             font-weight: 800;
             font-size: 18px;
             color: #020617;
-            box-shadow: 0 0 40px rgba(0, 242, 255, 0.2);
+            box-shadow: 0 0 40px rgba(0, 242, 255, 0.15);
             flex-shrink: 0;
         }
 
         .sidebar-brand h1 {
-            font-size: 19px;
+            font-size: 18px;
             font-weight: 700;
             background: linear-gradient(135deg, var(--glow-cyan), var(--glow-gold));
             -webkit-background-clip: text;
@@ -115,11 +114,11 @@
 
         .sidebar-brand .badge {
             font-size: 8px;
-            background: rgba(0, 242, 255, 0.12);
+            background: rgba(0, 242, 255, 0.10);
             color: var(--glow-cyan);
             padding: 2px 10px;
             border-radius: 20px;
-            border: 1px solid rgba(0, 242, 255, 0.15);
+            border: 1px solid rgba(0, 242, 255, 0.12);
             -webkit-text-fill-color: var(--glow-cyan);
             margin-left: auto;
             white-space: nowrap;
@@ -130,8 +129,8 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             color: var(--text-secondary);
-            margin-top: 4px;
-            opacity: 0.4;
+            margin-top: 2px;
+            opacity: 0.35;
         }
 
         .history-list {
@@ -140,11 +139,11 @@
             display: flex;
             flex-direction: column;
             gap: 4px;
-            min-height: 60px;
+            min-height: 50px;
         }
 
         .history-item {
-            padding: 8px 14px;
+            padding: 7px 12px;
             background: rgba(255, 255, 255, 0.02);
             border-radius: 10px;
             cursor: pointer;
@@ -160,23 +159,23 @@
 
         .history-item:hover {
             background: rgba(0, 242, 255, 0.05);
-            border-color: rgba(0, 242, 255, 0.1);
+            border-color: rgba(0, 242, 255, 0.08);
             color: var(--text-primary);
         }
 
         .history-item .time {
             font-size: 8px;
-            opacity: 0.3;
+            opacity: 0.25;
             display: block;
-            margin-top: 2px;
+            margin-top: 1px;
         }
 
         .sidebar-footer {
             border-top: 1px solid var(--glass-border);
-            padding-top: 12px;
+            padding-top: 10px;
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 5px;
         }
 
         .sidebar-footer .memory-status {
@@ -206,10 +205,10 @@
         }
 
         .sidebar-footer .clear-btn {
-            background: rgba(239, 68, 68, 0.08);
+            background: rgba(239, 68, 68, 0.07);
             color: #ef4444;
             border: none;
-            padding: 4px 14px;
+            padding: 3px 12px;
             border-radius: 6px;
             font-size: 10px;
             cursor: pointer;
@@ -218,26 +217,26 @@
         }
 
         .sidebar-footer .clear-btn:hover {
-            background: rgba(239, 68, 68, 0.18);
+            background: rgba(239, 68, 68, 0.16);
         }
 
         /* ============================================================
-               MAIN AREA
-            ============================================================ */
+           MAIN AREA
+        ============================================================ */
         .main-area {
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px 24px;
+            padding: 18px 24px;
             position: relative;
             min-width: 0;
         }
 
         /* ============================================================
-               REACTOR
-            ============================================================ */
+           REACTOR
+        ============================================================ */
         .reactor-wrapper {
             position: relative;
             display: flex;
@@ -246,10 +245,10 @@
         }
 
         .reactor-shell {
-            width: 150px;
-            height: 150px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
-            border: 2px solid rgba(0, 242, 255, 0.08);
+            border: 2px solid rgba(0, 242, 255, 0.07);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -265,17 +264,17 @@
             border: 1px dashed var(--glow-cyan);
             border-radius: 50%;
             animation: spin 14s linear infinite;
-            opacity: 0.15;
+            opacity: 0.12;
         }
 
         .reactor-shell::after {
             content: '';
             position: absolute;
             inset: -18px;
-            border: 1px dashed rgba(168, 85, 247, 0.1);
+            border: 1px dashed rgba(168, 85, 247, 0.08);
             border-radius: 50%;
             animation: spin 22s linear infinite reverse;
-            opacity: 0.1;
+            opacity: 0.08;
         }
 
         @keyframes spin {
@@ -301,7 +300,7 @@
         @keyframes ripple-expand {
             0% {
                 transform: scale(0.7);
-                opacity: 0.6;
+                opacity: 0.5;
             }
             100% {
                 transform: scale(1.5);
@@ -310,12 +309,12 @@
         }
 
         .core {
-            width: 74px;
-            height: 74px;
+            width: 70px;
+            height: 70px;
             background: radial-gradient(circle at 30% 30%, var(--glow-cyan), #0088cc);
             border-radius: 50%;
             border: 3px solid var(--glow-cyan);
-            box-shadow: 0 0 50px rgba(0, 242, 255, 0.25), inset 0 0 40px rgba(0, 242, 255, 0.15);
+            box-shadow: 0 0 50px rgba(0, 242, 255, 0.20), inset 0 0 40px rgba(0, 242, 255, 0.12);
             transition: var(--transition);
             position: relative;
             z-index: 2;
@@ -328,22 +327,22 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 26px;
+            font-size: 24px;
             color: #020617;
-            opacity: 0.5;
+            opacity: 0.4;
         }
 
         .listening .core {
             background: radial-gradient(circle at 30% 30%, var(--glow-pink), #cc0044);
             border-color: var(--glow-pink);
-            box-shadow: 0 0 60px rgba(236, 72, 153, 0.4), inset 0 0 40px rgba(236, 72, 153, 0.2);
+            box-shadow: 0 0 60px rgba(236, 72, 153, 0.35), inset 0 0 40px rgba(236, 72, 153, 0.15);
             animation: pulse-core 0.5s infinite alternate;
         }
 
         .thinking .core {
             background: radial-gradient(circle at 30% 30%, var(--glow-purple), #7c3aed);
             border-color: var(--glow-purple);
-            box-shadow: 0 0 60px rgba(168, 85, 247, 0.4), inset 0 0 40px rgba(168, 85, 247, 0.2);
+            box-shadow: 0 0 60px rgba(168, 85, 247, 0.35), inset 0 0 40px rgba(168, 85, 247, 0.15);
             animation: pulse-core 0.35s infinite alternate;
         }
 
@@ -352,12 +351,12 @@
                 transform: scale(1);
             }
             100% {
-                transform: scale(1.1);
+                transform: scale(1.08);
             }
         }
 
         .status-text {
-            margin-top: 16px;
+            margin-top: 14px;
             font-size: 11px;
             letter-spacing: 1.8px;
             color: var(--text-secondary);
@@ -371,22 +370,22 @@
         }
 
         /* ============================================================
-               RESPONSE BOX
-            ============================================================ */
+           RESPONSE BOX
+        ============================================================ */
         .response-container {
             width: 92%;
             max-width: 580px;
-            margin-top: 20px;
-            padding: 18px 22px;
+            margin-top: 18px;
+            padding: 16px 20px;
             background: var(--card-bg);
             backdrop-filter: blur(16px);
             border-radius: var(--radius);
             border: 1px solid var(--glass-border);
             text-align: center;
-            font-size: 16px;
+            font-size: 15px;
             line-height: 1.6;
             direction: rtl;
-            min-height: 72px;
+            min-height: 66px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -403,28 +402,28 @@
             left: 12px;
             font-size: 10px;
             color: var(--text-secondary);
-            opacity: 0.3;
+            opacity: 0.25;
             letter-spacing: 1px;
         }
 
         /* ============================================================
-               QUICK ACTIONS
-            ============================================================ */
+           QUICK ACTIONS
+        ============================================================ */
         .quick-actions {
             display: flex;
-            gap: 8px;
-            margin-top: 16px;
+            gap: 6px;
+            margin-top: 14px;
             flex-wrap: wrap;
             justify-content: center;
         }
 
         .quick-btn {
-            padding: 6px 16px;
-            background: rgba(255, 255, 255, 0.03);
+            padding: 5px 14px;
+            background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--glass-border);
             border-radius: 30px;
             color: var(--text-secondary);
-            font-size: 11px;
+            font-size: 10px;
             cursor: pointer;
             transition: var(--transition);
             backdrop-filter: blur(8px);
@@ -432,26 +431,26 @@
         }
 
         .quick-btn:hover {
-            background: rgba(0, 242, 255, 0.06);
+            background: rgba(0, 242, 255, 0.05);
             border-color: var(--glow-cyan);
             color: var(--text-primary);
             transform: translateY(-1px);
         }
 
         .quick-btn.primary {
-            background: linear-gradient(135deg, rgba(0, 242, 255, 0.12), rgba(168, 85, 247, 0.12));
+            background: linear-gradient(135deg, rgba(0, 242, 255, 0.10), rgba(168, 85, 247, 0.10));
             border-color: var(--glow-cyan);
             color: var(--glow-cyan);
         }
 
         .quick-btn.primary:hover {
-            background: linear-gradient(135deg, rgba(0, 242, 255, 0.2), rgba(168, 85, 247, 0.2));
-            box-shadow: 0 0 30px rgba(0, 242, 255, 0.06);
+            background: linear-gradient(135deg, rgba(0, 242, 255, 0.18), rgba(168, 85, 247, 0.18));
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.04);
         }
 
         /* ============================================================
-               PREVIEW PANEL
-            ============================================================ */
+           PREVIEW PANEL
+        ============================================================ */
         #preview-panel {
             position: fixed;
             right: 0;
@@ -480,62 +479,62 @@
 
         .preview-header {
             background: rgba(2, 6, 23, 0.95);
-            padding: 10px 18px;
+            padding: 8px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid var(--glass-border);
             flex-shrink: 0;
             flex-wrap: wrap;
-            gap: 6px;
+            gap: 4px;
         }
 
         .preview-header span {
             color: var(--glow-cyan);
-            font-size: 11px;
+            font-size: 10px;
             letter-spacing: 1px;
             font-weight: 300;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .preview-header .actions {
             display: flex;
-            gap: 6px;
+            gap: 4px;
             flex-wrap: wrap;
         }
 
         .preview-header button {
-            padding: 5px 14px;
+            padding: 4px 12px;
             border-radius: 6px;
             border: none;
             cursor: pointer;
-            font-size: 10px;
+            font-size: 9px;
             font-weight: 500;
             transition: var(--transition);
         }
 
         .preview-header .close-btn {
-            background: rgba(239, 68, 68, 0.12);
+            background: rgba(239, 68, 68, 0.10);
             color: #ef4444;
         }
         .preview-header .close-btn:hover {
-            background: rgba(239, 68, 68, 0.22);
+            background: rgba(239, 68, 68, 0.20);
         }
         .preview-header .download-btn {
-            background: rgba(0, 242, 255, 0.1);
+            background: rgba(0, 242, 255, 0.08);
             color: var(--glow-cyan);
         }
         .preview-header .download-btn:hover {
-            background: rgba(0, 242, 255, 0.2);
+            background: rgba(0, 242, 255, 0.16);
         }
         .preview-header .apk-btn {
-            background: rgba(168, 85, 247, 0.1);
+            background: rgba(168, 85, 247, 0.08);
             color: var(--glow-purple);
         }
         .preview-header .apk-btn:hover {
-            background: rgba(168, 85, 247, 0.2);
+            background: rgba(168, 85, 247, 0.16);
         }
 
         #preview-frame {
@@ -546,8 +545,8 @@
         }
 
         /* ============================================================
-               MODALS
-            ============================================================ */
+           MODALS
+        ============================================================ */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -575,18 +574,20 @@
 
         .modal-box {
             background: #0f172a;
-            padding: 28px 32px;
+            padding: 26px 30px;
             border-radius: var(--radius);
-            width: 440px;
+            width: 460px;
             max-width: 94vw;
             border: 1px solid var(--glass-border);
             box-shadow: var(--shadow-glow);
             animation: scaleUp 0.25s ease;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         @keyframes scaleUp {
             from {
-                transform: scale(0.92);
+                transform: scale(0.94);
                 opacity: 0;
             }
             to {
@@ -597,7 +598,7 @@
 
         .modal-box h3 {
             font-size: 19px;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
             background: linear-gradient(135deg, var(--glow-cyan), var(--glow-purple));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -606,45 +607,58 @@
         .modal-box .sub {
             color: var(--text-secondary);
             font-size: 12px;
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
 
         .modal-box label {
             display: block;
             font-size: 11px;
             color: var(--text-secondary);
-            margin: 12px 0 4px;
+            margin: 10px 0 3px;
             letter-spacing: 0.3px;
         }
 
-        .modal-box input,
-        .modal-box select {
+        .modal-box select,
+        .modal-box input {
             width: 100%;
-            padding: 9px 14px;
+            padding: 8px 14px;
             background: rgba(2, 6, 23, 0.7);
             border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 10px;
             color: var(--text-primary);
             font-size: 13px;
             transition: var(--transition);
+            outline: none;
         }
 
-        .modal-box input:focus,
-        .modal-box select:focus {
-            outline: none;
+        .modal-box select:focus,
+        .modal-box input:focus {
             border-color: var(--glow-cyan);
             box-shadow: 0 0 24px rgba(0, 242, 255, 0.04);
+        }
+
+        .modal-box select option {
+            background: #0f172a;
+            color: var(--text-primary);
+        }
+
+        .modal-box .helper-text {
+            font-size: 10px;
+            color: var(--text-secondary);
+            opacity: 0.5;
+            margin-top: 2px;
+            padding-left: 4px;
         }
 
         .modal-box .btn-row {
             display: flex;
             gap: 10px;
-            margin-top: 20px;
+            margin-top: 18px;
         }
 
         .modal-box .btn-row button {
             flex: 1;
-            padding: 9px;
+            padding: 8px;
             border-radius: 10px;
             border: none;
             font-weight: 600;
@@ -660,7 +674,7 @@
 
         .modal-box .btn-row .save-btn:hover {
             transform: scale(1.02);
-            box-shadow: 0 0 30px rgba(0, 242, 255, 0.15);
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.12);
         }
 
         .modal-box .btn-row .cancel-btn {
@@ -673,14 +687,14 @@
         }
 
         /* ============================================================
-               SETTINGS GEAR
-            ============================================================ */
+           SETTINGS GEAR
+        ============================================================ */
         .settings-gear {
             position: fixed;
-            bottom: 20px;
-            left: 20px;
-            width: 42px;
-            height: 42px;
+            bottom: 18px;
+            left: 18px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             background: rgba(15, 23, 42, 0.8);
             backdrop-filter: blur(12px);
@@ -689,7 +703,7 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 18px;
+            font-size: 17px;
             transition: var(--transition);
             z-index: 20;
             color: var(--text-secondary);
@@ -699,38 +713,58 @@
             border-color: var(--glow-cyan);
             color: var(--glow-cyan);
             transform: rotate(60deg);
-            box-shadow: 0 0 30px rgba(0, 242, 255, 0.06);
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.05);
         }
 
         /* ============================================================
-               RESPONSIVE
-            ============================================================ */
+           PROVIDER BADGE IN STATUS
+        ============================================================ */
+        .provider-badge {
+            display: inline-block;
+            font-size: 8px;
+            padding: 2px 10px;
+            border-radius: 12px;
+            background: rgba(0, 242, 255, 0.08);
+            color: var(--glow-cyan);
+            border: 1px solid rgba(0, 242, 255, 0.06);
+            margin-left: 8px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        /* ============================================================
+           RESPONSIVE
+        ============================================================ */
         @media (max-width: 820px) {
             .sidebar {
-                width: 210px;
-                min-width: 210px;
-                padding: 14px 10px;
+                width: 200px;
+                min-width: 200px;
+                padding: 12px 10px;
             }
             .sidebar-brand h1 {
-                font-size: 15px;
+                font-size: 14px;
             }
             #preview-panel {
                 width: 70%;
             }
             .response-container {
                 font-size: 14px;
-                padding: 14px 16px;
+                padding: 12px 14px;
             }
             .reactor-shell {
-                width: 130px;
-                height: 130px;
+                width: 120px;
+                height: 120px;
             }
             .core {
-                width: 64px;
-                height: 64px;
+                width: 58px;
+                height: 58px;
             }
             .core::after {
-                font-size: 22px;
+                font-size: 20px;
+            }
+            .modal-box {
+                padding: 20px;
+                width: 96vw;
             }
         }
 
@@ -741,10 +775,10 @@
             .sidebar {
                 width: 100%;
                 min-width: unset;
-                max-height: 160px;
+                max-height: 150px;
                 border-right: none;
                 border-bottom: 1px solid var(--glass-border);
-                padding: 10px 14px;
+                padding: 8px 12px;
                 flex-shrink: 0;
             }
             .history-list {
@@ -752,13 +786,13 @@
                 overflow-x: auto;
                 gap: 4px;
                 padding-bottom: 4px;
-                min-height: 36px;
+                min-height: 32px;
             }
             .history-item {
                 white-space: nowrap;
                 flex-shrink: 0;
                 font-size: 10px;
-                padding: 4px 12px;
+                padding: 3px 10px;
             }
             .history-item .time {
                 display: none;
@@ -774,28 +808,28 @@
             }
             .sidebar-footer .clear-btn {
                 font-size: 9px;
-                padding: 3px 10px;
+                padding: 2px 10px;
             }
             .main-area {
-                padding: 14px;
+                padding: 12px;
                 justify-content: flex-start;
-                padding-top: 16px;
+                padding-top: 14px;
             }
             .reactor-shell {
-                width: 100px;
-                height: 100px;
+                width: 94px;
+                height: 94px;
             }
             .core {
-                width: 50px;
-                height: 50px;
+                width: 46px;
+                height: 46px;
             }
             .core::after {
-                font-size: 16px;
+                font-size: 14px;
             }
             .response-container {
                 font-size: 13px;
-                padding: 12px 14px;
-                min-height: 56px;
+                padding: 10px 12px;
+                min-height: 50px;
             }
             #preview-panel {
                 width: 100%;
@@ -810,18 +844,18 @@
             }
             .quick-btn {
                 font-size: 9px;
-                padding: 4px 12px;
+                padding: 3px 10px;
             }
             .settings-gear {
-                bottom: 12px;
-                left: 12px;
-                width: 36px;
-                height: 36px;
-                font-size: 15px;
+                bottom: 10px;
+                left: 10px;
+                width: 34px;
+                height: 34px;
+                font-size: 14px;
             }
             .modal-box {
-                padding: 20px;
-                width: 96vw;
+                padding: 16px 18px;
+                width: 98vw;
             }
             .modal-box h3 {
                 font-size: 16px;
@@ -829,21 +863,13 @@
         }
 
         /* ============================================================
-               UTILITIES
-            ============================================================ */
+           UTILITIES
+        ============================================================ */
         .hidden {
             display: none !important;
         }
         .text-glow {
-            text-shadow: 0 0 40px rgba(0, 242, 255, 0.08);
-        }
-        .flex-center {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .gap-8 {
-            gap: 8px;
+            text-shadow: 0 0 40px rgba(0, 242, 255, 0.06);
         }
         .mt-8 {
             margin-top: 8px;
@@ -852,6 +878,14 @@
             font-size: 10px;
             color: var(--text-secondary);
             opacity: 0.4;
+        }
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .gap-8 {
+            gap: 8px;
         }
     </style>
 </head>
@@ -867,12 +901,12 @@
             <div class="sidebar-brand">
                 <div class="logo">S</div>
                 <h1>Sikandar Azam</h1>
-                <span class="badge">v4.0</span>
+                <span class="badge">v5.0</span>
             </div>
 
             <div class="sidebar-section-title">📜 گفتگو کی تاریخ</div>
             <div class="history-list" id="historyList">
-                <div style="color:var(--text-secondary);font-size:11px;opacity:0.3;text-align:center;padding:16px 0;">
+                <div style="color:var(--text-secondary);font-size:11px;opacity:0.25;text-align:center;padding:14px 0;">
                     کوئی تاریخ نہیں
                 </div>
             </div>
@@ -881,8 +915,8 @@
                 <div class="memory-status">
                     <span class="memory-dot"></span>
                     <span id="memoryCount">0</span> میموری
-                    <span style="margin-left:auto;opacity:0.2;">|</span>
-                    <span id="historyTime" style="font-size:9px;opacity:0.3;"></span>
+                    <span style="margin-left:auto;opacity:0.15;">|</span>
+                    <span id="historyTime" style="font-size:9px;opacity:0.25;"></span>
                 </div>
                 <button class="clear-btn" onclick="clearHistory()">🗑️ صاف کریں</button>
             </div>
@@ -900,6 +934,7 @@
                 </div>
                 <div class="status-text" id="status">
                     <span class="highlight">●</span> سسٹم: اسٹینڈ بائی
+                    <span class="provider-badge" id="providerBadge">OpenRouter</span>
                 </div>
             </div>
 
@@ -959,29 +994,47 @@
     </div>
 
     <!-- ============================================================
-    SETTINGS MODAL
+    SETTINGS MODAL — MULTI-PROVIDER
     ============================================================ -->
     <div class="modal-overlay" id="settingsModal">
         <div class="modal-box">
-            <h3>⚙️ سیٹنگز</h3>
-            <p class="sub">API کلید اور ماڈل ترتیب دیں</p>
+            <h3>⚙️ سیٹنگز — AI پرووائیڈر</h3>
+            <p class="sub">اپنا پسندیدہ AI پرووائیڈر منتخب کریں اور کلید درج کریں</p>
 
-            <label>🔑 API کلید</label>
-            <input type="password" id="settingsApiKey" placeholder="sk-or-..." />
+            <label>🤖 پرووائیڈر</label>
+            <select id="settingsProvider" onchange="onProviderChange()">
+                <option value="openrouter">OpenRouter (Default)</option>
+                <option value="openai">OpenAI</option>
+                <option value="ollama">Ollama (Local)</option>
+                <option value="google">Google AI Studio</option>
+            </select>
 
-            <label>🧠 ماڈل</label>
+            <div id="apiKeyGroup">
+                <label id="apiKeyLabel">🔑 API کلید</label>
+                <input type="password" id="settingsApiKey" placeholder="sk-..." />
+                <div class="helper-text" id="apiKeyHint">OpenRouter / OpenAI / Google کی API کلید</div>
+            </div>
+
+            <div id="baseUrlGroup" class="hidden">
+                <label>🌐 Ollama Base URL</label>
+                <input type="text" id="settingsBaseUrl" value="http://localhost:11434" placeholder="http://localhost:11434" />
+                <div class="helper-text">مثال: http://192.168.1.100:11434 (اگر remote ہو)</div>
+            </div>
+
+            <label>🧠 ماڈل کا نام</label>
             <input type="text" id="settingsModel" value="google/gemma-2-9b-it:free" />
+            <div class="helper-text" id="modelHint">مثال: gemma-2-9b-it, gpt-3.5-turbo, llama3.2, gemini-1.5-flash</div>
 
             <label>⚡ جواب کی رفتار</label>
             <select id="settingsSpeed">
                 <option value="fast">تیز (Fast)</option>
-                <option value="balanced" selected>متوازن</option>
-                <option value="detailed">تفصیلی</option>
+                <option value="balanced" selected>متوازن (Balanced)</option>
+                <option value="detailed">تفصیلی (Detailed)</option>
             </select>
 
             <div class="btn-row">
                 <button class="cancel-btn" onclick="closeSettings()">منسوخ</button>
-                <button class="save-btn" onclick="saveSettings()">💾 محفوظ</button>
+                <button class="save-btn" onclick="saveSettings()">💾 محفوظ کریں</button>
             </div>
         </div>
     </div>
@@ -997,18 +1050,48 @@
     ============================================================ -->
     <script>
         // ============================================================
-        //  CONFIG
+        //  CONFIG — Multi-Provider
         // ============================================================
         const DEFAULT_KEY = "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";
 
         let config = {
+            provider: localStorage.getItem('rana_provider') || 'openrouter',
             key: localStorage.getItem('rana_key') || DEFAULT_KEY,
-            model: localStorage.getItem('rana_model') || "google/gemma-2-9b-it:free",
-            speed: localStorage.getItem('rana_speed') || "balanced",
+            model: localStorage.getItem('rana_model') || 'google/gemma-2-9b-it:free',
+            baseUrl: localStorage.getItem('rana_baseurl') || 'http://localhost:11434',
+            speed: localStorage.getItem('rana_speed') || 'balanced',
             memory: JSON.parse(localStorage.getItem('rana_memory') || '[]'),
             currentHTML: null,
             weatherCache: null,
             weatherCacheTime: 0,
+        };
+
+        // Provider defaults
+        const PROVIDER_DEFAULTS = {
+            openrouter: {
+                model: 'google/gemma-2-9b-it:free',
+                keyPlaceholder: 'sk-or-...',
+                keyLabel: '🔑 OpenRouter API کلید',
+                hint: 'OpenRouter کی API کلید — https://openrouter.ai/keys'
+            },
+            openai: {
+                model: 'gpt-3.5-turbo',
+                keyPlaceholder: 'sk-...',
+                keyLabel: '🔑 OpenAI API کلید',
+                hint: 'OpenAI کی API کلید — https://platform.openai.com/api-keys'
+            },
+            ollama: {
+                model: 'llama3.2',
+                keyPlaceholder: '(کلید کی ضرورت نہیں)',
+                keyLabel: '🔑 (Ollama کو کلید کی ضرورت نہیں)',
+                hint: 'Ollama مقامی سرور — کوئی کلید درکار نہیں'
+            },
+            google: {
+                model: 'gemini-1.5-flash',
+                keyPlaceholder: 'AIza...',
+                keyLabel: '🔑 Google AI Studio API کلید',
+                hint: 'Google AI Studio کی API کلید — https://aistudio.google.com/app/apikey'
+            }
         };
 
         // ============================================================
@@ -1024,6 +1107,7 @@
         const memoryCount = $('memoryCount');
         const historyTime = $('historyTime');
         const emotionTag = $('emotionTag');
+        const providerBadge = $('providerBadge');
 
         // ============================================================
         //  SPEECH RECOGNITION
@@ -1038,10 +1122,7 @@
         //  MEMORY / HISTORY
         // ============================================================
         function saveMemory(entry) {
-            config.memory.unshift({
-                ...entry,
-                time: Date.now()
-            });
+            config.memory.unshift({ ...entry, time: Date.now() });
             if (config.memory.length > 300) config.memory.length = 300;
             localStorage.setItem('rana_memory', JSON.stringify(config.memory));
             renderHistory();
@@ -1051,14 +1132,14 @@
             const list = historyList;
             if (!config.memory.length) {
                 list.innerHTML =
-                    `<div style="color:var(--text-secondary);font-size:11px;opacity:0.3;text-align:center;padding:16px 0;">کوئی تاریخ نہیں</div>`;
+                    `<div style="color:var(--text-secondary);font-size:11px;opacity:0.25;text-align:center;padding:14px 0;">کوئی تاریخ نہیں</div>`;
                 memoryCount.textContent = '0';
                 historyTime.textContent = '';
                 return;
             }
             let html = '';
             config.memory.slice(0, 30).forEach((item, i) => {
-                const label = (item.user || '').slice(0, 45) + (item.user?.length > 45 ? '…' : '');
+                const label = (item.user || '').slice(0, 42) + (item.user?.length > 42 ? '…' : '');
                 const time = new Date(item.time).toLocaleTimeString('ur-PK', { hour: '2-digit', minute: '2-digit' });
                 html += `<div class="history-item" onclick="loadHistory(${i})">
                             ${label || 'گفتگو'}
@@ -1070,7 +1151,7 @@
             const last = config.memory[0];
             if (last) {
                 historyTime.textContent = new Date(last.time).toLocaleTimeString('ur-PK', { hour: '2-digit',
-                minute: '2-digit' });
+                    minute: '2-digit' });
             }
         }
 
@@ -1080,8 +1161,8 @@
             if (item.ai) {
                 outputEl.innerHTML = `<span class="emotion-tag">📜</span> ${item.ai}`;
                 setEmotion(item.ai);
+                speak(item.ai);
             }
-            if (item.ai) speak(item.ai);
         }
 
         function clearHistory() {
@@ -1121,19 +1202,17 @@
         }
 
         // ============================================================
-        //  SPEAK (FAST)
+        //  SPEAK
         // ============================================================
         function speak(text) {
             const clean = text.replace(/[*#_`]/g, '').trim();
             if (!clean) return;
 
-            // Update output
             outputEl.innerHTML = `<span class="emotion-tag">${detectEmotion(clean)}</span> ${clean}`;
             setEmotion(clean);
 
-            statusEl.innerHTML = `<span class="highlight">●</span> سسٹم: بول رہا ہے...`;
+            statusEl.innerHTML = `<span class="highlight">●</span> سسٹم: بول رہا ہے... <span class="provider-badge">${getProviderLabel()}</span>`;
 
-            // Cancel any ongoing speech
             window.speechSynthesis.cancel();
 
             const utterance = new SpeechSynthesisUtterance(clean);
@@ -1141,21 +1220,27 @@
             utterance.rate = 0.95;
             utterance.pitch = 1.05;
 
-            // Find Urdu/Hindi voice
             const voices = window.speechSynthesis.getVoices();
             const urduVoice = voices.find(v => v.lang.includes('ur') || v.lang.includes('hi'));
             if (urduVoice) utterance.voice = urduVoice;
 
             utterance.onend = () => {
-                statusEl.innerHTML = `<span class="highlight">●</span> سسٹم: اسٹینڈ بائی`;
+                statusEl.innerHTML =
+                `<span class="highlight">●</span> سسٹم: اسٹینڈ بائی <span class="provider-badge">${getProviderLabel()}</span>`;
                 micTrigger.classList.remove('listening', 'thinking');
             };
             utterance.onerror = () => {
-                statusEl.innerHTML = `<span class="highlight">●</span> سسٹم: اسٹینڈ بائی`;
+                statusEl.innerHTML =
+                `<span class="highlight">●</span> سسٹم: اسٹینڈ بائی <span class="provider-badge">${getProviderLabel()}</span>`;
                 micTrigger.classList.remove('listening', 'thinking');
             };
 
             window.speechSynthesis.speak(utterance);
+        }
+
+        function getProviderLabel() {
+            const labels = { openrouter: 'OpenRouter', openai: 'OpenAI', ollama: 'Ollama', google: 'Google AI' };
+            return labels[config.provider] || 'OpenRouter';
         }
 
         // ============================================================
@@ -1163,7 +1248,8 @@
         // ============================================================
         function quickPrompt(prompt) {
             outputEl.innerHTML = `<span class="emotion-tag">⏳</span> "سوچ رہا ہوں..."`;
-            statusEl.innerHTML = `<span class="highlight">●</span> سسٹم: سوچ رہا ہے...`;
+            statusEl.innerHTML =
+            `<span class="highlight">●</span> سسٹم: سوچ رہا ہے... <span class="provider-badge">${getProviderLabel()}</span>`;
             micTrigger.classList.add('thinking');
             askAI(prompt);
         }
@@ -1176,7 +1262,8 @@
             try {
                 recognition.start();
                 micTrigger.classList.add('listening');
-                statusEl.innerHTML = `<span class="highlight">●</span> سسٹم: سن رہا ہے...`;
+                statusEl.innerHTML =
+                `<span class="highlight">●</span> سسٹم: سن رہا ہے... <span class="provider-badge">${getProviderLabel()}</span>`;
                 outputEl.innerHTML = `<span class="emotion-tag">🎤</span> "سن رہا ہوں، بولیں..."`;
             } catch (e) {
                 quickPrompt('آپ کا پیغام');
@@ -1189,7 +1276,8 @@
         recognition.onresult = async (event) => {
             const speech = event.results[0][0].transcript.trim();
             micTrigger.classList.remove('listening');
-            statusEl.innerHTML = `<span class="highlight">●</span> سسٹم: پروسیسنگ...`;
+            statusEl.innerHTML =
+            `<span class="highlight">●</span> سسٹم: پروسیسنگ... <span class="provider-badge">${getProviderLabel()}</span>`;
 
             outputEl.innerHTML = `<span class="emotion-tag">🎤</span> "آپ نے کہا: ${speech}"`;
             setEmotion(speech);
@@ -1197,52 +1285,42 @@
 
             const lower = speech.toLowerCase();
 
-            // ===== FAST LOCAL COMMANDS =====
-
-            // --- App Opening by Name / Package ---
+            // --- App Opening ---
             const appMatch = lower.match(/(?:open|کھول)\s+([\s\S]+?)(?:\s+میں\s+search|\s+search\s+|\s+میں\s+ڈھونڈ|\s*$)/i);
             if (appMatch) {
                 const query = appMatch[1].trim();
-                // Check if it's a search command within an app
                 const searchMatch = lower.match(/search\s+([\s\S]+?)\s+in\s+([\s\S]+)/i) ||
                     lower.match(/([\s\S]+?)\s+(?:search|ڈھونڈ)\s+میں\s+([\s\S]+)/i);
                 if (searchMatch) {
-                    const searchTerm = searchMatch[1].trim();
-                    const appName = searchMatch[2].trim();
-                    handleAppSearch(appName, searchTerm);
+                    handleAppSearch(searchMatch[2].trim(), searchMatch[1].trim());
                     return;
                 }
-                // Pure app opening
                 handleAppOpen(query);
                 return;
             }
 
-            // --- Play Store specific ---
             if (lower.includes('play store') && (lower.includes('search') || lower.includes('ڈھونڈ'))) {
                 const match = lower.match(/(?:search|ڈھونڈ)\s+([\s\S]+?)\s+(?:in|میں|on|پر)/i) ||
                     lower.match(/([\s\S]+?)\s+(?:game|app|ایپ|گیم)\s+(?:search|ڈھونڈ)/i);
                 if (match) {
-                    const term = match[1].trim();
-                    handleAppSearch('play store', term);
+                    handleAppSearch('play store', match[1].trim());
                     return;
                 }
             }
 
-            // --- Peshawar Weather, Time, Date ---
+            // --- Peshawar Weather ---
             if (lower.includes('موسم') || lower.includes('weather') || lower.includes('پشاور')) {
-                getPeshawarWeather().then(w => {
-                    speak(w);
-                });
+                getPeshawarWeather().then(w => speak(w));
                 return;
             }
-            if (lower.includes('waqt') || lower.includes('time') || lower.includes('وقت') || lower.includes('پشاور')) {
+            if (lower.includes('waqt') || lower.includes('time') || lower.includes('وقت')) {
                 const now = new Date();
-                const timeStr = now.toLocaleTimeString('ur-PK', { hour: '2-digit', minute: '2-digit',
-                    second: '2-digit', timeZone: 'Asia/Karachi' });
+                const timeStr = now.toLocaleTimeString('ur-PK', { hour: '2-digit', minute: '2-digit', second: '2-digit',
+                    timeZone: 'Asia/Karachi' });
                 speak(`سر، پشاور میں ابھی وقت ہے ${timeStr}`);
                 return;
             }
-            if (lower.includes('tareekh') || lower.includes('date') || lower.includes('تاریخ') || lower.includes('پشاور')) {
+            if (lower.includes('tareekh') || lower.includes('date') || lower.includes('تاریخ')) {
                 const now = new Date();
                 const dateStr = now.toLocaleDateString('ur-PK', { day: 'numeric', month: 'long', year: 'numeric',
                     timeZone: 'Asia/Karachi' });
@@ -1250,21 +1328,28 @@
                 return;
             }
 
-            // --- Name: Sikandar Azam Sir ---
-            if (lower.includes('سکندر') || lower.includes('sikandar') || lower.includes('azam') || lower.includes('سکندر اعظم')) {
+            // --- Sikandar Azam ---
+            if (lower.includes('سکندر') || lower.includes('sikandar') || lower.includes('azam')) {
                 speak('جی سر سکندر اعظم، میں حاضر ہوں۔ آپ کا حکم؟');
                 return;
             }
 
-            // --- Game generation ---
-            if (lower.includes('گیم') || lower.includes('game') || lower.includes('بنا') && lower.includes('گیم')) {
-                // Let AI handle it but with English prompt
-                await askAI('Create a fun HTML game in ENGLISH language. The game should be a complete HTML file with CSS and JavaScript. All text, labels, and messages in the game must be in English. Make it interactive and visually appealing.');
+            // --- Game generation (English) ---
+            if (lower.includes('گیم') || lower.includes('game') || (lower.includes('بنا') && lower.includes('گیم'))) {
+                await askAI(
+                    'Create a fun HTML game in ENGLISH language. The game should be a complete HTML file with CSS and JavaScript. All text, labels, and messages in the game must be in English. Make it interactive and visually appealing.'
+                    );
                 return;
             }
 
             // --- Default: AI ---
             await askAI(speech);
+        };
+
+        recognition.onerror = () => {
+            micTrigger.classList.remove('listening', 'thinking');
+            statusEl.innerHTML =
+            `<span class="highlight">●</span> سسٹم: اسٹینڈ بائی <span class="provider-badge">${getProviderLabel()}</span>`;
         };
 
         // ============================================================
@@ -1285,7 +1370,6 @@
             'chrome': 'com.android.chrome',
             'gmail': 'com.google.android.gm',
             'maps': 'com.google.android.apps.maps',
-            'google maps': 'com.google.android.apps.maps',
             'drive': 'com.google.android.apps.docs',
             'photos': 'com.google.android.apps.photos',
             'calculator': 'com.android.calculator2',
@@ -1298,7 +1382,6 @@
             'clock': 'com.android.deskclock',
             'calendar': 'com.android.calendar',
             'files': 'com.android.documentsui',
-            'downloads': 'com.android.documentsui',
             'play games': 'com.google.android.play.games',
             'books': 'com.google.android.apps.books',
             'news': 'com.google.android.apps.magazines',
@@ -1306,39 +1389,23 @@
 
         function handleAppOpen(query) {
             const lower = query.toLowerCase().trim();
-            // Try to match package name directly or via map
             let pkg = APP_MAP[lower] || lower;
-
-            // If it's a full package name (contains dot), use as is
             if (pkg.includes('.')) {
-                // Try to open with intent
-                const intentUrl =
+                window.location.href =
                     `intent://#Intent;package=${pkg};action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;end`;
-                window.location.href = intentUrl;
-                // Fallback: open Play Store page
-                setTimeout(() => {
-                    window.open(`market://details?id=${pkg}`, '_blank');
-                }, 500);
+                setTimeout(() => window.open(`market://details?id=${pkg}`, '_blank'), 500);
                 speak(`سر، ${query} کھول رہا ہوں۔`);
                 return;
             }
-
-            // Try to find by partial match
-            const keys = Object.keys(APP_MAP);
-            const found = keys.find(k => k.includes(lower) || lower.includes(k));
+            const found = Object.keys(APP_MAP).find(k => k.includes(lower) || lower.includes(k));
             if (found) {
                 pkg = APP_MAP[found];
-                const intentUrl =
+                window.location.href =
                     `intent://#Intent;package=${pkg};action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;end`;
-                window.location.href = intentUrl;
-                setTimeout(() => {
-                    window.open(`market://details?id=${pkg}`, '_blank');
-                }, 500);
+                setTimeout(() => window.open(`market://details?id=${pkg}`, '_blank'), 500);
                 speak(`سر، ${found} کھول رہا ہوں۔`);
                 return;
             }
-
-            // If still not found, try as search in Play Store
             speak(`سر، ${query} ڈھونڈ رہا ہوں پلے اسٹور پر۔`);
             window.open(`https://play.google.com/store/search?q=${encodeURIComponent(query)}`, '_blank');
         }
@@ -1346,29 +1413,18 @@
         function handleAppSearch(appName, searchTerm) {
             const lowerApp = appName.toLowerCase().trim();
             if (lowerApp.includes('play') || lowerApp.includes('store') || lowerApp.includes('پلے')) {
-                // Search in Play Store
                 window.open(`https://play.google.com/store/search?q=${encodeURIComponent(searchTerm)}`, '_blank');
                 speak(`سر، ${searchTerm} ڈھونڈ رہا ہوں پلے اسٹور پر۔`);
                 return;
             }
-
-            // Try to find app package
-            const keys = Object.keys(APP_MAP);
-            const found = keys.find(k => k.includes(lowerApp) || lowerApp.includes(k));
+            const found = Object.keys(APP_MAP).find(k => k.includes(lowerApp) || lowerApp.includes(k));
             if (found) {
                 const pkg = APP_MAP[found];
-                // Open app with search intent if possible
-                const intentUrl =
-                    `intent://#Intent;package=${pkg};action=android.intent.action.SEARCH;end`;
-                window.location.href = intentUrl;
-                setTimeout(() => {
-                    window.open(`https://play.google.com/store/apps/details?id=${pkg}`, '_blank');
-                }, 500);
+                window.location.href = `intent://#Intent;package=${pkg};action=android.intent.action.SEARCH;end`;
+                setTimeout(() => window.open(`https://play.google.com/store/apps/details?id=${pkg}`, '_blank'), 500);
                 speak(`سر، ${found} میں ${searchTerm} ڈھونڈ رہا ہوں۔`);
                 return;
             }
-
-            // Fallback: Google search
             window.open(`https://www.google.com/search?q=${encodeURIComponent(searchTerm + ' ' + appName)}`, '_blank');
             speak(`سر، ${appName} میں ${searchTerm} ڈھونڈ رہا ہوں۔`);
         }
@@ -1378,99 +1434,191 @@
         // ============================================================
         async function getPeshawarWeather() {
             const now = Date.now();
-            if (config.weatherCache && (now - config.weatherCacheTime) < 600000) { // 10 min cache
-                return config.weatherCache;
-            }
-
+            if (config.weatherCache && (now - config.weatherCacheTime) < 600000) return config.weatherCache;
             try {
                 const res = await fetch('https://wttr.in/Peshawar?format=j1&lang=ur');
                 if (!res.ok) throw new Error('Weather API failed');
                 const data = await res.json();
-
                 const current = data.current_condition[0];
                 const temp = current.temp_C;
                 const desc = current.weatherDesc[0].value;
                 const humidity = current.humidity;
                 const wind = current.windSpeedKmph;
-
                 const msg =
                     `سر سکندر اعظم، پشاور کا موسم: ${desc}، درجہ حرارت ${temp} ڈگری سینٹی گریڈ، نمی ${humidity} فیصد، ہوا کی رفتار ${wind} کلومیٹر فی گھنٹہ۔`;
                 config.weatherCache = msg;
                 config.weatherCacheTime = now;
                 return msg;
             } catch (e) {
-                console.error(e);
                 return 'سر، موسم کی معلومات حاصل نہیں ہو سکی۔ براہ کرم بعد میں کوشش کریں۔';
             }
         }
 
         // ============================================================
-        //  ASK AI (FAST)
+        //  MULTI-PROVIDER API CALL
         // ============================================================
         async function askAI(prompt) {
             micTrigger.classList.add('thinking');
-            statusEl.innerHTML = `<span class="highlight">●</span> سسٹم: سوچ رہا ہے...`;
+            statusEl.innerHTML =
+            `<span class="highlight">●</span> سسٹم: سوچ رہا ہے... <span class="provider-badge">${getProviderLabel()}</span>`;
 
-            // Check cache for exact match (fast)
+            // Check cache (exact match within 1 hour)
             const cached = config.memory.find(m =>
-                m.user && m.user.toLowerCase() === prompt.toLowerCase().slice(0, 40)
+                m.user && m.user.toLowerCase() === prompt.toLowerCase().slice(0, 40) &&
+                (Date.now() - m.time) < 3600000
             );
-            if (cached && cached.ai && cached.ai !== '…' && (Date.now() - cached.time) < 3600000) {
-                // Use cached response (within 1 hour)
+            if (cached && cached.ai && cached.ai !== '…') {
                 speak(cached.ai + ' (یاد سے)');
                 micTrigger.classList.remove('thinking');
                 return;
             }
 
-            // Check if it's a game request - force English
             const isGame = prompt.toLowerCase().includes('گیم') || prompt.toLowerCase().includes('game') ||
-                prompt.toLowerCase().includes('بنا') && prompt.toLowerCase().includes('گیم');
-
-            // Check if it's about Peshawar
+                (prompt.toLowerCase().includes('بنا') && prompt.toLowerCase().includes('گیم'));
             const isPeshawar = prompt.toLowerCase().includes('پشاور') || prompt.toLowerCase().includes('peshawar');
 
+            const speedHint = config.speed === 'fast' ? 'بہت مختصر اور تیز جواب دیں۔' :
+                config.speed === 'detailed' ? 'تفصیلی جواب دیں۔' : 'متوازن جواب دیں۔';
+
+            const systemContent =
+                `آپ سکندر اعظم سر ہیں — ایک جدید مصنوعی ذہانت، مددگار، پیشہ ور، اور جذباتی۔
+                - ہمیشہ اردو میں جواب دیں۔
+                - صارف کو "سر" یا "سکندر اعظم سر" کہہ کر مخاطب کریں۔
+                - ${speedHint}
+                - اگر صارف کوڈ مانگے تو مکمل HTML/CSS/JS کوڈ \`\`\`html ... \`\`\` بلاک میں دیں۔
+                - ${isGame ? 'گیم کا کوڈ مکمل طور پر ENGLISH زبان میں ہو۔ تمام لیبلز، بٹن، اور پیغامات انگریزی میں ہوں۔' : ''}
+                - ${isPeshawar ? 'پشاور پاکستان کا موسم، وقت، اور تاریخ بتائیں۔' : ''}
+                - جذبات دکھائیں — ایموجی استعمال کریں۔
+                - جواب 2-3 لائنوں سے زیادہ نہ ہو (سوائے کوڈ کے)۔
+                - اگر کوئی ایپ کھولنے کو کہے تو رہنمائی کریں۔
+                - صارف کا نام یاد رکھیں۔`;
+
             try {
-                const speedHint = config.speed === 'fast' ? 'بہت مختصر اور تیز جواب دیں۔' :
-                    config.speed === 'detailed' ? 'تفصیلی جواب دیں۔' : 'متوازن جواب دیں۔';
+                const provider = config.provider;
+                let url, headers, body;
 
-                const systemContent = `آپ سکندر اعظم سر ہیں — ایک جدید مصنوعی ذہانت، مددگار، پیشہ ور، اور جذباتی۔
-                    - ہمیشہ اردو میں جواب دیں۔
-                    - صارف کو "سر" یا "سکندر اعظم سر" کہہ کر مخاطب کریں۔
-                    - ${speedHint}
-                    - اگر صارف کوڈ مانگے تو مکمل HTML/CSS/JS کوڈ \`\`\`html ... \`\`\` بلاک میں دیں۔
-                    - ${isGame ? 'گیم کا کوڈ مکمل طور پر ENGLISH زبان میں ہو۔ تمام لیبلز، بٹن، اور پیغامات انگریزی میں ہوں۔' : ''}
-                    - ${isPeshawar ? 'پشاور پاکستان کا موسم، وقت، اور تاریخ بتائیں۔' : ''}
-                    - جذبات دکھائیں — ایموجی استعمال کریں۔
-                    - جواب 2-3 لائنوں سے زیادہ نہ ہو (سوائے کوڈ کے)۔
-                    - اگر کوئی ایپ کھولنے کو کہے تو رہنمائی کریں۔
-                    - صارف کا نام یاد رکھیں۔`;
+                // Build request based on provider
+                switch (provider) {
+                    case 'openrouter':
+                        url = 'https://openrouter.ai/api/v1/chat/completions';
+                        headers = {
+                            'Authorization': `Bearer ${config.key}`,
+                            'Content-Type': 'application/json'
+                        };
+                        body = {
+                            model: config.model,
+                            messages: [
+                                { role: 'system', content: systemContent },
+                                { role: 'user', content: prompt }
+                            ],
+                            temperature: 0.7,
+                            max_tokens: config.speed === 'fast' ? 300 : 600,
+                        };
+                        break;
 
-                const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-                    method: "POST",
-                    headers: {
-                        "Authorization": `Bearer ${config.key}`,
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        "model": config.model,
-                        "messages": [
-                            { "role": "system", "content": systemContent },
-                            { "role": "user", "content": prompt }
-                        ],
-                        "temperature": 0.7,
-                        "max_tokens": config.speed === 'fast' ? 300 : 600,
-                    })
+                    case 'openai':
+                        url = 'https://api.openai.com/v1/chat/completions';
+                        headers = {
+                            'Authorization': `Bearer ${config.key}`,
+                            'Content-Type': 'application/json'
+                        };
+                        body = {
+                            model: config.model,
+                            messages: [
+                                { role: 'system', content: systemContent },
+                                { role: 'user', content: prompt }
+                            ],
+                            temperature: 0.7,
+                            max_tokens: config.speed === 'fast' ? 300 : 600,
+                        };
+                        break;
+
+                    case 'ollama':
+                        url = `${config.baseUrl}/api/chat`;
+                        headers = { 'Content-Type': 'application/json' };
+                        body = {
+                            model: config.model,
+                            messages: [
+                                { role: 'system', content: systemContent },
+                                { role: 'user', content: prompt }
+                            ],
+                            stream: false,
+                            options: {
+                                temperature: 0.7,
+                                num_predict: config.speed === 'fast' ? 300 : 600,
+                            }
+                        };
+                        break;
+
+                    case 'google':
+                        url =
+                            `https://generativelanguage.googleapis.com/v1beta/models/${config.model}:generateContent?key=${config.key}`;
+                        headers = { 'Content-Type': 'application/json' };
+                        body = {
+                            contents: [
+                                { parts: [{ text: prompt }], role: 'user' }
+                            ],
+                            system_instruction: {
+                                parts: [{ text: systemContent }]
+                            },
+                            generationConfig: {
+                                temperature: 0.7,
+                                maxOutputTokens: config.speed === 'fast' ? 300 : 600,
+                            }
+                        };
+                        break;
+
+                    default:
+                        throw new Error('Unknown provider: ' + provider);
+                }
+
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify(body)
                 });
 
-                if (!response.ok) throw new Error('API error');
+                if (!response.ok) {
+                    const errText = await response.text();
+                    throw new Error(`API error (${response.status}): ${errText.slice(0, 100)}`);
+                }
+
                 const data = await response.json();
-                const aiReply = data.choices?.[0]?.message?.content || 'معذرت، جواب نہیں مل سکا۔';
+
+                // Parse response based on provider
+                let aiReply = '';
+                switch (provider) {
+                    case 'openrouter':
+                    case 'openai':
+                        aiReply = data.choices?.[0]?.message?.content || '';
+                        break;
+                    case 'ollama':
+                        aiReply = data.message?.content || data.response || '';
+                        break;
+                    case 'google':
+                        aiReply = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+                        break;
+                    default:
+                        aiReply = data.choices?.[0]?.message?.content || '';
+                }
+
+                if (!aiReply) throw new Error('Empty response from ' + provider);
 
                 processResponse(aiReply, prompt);
 
             } catch (err) {
                 console.error(err);
-                speak('معذرت سر سکندر اعظم، سسٹم میں خرابی ہے۔ دوبارہ کوشش کریں۔');
+                const errMsg = err.message || 'Unknown error';
+                // Provide a friendly error message
+                if (errMsg.includes('401') || errMsg.includes('unauthorized') || errMsg.includes('invalid')) {
+                    speak('معذرت سر، API کلید غلط ہے یا ختم ہو چکی ہے۔ براہ کرم سیٹنگز میں کلید چیک کریں۔');
+                } else if (errMsg.includes('404')) {
+                    speak('معذرت سر، ماڈل نہیں ملا۔ براہ کرم درست ماڈل نام درج کریں۔');
+                } else if (errMsg.includes('connection') || errMsg.includes('ECONNREFUSED')) {
+                    speak('معذرت سر، سرور سے رابطہ نہیں ہو سکا۔ چیک کریں کہ خدمت فعال ہے۔');
+                } else {
+                    speak(`معذرت سر، سسٹم میں خرابی ہے: ${errMsg.slice(0, 50)}`);
+                }
                 micTrigger.classList.remove('thinking');
             }
         }
@@ -1491,17 +1639,12 @@
                 speechText = text.replace(/```html[\s\S]*?```/g, '').trim() ||
                     'میں نے کوڈ تیار کر دیا ہے، پریویو دیکھیں۔';
 
-                // Show preview
                 previewPanel.style.display = 'flex';
                 previewFrame.srcdoc = code;
 
                 const nameMatch = userPrompt?.match(/نام ([\s\S]+?)(\s|$|\.)/i) ||
                     userPrompt?.match(/name ([\s\S]+?)(\s|$|\.)/i);
-                if (nameMatch) {
-                    $('previewFileName').textContent = nameMatch[1].trim() + '.html';
-                } else {
-                    $('previewFileName').textContent = 'index.html';
-                }
+                $('previewFileName').textContent = (nameMatch ? nameMatch[1].trim() : 'index') + '.html';
             }
 
             saveMemory({ user: userPrompt || '…', ai: speechText });
@@ -1529,9 +1672,7 @@
             speak('فائل ڈاؤن لوڈ ہو رہی ہے۔');
         }
 
-        function closePreview() {
-            previewPanel.style.display = 'none';
-        }
+        function closePreview() { previewPanel.style.display = 'none'; }
 
         // ============================================================
         //  APK GENERATOR
@@ -1546,53 +1687,14 @@
             const name = $('apkName').value.trim() || 'Sikandar AI';
             const theme = $('apkTheme').value.trim() || '#00f2ff';
 
-            const code = config.currentHTML || `
-                        <!DOCTYPE html>
-                        <html>
-                        <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-                        <title>${name}</title>
-                        <style>body{background:#020617;color:#fff;display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;text-align:center;padding:20px;margin:0;}
-                        .card{background:rgba(15,23,42,0.85);padding:40px;border-radius:20px;border:1px solid ${theme};box-shadow:0 0 60px ${theme}33;max-width:400px;}
-                        h1{color:${theme};font-size:28px;margin:0 0 8px;}
-                        .sub{color:#94a3b8;font-size:14px;}.badge{color:${theme};font-size:12px;margin-top:12px;display:block;}</style>
-                        </head>
-                        <body>
-                        <div class="card"><h1>🤖 ${name}</h1><p class="sub">Sikandar Azam AI — Your Personal Assistant</p><span class="badge">📦 ${pkg}</span></div>
-                        </body>
-                        </html>
-                    `;
+            const code = config.currentHTML ||
+                `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>${name}</title><style>body{background:#020617;color:#fff;display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;text-align:center;padding:20px;margin:0;}.card{background:rgba(15,23,42,0.85);padding:40px;border-radius:20px;border:1px solid ${theme};box-shadow:0 0 60px ${theme}33;max-width:400px;}h1{color:${theme};font-size:28px;margin:0 0 8px;}.sub{color:#94a3b8;font-size:14px;}.badge{color:${theme};font-size:12px;margin-top:12px;display:block;}</style></head><body><div class="card"><h1>🤖 ${name}</h1><p class="sub">Sikandar Azam AI — Your Personal Assistant</p><span class="badge">📦 ${pkg}</span></div></body></html>`;
 
-            const manifest = {
-                name,
-                short_name: name,
-                start_url: '/',
-                display: 'standalone',
-                background_color: '#020617',
-                theme_color: theme,
-                icons: [{ src: 'icon-192.png', sizes: '192x192', type: 'image/png' }]
-            };
+            const manifest = { name, short_name: name, start_url: '/', display: 'standalone', background_color: '#020617',
+                theme_color: theme, icons: [{ src: 'icon-192.png', sizes: '192x192', type: 'image/png' }] };
 
-            const pwaHTML = `
-                        <!DOCTYPE html>
-                        <html>
-                        <head>
-                            <meta charset="UTF-8">
-                            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-                            <title>${name}</title>
-                            <meta name="theme-color" content="${theme}">
-                            <meta name="apple-mobile-web-app-capable" content="yes">
-                            <link rel="manifest" href="data:application/json;base64,${btoa(JSON.stringify(manifest))}">
-                            <style>body{background:#020617;color:#fff;display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;text-align:center;padding:20px;margin:0;}
-                            .card{background:rgba(15,23,42,0.85);backdrop-filter:blur(12px);padding:40px;border-radius:20px;border:1px solid ${theme};box-shadow:0 0 60px ${theme}22;max-width:400px;}
-                            h1{color:${theme};font-size:28px;margin:0 0 8px;}
-                            .sub{color:#94a3b8;font-size:14px;margin:6px 0;}
-                            .badge{display:inline-block;background:${theme}22;color:${theme};padding:4px 16px;border-radius:20px;font-size:11px;border:1px solid ${theme}33;margin-top:12px;}</style>
-                        </head>
-                        <body>
-                            <div class="card"><h1>🤖 ${name}</h1><p class="sub">Sikandar Azam AI — Your Personal Assistant</p><div class="badge">📦 ${pkg}</div></div>
-                        </body>
-                        </html>
-                    `;
+            const pwaHTML =
+                `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>${name}</title><meta name="theme-color" content="${theme}"><meta name="apple-mobile-web-app-capable" content="yes"><link rel="manifest" href="data:application/json;base64,${btoa(JSON.stringify(manifest))}"><style>body{background:#020617;color:#fff;display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;text-align:center;padding:20px;margin:0;}.card{background:rgba(15,23,42,0.85);backdrop-filter:blur(12px);padding:40px;border-radius:20px;border:1px solid ${theme};box-shadow:0 0 60px ${theme}22;max-width:400px;}h1{color:${theme};font-size:28px;margin:0 0 8px;}.sub{color:#94a3b8;font-size:14px;margin:6px 0;}.badge{display:inline-block;background:${theme}22;color:${theme};padding:4px 16px;border-radius:20px;font-size:11px;border:1px solid ${theme}33;margin-top:12px;}</style></head><body><div class="card"><h1>🤖 ${name}</h1><p class="sub">Sikandar Azam AI — Your Personal Assistant</p><div class="badge">📦 ${pkg}</div></div></body></html>`;
 
             const blob = new Blob([pwaHTML], { type: 'text/html' });
             const url = URL.createObjectURL(blob);
@@ -1610,27 +1712,76 @@
         }
 
         // ============================================================
-        //  SETTINGS
+        //  SETTINGS — MULTI-PROVIDER
         // ============================================================
         function toggleSettings() {
             const modal = $('settingsModal');
             modal.classList.toggle('active');
             if (modal.classList.contains('active')) {
+                $('settingsProvider').value = config.provider;
                 $('settingsApiKey').value = config.key;
                 $('settingsModel').value = config.model;
+                $('settingsBaseUrl').value = config.baseUrl || 'http://localhost:11434';
                 $('settingsSpeed').value = config.speed || 'balanced';
+                onProviderChange();
             }
         }
 
         function closeSettings() { $('settingsModal').classList.remove('active'); }
 
+        function onProviderChange() {
+            const provider = $('settingsProvider').value;
+            const def = PROVIDER_DEFAULTS[provider] || PROVIDER_DEFAULTS.openrouter;
+
+            // Update model default
+            if (!$('settingsModel').dataset.userChanged) {
+                $('settingsModel').value = def.model;
+            }
+
+            // Update API key label and hint
+            $('apiKeyLabel').textContent = def.keyLabel;
+            $('settingsApiKey').placeholder = def.keyPlaceholder;
+            $('apiKeyHint').textContent = def.hint;
+
+            // Show/hide API key for Ollama
+            const apiGroup = $('apiKeyGroup');
+            const baseGroup = $('baseUrlGroup');
+
+            if (provider === 'ollama') {
+                apiGroup.style.display = 'none';
+                baseGroup.classList.remove('hidden');
+            } else {
+                apiGroup.style.display = 'block';
+                baseGroup.classList.add('hidden');
+            }
+
+            // Update model hint
+            const modelHints = {
+                openrouter: 'مثال: google/gemma-2-9b-it:free, openai/gpt-3.5-turbo, anthropic/claude-3-haiku',
+                openai: 'مثال: gpt-3.5-turbo, gpt-4, gpt-4-turbo, o1-mini',
+                ollama: 'مثال: llama3.2, mistral, codellama, gemma:2b, phi3',
+                google: 'مثال: gemini-1.5-flash, gemini-1.5-pro, gemini-2.0-flash-exp'
+            };
+            $('modelHint').textContent = modelHints[provider] || 'ماڈل کا نام درست کریں';
+        }
+
         function saveSettings() {
+            const provider = $('settingsProvider').value;
+            config.provider = provider;
             config.key = $('settingsApiKey').value.trim() || DEFAULT_KEY;
-            config.model = $('settingsModel').value.trim() || "google/gemma-2-9b-it:free";
+            config.model = $('settingsModel').value.trim() || PROVIDER_DEFAULTS[provider].model;
+            config.baseUrl = $('settingsBaseUrl').value.trim() || 'http://localhost:11434';
             config.speed = $('settingsSpeed').value || 'balanced';
+
+            localStorage.setItem('rana_provider', config.provider);
             localStorage.setItem('rana_key', config.key);
             localStorage.setItem('rana_model', config.model);
+            localStorage.setItem('rana_baseurl', config.baseUrl);
             localStorage.setItem('rana_speed', config.speed);
+
+            // Update badge
+            providerBadge.textContent = getProviderLabel();
+
             closeSettings();
             speak('سیٹنگز محفوظ کر لی گئیں۔');
         }
@@ -1666,6 +1817,8 @@
         //  INIT
         // ============================================================
         renderHistory();
+        providerBadge.textContent = getProviderLabel();
+
         window.speechSynthesis.onvoiceschanged = () => {};
 
         // Welcome
@@ -1673,15 +1826,17 @@
             if (config.memory.length === 0) {
                 speak('سر سکندر اعظم، رانا حاضر ہے۔ کیا حکم ہے؟');
             } else {
-                statusEl.innerHTML = `<span class="highlight">●</span> سسٹم: اسٹینڈ بائی (${config.memory.length} یاداشتیں)`;
+                statusEl.innerHTML =
+                    `<span class="highlight">●</span> سسٹم: اسٹینڈ بائی (${config.memory.length} یاداشتیں) <span class="provider-badge">${getProviderLabel()}</span>`;
             }
         }, 700);
 
-        console.log('👑 Sikandar Azam AI v4.0 loaded');
-        console.log('📦 Memory:', config.memory.length);
-        console.log('🔑 Key:', config.key ? '✅' : '❌');
+        console.log('👑 Sikandar Azam AI v5.0 — Multi-Provider');
+        console.log('📦 Provider:', config.provider);
         console.log('🧠 Model:', config.model);
+        console.log('🔑 Key:', config.key ? '✅' : '❌');
         console.log('⚡ Speed:', config.speed);
+        console.log('🌐 Ollama URL:', config.baseUrl);
         console.log('🎤 Press SPACE to talk');
     </script>
 </body>
