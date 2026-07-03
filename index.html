@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Sikandar Azam AI — Ultra v7.0</title>
+    <title>Sikandar Azam AI — v7.5 (Settings Update)</title>
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
         :root {
             --primary: #00f2ff;
             --secondary: #7000ff;
-            --accent: #ff007a;
             --bg: #05070a;
-            --card: rgba(15, 23, 42, 0.8);
+            --card: rgba(15, 23, 42, 0.9);
             --border: rgba(255, 255, 255, 0.1);
             --text: #e2e8f0;
             --radius: 24px;
-            --glow: 0 0 20px rgba(0, 242, 255, 0.3);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -35,7 +35,7 @@
             display: flex;
         }
 
-        /* Sidebar Style */
+        /* Sidebar */
         .sidebar {
             width: 300px;
             background: rgba(2, 6, 23, 0.95);
@@ -47,27 +47,16 @@
             z-index: 100;
         }
 
-        .brand {
-            text-align: center;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 20px;
-        }
-
         .brand h1 {
             font-size: 22px;
             background: linear-gradient(to right, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 800;
+            text-align: center;
         }
 
-        .history-container {
-            flex: 1;
-            overflow-y: auto;
-            margin-bottom: 20px;
-        }
-
+        .history-container { flex: 1; overflow-y: auto; margin: 20px 0; }
         .history-item {
             background: rgba(255,255,255,0.03);
             padding: 12px;
@@ -78,11 +67,7 @@
             border: 1px solid transparent;
             transition: 0.3s;
         }
-
-        .history-item:hover {
-            border-color: var(--primary);
-            background: rgba(0, 242, 255, 0.05);
-        }
+        .history-item:hover { border-color: var(--primary); }
 
         /* Main Content */
         .main-content {
@@ -95,324 +80,232 @@
             position: relative;
         }
 
-        /* Reactor Core (The Mic Button) */
-        .reactor-container {
-            position: relative;
-            width: 200px;
-            height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .reactor-ring {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 2px solid var(--primary);
-            box-shadow: var(--glow);
-            animation: pulse 2s infinite;
-        }
-
         .reactor-core {
-            width: 100px;
-            height: 100px;
+            width: 100px; height: 100px;
             background: radial-gradient(circle, var(--primary), var(--secondary));
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 5;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; position: relative; z-index: 5;
             box-shadow: 0 0 30px var(--secondary);
+            transition: 0.3s;
         }
-
         .reactor-core:hover { transform: scale(1.1); }
-        .reactor-core i { font-size: 40px; color: white; }
-
-        .status-text {
-            margin-top: 30px;
-            font-size: 14px;
-            letter-spacing: 2px;
-            color: var(--primary);
-            text-transform: uppercase;
+        
+        .pulse-ring {
+            position: absolute; width: 150px; height: 150px;
+            border: 2px solid var(--primary); border-radius: 50%;
+            animation: pulse 2s infinite; opacity: 0.5;
         }
 
-        /* Response Box */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
         .response-box {
-            width: 100%;
-            max-width: 700px;
-            margin-top: 40px;
-            background: var(--card);
-            border: 1px solid var(--border);
-            padding: 25px;
-            border-radius: var(--radius);
-            backdrop-filter: blur(15px);
-            text-align: center;
+            width: 100%; max-width: 700px;
+            margin-top: 40px; background: var(--card);
+            border: 1px solid var(--border); padding: 25px;
+            border-radius: var(--radius); backdrop-filter: blur(15px);
+            text-align: center; font-family: 'Noto Nastaliq Urdu', serif;
             min-height: 100px;
-            font-family: 'Noto Nastaliq Urdu', serif;
-            line-height: 2;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        /* Settings Modal */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
+            display: none; align-items: center; justify-content: center; z-index: 1000;
+        }
+        .modal-box {
+            background: #0f172a; border: 1px solid var(--primary);
+            padding: 30px; border-radius: 20px; width: 400px;
+        }
+        .modal-box h2 { margin-bottom: 20px; color: var(--primary); }
+        .modal-box label { display: block; margin-bottom: 5px; font-size: 14px; }
+        .modal-box input {
+            width: 100%; padding: 12px; margin-bottom: 20px;
+            background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+            border-radius: 10px; color: white; outline: none;
+        }
+        .modal-box input:focus { border-color: var(--primary); }
+        .btn-save {
+            width: 100%; padding: 12px; background: var(--primary);
+            border: none; border-radius: 10px; font-weight: bold; cursor: pointer;
         }
 
         /* Preview Panel */
         #preview-panel {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 50%;
-            height: 100%;
-            background: white;
-            z-index: 200;
-            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: -10px 0 50px rgba(0,0,0,0.5);
-            display: flex;
-            flex-direction: column;
+            position: fixed; top: 0; right: -100%; width: 50%; height: 100%;
+            background: white; z-index: 200; transition: 0.5s;
+            display: flex; flex-direction: column;
         }
-
         #preview-panel.active { right: 0; }
+        .preview-header { background: #1a1a1a; color: white; padding: 15px; display: flex; justify-content: space-between; }
 
-        .preview-header {
-            background: #1a1a1a;
-            color: white;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .settings-btn {
+            position: absolute; bottom: 20px; left: 20px;
+            background: rgba(255,255,255,0.1); width: 50px; height: 50px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.3s;
         }
-
-        .preview-header button {
-            background: var(--primary);
-            border: none;
-            padding: 8px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        #preview-frame {
-            flex: 1;
-            border: none;
-            width: 100%;
-        }
-
-        /* Animations */
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.2); opacity: 0.3; }
-            100% { transform: scale(1); opacity: 0.8; }
-        }
-
-        .listening .reactor-ring {
-            border-color: var(--accent);
-            animation: pulse 0.5s infinite;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            body { flex-direction: column; }
-            .sidebar { width: 100%; height: 150px; }
-            #preview-panel { width: 100%; }
-        }
+        .settings-btn:hover { background: var(--primary); color: black; transform: rotate(90deg); }
 
     </style>
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
-    <!-- Sidebar History -->
+    <!-- Sidebar -->
     <aside class="sidebar">
-        <div class="brand">
-            <h1>Sikandar Azam AI</h1>
-            <p style="font-size: 10px; color: var(--primary);">ULTRA EDITION v7.0</p>
-        </div>
-        <div class="history-container" id="historyBox">
-            <!-- History items will appear here -->
-        </div>
-        <button onclick="clearHistory()" style="background:none; border:1px solid var(--border); color: #ff4444; padding: 10px; border-radius: 10px; cursor:pointer;">تاریخ صاف کریں</button>
+        <div class="brand"><h1>Sikandar Azam AI</h1></div>
+        <div class="history-container" id="historyBox"></div>
+        <div class="settings-btn" onclick="toggleSettings()"><i class="fas fa-cog"></i></div>
     </aside>
 
-    <!-- Main Interface -->
+    <!-- Main -->
     <main class="main-content">
-        <div class="reactor-container" id="micWrapper">
-            <div class="reactor-ring"></div>
+        <div class="reactor-container">
+            <div class="pulse-ring"></div>
             <div class="reactor-core" onclick="startSikandar()">
-                <i class="fas fa-microphone" id="micIcon"></i>
+                <i class="fas fa-microphone fa-2x" style="color: white;"></i>
             </div>
         </div>
 
-        <div class="status-text" id="status">اسٹینڈ بائی</div>
+        <div id="status" style="margin-top: 20px; color: var(--primary); font-size: 12px; letter-spacing: 2px;">اسٹینڈ بائی</div>
 
-        <div class="response-box" id="output">
-            "جی سر سکندر اعظم، میں آپ کی کیا مدد کر سکتا ہوں؟"
-        </div>
-
-        <div style="margin-top: 20px; display: flex; gap: 10px;">
-            <button class="history-item" onclick="processCommand('پاکستان کا وقت کیا ہے؟')">🕒 وقت</button>
-            <button class="history-item" onclick="processCommand('پلے اسٹور پر فیس بک ڈھونڈو')">📱 ایپس</button>
-            <button class="history-item" onclick="processCommand('ایک خوبصورت لاگ ان پیج بناؤ')">💻 کوڈنگ</button>
-        </div>
+        <div class="response-box" id="output">"جی سر سکندر اعظم، میں حاضر ہوں۔"</div>
     </main>
 
-    <!-- HTML Preview Panel -->
+    <!-- Settings Modal -->
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal-box">
+            <h2>⚙️ سیٹنگز</h2>
+            <label>Groq API Key:</label>
+            <input type="password" id="apiKeyInput" placeholder="اپنی API Key یہاں ڈالیں">
+            
+            <label>Model Name:</label>
+            <input type="text" id="modelInput" placeholder="مثال: llama3-70b-8192">
+            
+            <button class="btn-save" onclick="saveSettings()">سیٹنگز محفوظ کریں</button>
+            <p onclick="toggleSettings()" style="text-align: center; margin-top: 15px; cursor: pointer; font-size: 12px; color: #ff4444;">بند کریں</p>
+        </div>
+    </div>
+
+    <!-- Preview Panel -->
     <div id="preview-panel">
         <div class="preview-header">
-            <span>لائیو پریویو (Live Preview)</span>
+            <span>لائیو پریویو</span>
             <div>
-                <button onclick="downloadCode()" style="background: #22c55e; margin-right: 10px;">ڈاؤن لوڈ</button>
-                <button onclick="togglePreview()" style="background: #ef4444;">بند کریں</button>
+                <button onclick="downloadCode()" style="background: #22c55e; border:none; padding:5px 10px; border-radius:5px; color:white; cursor:pointer;">ڈاؤن لوڈ</button>
+                <button onclick="document.getElementById('preview-panel').classList.remove('active')" style="background: #ef4444; border:none; padding:5px 10px; border-radius:5px; color:white; cursor:pointer;">بند کریں</button>
             </div>
         </div>
-        <iframe id="preview-frame"></iframe>
+        <iframe id="preview-frame" style="flex: 1; border: none;"></iframe>
     </div>
 
     <script>
-        // --- configuration ---
-        const API_KEY = "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"; // Groq Key
-        const MODEL = "llama3-70b-8192";
-        
+        // --- App State ---
+        let config = {
+            apiKey: localStorage.getItem('sk_api_key') || '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',
+            model: localStorage.getItem('sk_model_name') || 'llama3-70b-8192'
+        };
+
         const outputEl = document.getElementById('output');
         const statusEl = document.getElementById('status');
-        const micWrapper = document.getElementById('micWrapper');
-        const previewPanel = document.getElementById('preview-panel');
         const previewFrame = document.getElementById('preview-frame');
-        
         let lastGeneratedCode = "";
 
-        // --- Speech Recognition Setup ---
+        // --- Settings Logic ---
+        function toggleSettings() {
+            const modal = document.getElementById('settingsModal');
+            document.getElementById('apiKeyInput').value = config.apiKey;
+            document.getElementById('modelInput').value = config.model;
+            modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        function saveSettings() {
+            const newKey = document.getElementById('apiKeyInput').value;
+            const newModel = document.getElementById('modelInput').value;
+            
+            if(newKey && newModel) {
+                config.apiKey = newKey;
+                config.model = newModel;
+                localStorage.setItem('sk_api_key', newKey);
+                localStorage.setItem('sk_model_name', newModel);
+                alert("سیٹنگز محفوظ ہو گئیں!");
+                toggleSettings();
+            } else {
+                alert("براہ کرم تمام خانے پُر کریں۔");
+            }
+        }
+
+        // --- Voice Logic ---
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         const recognition = new SpeechRecognition();
         recognition.lang = 'ur-PK';
 
-        recognition.onstart = () => {
-            micWrapper.classList.add('listening');
-            statusEl.innerText = "سن رہا ہوں...";
-        };
+        recognition.onstart = () => { statusEl.innerText = "سن رہا ہوں..."; };
+        recognition.onend = () => { statusEl.innerText = "اسٹینڈ بائی"; };
+        recognition.onresult = (event) => { processCommand(event.results[0][0].transcript); };
 
-        recognition.onresult = (event) => {
-            const transcript = event.results[0][0].transcript;
-            processCommand(transcript);
-        };
+        function startSikandar() { recognition.start(); }
 
-        recognition.onend = () => {
-            micWrapper.classList.remove('listening');
-            statusEl.innerText = "اسٹینڈ بائی";
-        };
-
-        function startSikandar() {
-            recognition.start();
-        }
-
-        // --- Main Logic Processor ---
         async function processCommand(cmd) {
-            outputEl.innerText = `آپ نے کہا: ${cmd}`;
-            saveToHistory(cmd);
-
-            // 1. Time & Date logic
-            if (cmd.includes('وقت') || cmd.includes('ٹائم')) {
-                const time = new Date().toLocaleTimeString('ur-PK');
-                speak(`سر، ابھی وقت ہے ${time}`);
-                return;
-            }
-            if (cmd.includes('تاریخ')) {
-                const date = new Date().toLocaleDateString('ur-PK');
-                speak(`سر، آج کی تاریخ ہے ${date}`);
-                return;
-            }
-
-            // 2. Play Store & App Opening Logic
-            if (cmd.includes('Play Store') || cmd.includes('پلے اسٹور')) {
+            outputEl.innerText = `آپ: ${cmd}`;
+            
+            // Special Functions
+            if(cmd.includes('وقت')) { speak(`سر، ابھی وقت ہے ${new Date().toLocaleTimeString('ur-PK')}`); return; }
+            if(cmd.includes('تاریخ')) { speak(`سر، آج تاریخ ہے ${new Date().toLocaleDateString('ur-PK')}`); return; }
+            
+            if(cmd.includes('Play Store') || cmd.includes('پلے اسٹور')) {
                 let search = cmd.replace(/پلے اسٹور|پر|ڈھونڈو|سرچ کرو|Play Store|search/g, "").trim();
-                speak(`سر، پلے اسٹور پر ${search || 'ایپس'} کھول رہا ہوں۔`);
-                if(search) {
-                    window.open(`https://play.google.com/store/search?q=${encodeURIComponent(search)}&c=apps`);
-                } else {
-                    window.open(`https://play.google.com/store/games`);
-                }
+                speak("سر، پلے اسٹور کھول رہا ہوں...");
+                window.open(`https://play.google.com/store/search?q=${encodeURIComponent(search)}&c=apps`);
                 return;
             }
 
-            // 3. YouTube Search
-            if (cmd.includes('یوٹیوب') || cmd.includes('YouTube')) {
-                let search = cmd.replace(/یوٹیوب|پر|چلاؤ|دکھاؤ|YouTube|search/g, "").trim();
-                speak(`سر، یوٹیوب پر ${search} چلا رہا ہوں۔`);
-                window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(search)}`);
-                return;
-            }
-
-            // 4. Default: AI Response (Groq)
             askAI(cmd);
         }
 
-        // --- Groq AI API Call ---
+        // --- AI API ---
         async function askAI(prompt) {
             statusEl.innerText = "سوچ رہا ہوں...";
-            
-            const systemPrompt = `You are Sikandar Azam AI v7.0. A professional, helpful assistant.
-            - Respond in Urdu language.
-            - If the user asks for code (HTML/CSS/JS), provide the FULL code inside a single \`\`\`html block.
-            - Always call the user "Sir" or "Sikandar Azam Sir".
-            - Be concise but smart.`;
-
             try {
                 const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
                     method: "POST",
                     headers: {
-                        "Authorization": `Bearer ${API_KEY}`,
+                        "Authorization": `Bearer ${config.apiKey}`,
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        model: MODEL,
+                        model: config.model,
                         messages: [
-                            { role: "system", content: systemPrompt },
+                            { role: "system", content: "You are Sikandar Azam AI. Respond in Urdu. If code is asked, provide inside ```html block." },
                             { role: "user", content: prompt }
                         ]
                     })
                 });
 
                 const data = await response.json();
+                if(data.error) throw new Error(data.error.message);
+
                 const aiReply = data.choices[0].message.content;
                 
-                // Check if reply contains HTML code
                 if (aiReply.includes("```html")) {
-                    const code = aiReply.match(/```html([\s\S]*?)```/)[1].trim();
-                    handleCodeGeneration(code);
-                    speak("سر، میں نے آپ کے لیے کوڈ تیار کر دیا ہے۔ آپ پریویو دیکھ سکتے ہیں۔");
+                    lastGeneratedCode = aiReply.match(/```html([\s\S]*?)```/)[1].trim();
+                    previewFrame.srcdoc = lastGeneratedCode;
+                    document.getElementById('preview-panel').classList.add('active');
+                    speak("سر، کوڈ تیار ہے۔ پریویو چیک کریں۔");
                 } else {
                     speak(aiReply);
                 }
-
             } catch (error) {
-                console.error(error);
-                speak("معذرت سر، API کنکشن میں کوئی مسئلہ آ رہا ہے۔");
+                speak("خرابی: " + error.message);
             } finally {
                 statusEl.innerText = "اسٹینڈ بائی";
             }
         }
 
-        // --- Code Handling ---
-        function handleCodeGeneration(code) {
-            lastGeneratedCode = code;
-            outputEl.innerHTML = `<p>سر، آپ کا HTML کوڈ تیار ہے!</p><button onclick="togglePreview()" style="background:var(--primary); border:none; padding:10px; border-radius:10px; margin-top:10px; cursor:pointer;">پریویو دیکھیں (Preview)</button>`;
-            previewFrame.srcdoc = code;
-        }
-
-        function togglePreview() {
-            previewPanel.classList.toggle('active');
-        }
-
-        function downloadCode() {
-            const blob = new Blob([lastGeneratedCode], { type: 'text/html' });
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = 'sikandar_azam_index.html';
-            a.click();
-        }
-
-        // --- TTS (Voice) ---
         function speak(text) {
             outputEl.innerText = text;
             const uttr = new SpeechSynthesisUtterance(text);
@@ -420,17 +313,12 @@
             window.speechSynthesis.speak(uttr);
         }
 
-        // --- History Management ---
-        function saveToHistory(text) {
-            const box = document.getElementById('historyBox');
-            const div = document.createElement('div');
-            div.className = 'history-item';
-            div.innerText = text;
-            box.prepend(div);
-        }
-
-        function clearHistory() {
-            document.getElementById('historyBox').innerHTML = "";
+        function downloadCode() {
+            const blob = new Blob([lastGeneratedCode], { type: 'text/html' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'sikandar_code.html';
+            a.click();
         }
     </script>
 </body>
