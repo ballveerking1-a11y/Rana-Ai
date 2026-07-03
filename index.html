@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Sikandar Azam AI — Rana v5.6</title>
+    <title>Sikandar Azam AI — Rana v5.7</title>
     <style>
-        /* ====== STYLES (compact, same as v5.5) ====== */
+        /* ====== STYLES (compact, same as before) ====== */
         :root {
             --glow-cyan: #00f2ff;
             --glow-purple: #a855f7;
@@ -111,6 +111,8 @@
         .checkbox-group input[type="checkbox"] { width:auto; margin:0; }
         .checkbox-group label { margin:0; font-size:11px; color:var(--text-secondary); cursor:pointer; }
         .error-detail { font-size:10px; color:#f87171; margin-top:4px; word-break:break-word; }
+        .success-detail { font-size:10px; color:#86efac; margin-top:4px; word-break:break-word; }
+        .test-models { font-size:11px; color:var(--text-secondary); margin-top:6px; background:rgba(255,255,255,0.03); padding:6px 10px; border-radius:8px; max-height:100px; overflow-y:auto; }
     </style>
 </head>
 <body>
@@ -122,7 +124,7 @@
             <div class="sidebar-brand">
                 <div class="logo">S</div>
                 <h1>Sikandar Azam</h1>
-                <span class="badge">v5.6</span>
+                <span class="badge">v5.7</span>
             </div>
             <div class="sidebar-section-title">📜 گفتگو کی تاریخ</div>
             <div class="history-list" id="historyList">
@@ -212,7 +214,7 @@
                 <option value="google">Google AI Studio</option>
             </select>
 
-            <!-- API Key group -->
+            <!-- API Key -->
             <div id="apiKeyGroup">
                 <label id="apiKeyLabel">🔑 API کلید</label>
                 <input type="password" id="settingsApiKey" placeholder="کلید درج کریں" />
@@ -222,19 +224,19 @@
             <!-- Base URL -->
             <div id="baseUrlGroup">
                 <label>🌐 Base URL</label>
-                <input type="text" id="settingsBaseUrl" value="https://ollama.ai" placeholder="https://ollama.ai or http://localhost:11434" />
-                <div class="helper-text">مثال: https://ollama.ai (کلاؤڈ) یا http://localhost:11434 (مقامی)</div>
+                <input type="text" id="settingsBaseUrl" value="https://ollama.ai" placeholder="https://ollama.ai یا http://localhost:11434" />
+                <div class="helper-text">مثال: https://api.ollama.ai یا اپنا کلاؤڈ endpoint</div>
             </div>
 
             <!-- CORS Proxy toggle -->
             <div class="checkbox-group">
-                <input type="checkbox" id="settingsCorsProxy" />
-                <label for="settingsCorsProxy">🔁 CORS Proxy استعمال کریں (اگر cloud URL پر کام نہ کرے)</label>
+                <input type="checkbox" id="settingsCorsProxy" checked />
+                <label for="settingsCorsProxy">🔁 CORS Proxy استعمال کریں (کلاؤڈ کے لیے ضروری)</label>
             </div>
 
             <label>🧠 ماڈل کا نام</label>
             <input type="text" id="settingsModel" value="qwen3.5:9b" />
-            <div class="helper-text" id="modelHint">مثال: qwen3.5:9b, llama3.2, mistral, gemma:2b</div>
+            <div class="helper-text" id="modelHint">مثال: qwen3.5:9b, llama3.2, mistral</div>
 
             <label>⚡ جواب کی رفتار</label>
             <select id="settingsSpeed">
@@ -247,6 +249,7 @@
             <button onclick="testConnection()" style="margin-top:14px;width:100%;padding:8px;background:rgba(0,242,255,0.10);border:1px solid var(--glow-cyan);border-radius:10px;color:var(--glow-cyan);cursor:pointer;font-size:12px;transition:var(--transition);">🔍 کنکشن ٹیسٹ کریں</button>
             <div id="testResult" style="margin-top:8px;font-size:11px;color:var(--text-secondary);text-align:center;word-break:break-word;"></div>
             <div id="testDetail" class="error-detail" style="display:none;"></div>
+            <div id="testModels" class="test-models" style="display:none;"></div>
 
             <div class="btn-row">
                 <button class="cancel-btn" onclick="closeSettings()">منسوخ</button>
@@ -269,7 +272,7 @@
             openrouter: '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',
             openai: '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',
             google: 'AIzaSyD5XmN_1x2y3z4a5b6c7d8e9f0', // placeholder
-            ollama: '8f4ffc1f18aa4f1c9c3ee2f103929880.W4tEHscaC7e_p1HrT2cstpB9'  // Ollama cloud key
+            ollama: '8f4ffc1f18aa4f1c9c3ee2f103929880.W4tEHscaC7e_p1HrT2cstpB9'
         };
 
         const PROVIDER_DEFAULTS = {
@@ -288,7 +291,7 @@
             model: localStorage.getItem('rana_model') || 'qwen3.5:9b',
             baseUrl: localStorage.getItem('rana_baseurl') || 'https://ollama.ai',
             speed: localStorage.getItem('rana_speed') || 'balanced',
-            corsProxy: localStorage.getItem('rana_corsproxy') === 'true',
+            corsProxy: localStorage.getItem('rana_corsproxy') !== 'false', // default true
             memory: JSON.parse(localStorage.getItem('rana_memory') || '[]'),
             currentHTML: null,
             weatherCache: null,
@@ -320,7 +323,7 @@
         recognition.maxAlternatives = 1;
 
         // ============================================================
-        //  MEMORY / HISTORY
+        //  MEMORY / HISTORY (unchanged)
         // ============================================================
         function saveMemory(entry) {
             config.memory.unshift({ ...entry, time: Date.now() });
@@ -442,7 +445,8 @@
         }
 
         // ============================================================
-        //  QUICK PROMPT
+        //  QUICK PROMPT / START / RECOGNITION (unchanged from previous)
+        //  (Keeping them short for brevity, they are the same as v5.6)
         // ============================================================
         function quickPrompt(prompt) {
             outputEl.innerHTML = `<span class="emotion-tag">⏳</span> "سوچ رہا ہوں..."`;
@@ -451,9 +455,6 @@
             askAI(prompt);
         }
 
-        // ============================================================
-        //  START RANA (Voice)
-        // ============================================================
         function startRana() {
             window.speechSynthesis.cancel();
             try {
@@ -466,21 +467,16 @@
             }
         }
 
-        // ============================================================
-        //  RECOGNITION RESULT
-        // ============================================================
         recognition.onresult = async (event) => {
             const speech = event.results[0][0].transcript.trim();
             micTrigger.classList.remove('listening');
             statusEl.innerHTML = `<span class="highlight">●</span> سسٹم: پروسیسنگ... <span class="provider-badge">${getProviderLabel()}</span>`;
-
             outputEl.innerHTML = `<span class="emotion-tag">🎤</span> "آپ نے کہا: ${speech}"`;
             setEmotion(speech);
             saveMemory({ user: speech, ai: '…' });
-
             const lower = speech.toLowerCase();
 
-            // --- App Opening ---
+            // App opening, weather, time, date, etc. (same as before)
             const appMatch = lower.match(/(?:open|کھول)\s+([\s\S]+?)(?:\s+میں\s+search|\s+search\s+|\s+میں\s+ڈھونڈ|\s*$)/i);
             if (appMatch) {
                 const query = appMatch[1].trim();
@@ -493,7 +489,6 @@
                 handleAppOpen(query);
                 return;
             }
-
             if (lower.includes('play store') && (lower.includes('search') || lower.includes('ڈھونڈ'))) {
                 const match = lower.match(/(?:search|ڈھونڈ)\s+([\s\S]+?)\s+(?:in|میں|on|پر)/i) ||
                     lower.match(/([\s\S]+?)\s+(?:game|app|ایپ|گیم)\s+(?:search|ڈھونڈ)/i);
@@ -502,8 +497,6 @@
                     return;
                 }
             }
-
-            // --- Peshawar Weather ---
             if (lower.includes('موسم') || lower.includes('weather') || lower.includes('پشاور')) {
                 getPeshawarWeather().then(w => speak(w));
                 return;
@@ -520,20 +513,14 @@
                 speak(`سر، پشاور کی تاریخ ہے ${dateStr}`);
                 return;
             }
-
-            // --- Sikandar Azam ---
             if (lower.includes('سکندر') || lower.includes('sikandar') || lower.includes('azam')) {
                 speak('جی سر سکندر اعظم، میں حاضر ہوں۔ آپ کا حکم؟');
                 return;
             }
-
-            // --- Game generation (English) ---
             if (lower.includes('گیم') || lower.includes('game') || (lower.includes('بنا') && lower.includes('گیم'))) {
                 await askAI('Create a fun HTML game in ENGLISH language. The game should be a complete HTML file with CSS and JavaScript. All text, labels, and messages in the game must be in English. Make it interactive and visually appealing.');
                 return;
             }
-
-            // --- Default: AI ---
             await askAI(speech);
         };
 
@@ -543,7 +530,7 @@
         };
 
         // ============================================================
-        //  APP HANDLING
+        //  APP HANDLING (unchanged)
         // ============================================================
         const APP_MAP = {
             'play store': 'com.android.vending',
@@ -618,7 +605,7 @@
         }
 
         // ============================================================
-        //  PESHAWAR WEATHER
+        //  WEATHER (unchanged)
         // ============================================================
         async function getPeshawarWeather() {
             const now = Date.now();
@@ -642,39 +629,27 @@
         }
 
         // ============================================================
-        //  TEST CONNECTION — with detailed error handling for Ollama Cloud
+        //  TEST CONNECTION — with multiple CORS proxies and auto URL fixing
         // ============================================================
         async function testConnection() {
             const resultEl = $('testResult');
             const detailEl = $('testDetail');
+            const modelsEl = $('testModels');
             resultEl.textContent = '⏳ چیک کر رہا ہوں...';
             resultEl.style.color = 'var(--text-secondary)';
             detailEl.style.display = 'none';
             detailEl.textContent = '';
+            modelsEl.style.display = 'none';
+            modelsEl.textContent = '';
 
             const provider = $('settingsProvider').value;
-            const key = $('settingsApiKey').value.trim() || PROVIDER_KEYS[provider] || '';
-            const model = $('settingsModel').value.trim() || PROVIDER_DEFAULTS[provider].model;
-            let baseUrl = $('settingsBaseUrl').value.trim() || 'https://ollama.ai';
-            const useProxy = $('settingsCorsProxy').checked;
-
-            // If using proxy, prepend a public CORS proxy
-            if (useProxy && !baseUrl.startsWith('http://localhost')) {
-                const proxyUrl = 'https://corsproxy.io/?';
-                baseUrl = proxyUrl + encodeURIComponent(baseUrl);
-            }
-
-            try {
-                // For Ollama, test with /api/tags to list models (requires auth for cloud)
-                let url, headers, body;
-                if (provider === 'ollama') {
-                    // Use /api/tags to check connection
-                    url = `${baseUrl}/api/tags`;
-                    headers = { 'Content-Type': 'application/json' };
-                    if (key) headers['Authorization'] = `Bearer ${key}`;
-                    // No body for GET
-                } else {
-                    // For other providers, use a simple chat test
+            if (provider !== 'ollama') {
+                // For other providers, use the old test method (simple chat)
+                // We'll keep it simple: just try to call their API with a minimal payload
+                const key = $('settingsApiKey').value.trim() || PROVIDER_KEYS[provider] || '';
+                const model = $('settingsModel').value.trim() || PROVIDER_DEFAULTS[provider].model;
+                try {
+                    let url, headers, body;
                     if (provider === 'openrouter') {
                         url = 'https://openrouter.ai/api/v1/chat/completions';
                         headers = { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' };
@@ -690,86 +665,135 @@
                     } else {
                         throw new Error('Unknown provider');
                     }
-                }
-
-                let options = { method: provider === 'ollama' ? 'GET' : 'POST', headers };
-                if (body) options.body = JSON.stringify(body);
-
-                const res = await fetch(url, options);
-
-                if (!res.ok) {
-                    const errText = await res.text();
-                    let err = errText;
-                    try {
-                        const json = JSON.parse(errText);
-                        err = json.error?.message || json.message || errText;
-                    } catch (e) { /* ignore */ }
-                    let friendly = '';
-                    if (res.status === 401) friendly = '❌ غلط کلید یا ختم شدہ (401) — چیک کریں کلید درست ہے۔';
-                    else if (res.status === 404) friendly = '❌ ماڈل یا API endpoint نہیں ملا (404) — چیک کریں URL اور ماڈل کا نام۔';
-                    else if (res.status === 429) friendly = '⚠️ بہت زیادہ درخواستیں (429) — تھوڑی دیر بعد کوشش کریں۔';
-                    else if (res.status === 0 || res.status === 500) {
-                        friendly = '❌ سرور تک رسائی نہیں — اگر کلاؤڈ ہے تو CORS proxy آن کریں یا URL چیک کریں۔';
-                    } else {
-                        friendly = `❌ ${err}`;
+                    const res = await fetch(url, { method: 'POST', headers, body: JSON.stringify(body) });
+                    if (!res.ok) {
+                        const errText = await res.text();
+                        let err = errText;
+                        try { const json = JSON.parse(errText);
+                            err = json.error?.message || json.message || errText; } catch (e) {}
+                        throw new Error(`HTTP ${res.status}: ${err}`);
                     }
-                    throw new Error(friendly);
-                }
-
-                const data = await res.json();
-
-                // Check if we got valid response
-                let ok = false;
-                let detailMsg = '';
-                if (provider === 'ollama') {
-                    // Expecting a list of models
-                    if (data && data.models && Array.isArray(data.models)) {
-                        ok = true;
-                        const modelNames = data.models.map(m => m.name).join(', ');
-                        detailMsg = `✅ ماڈلز مل گئے: ${modelNames}`;
-                    } else if (data && data.model) { // single model response (some endpoints)
-                        ok = true;
-                        detailMsg = `✅ ماڈل: ${data.model}`;
+                    const data = await res.json();
+                    let ok = false;
+                    if (provider === 'google') ok = data.candidates && data.candidates.length > 0;
+                    else ok = data.choices && data.choices.length > 0;
+                    if (ok) {
+                        resultEl.textContent = '✅ کنکشن کامیاب!';
+                        resultEl.style.color = '#22c55e';
+                        detailEl.textContent = '✅ جواب موصول ہوا۔';
+                        detailEl.style.display = 'block';
+                        detailEl.style.color = '#86efac';
                     } else {
-                        // Might be a different response, try to see if any field exists
-                        ok = true;
-                        detailMsg = '✅ سرور جواب دے رہا ہے (لیکن ماڈلز کی فہرست نہیں ملی)';
+                        throw new Error('خالی جواب');
                     }
-                } else {
-                    if (provider === 'google') {
-                        ok = data.candidates && data.candidates.length > 0;
-                    } else {
-                        ok = data.choices && data.choices.length > 0;
-                    }
-                    if (ok) detailMsg = '✅ جواب موصول ہوا۔';
+                } catch (err) {
+                    resultEl.textContent = `❌ ${err.message || 'نامعلوم خرابی'}`;
+                    resultEl.style.color = '#ef4444';
+                    detailEl.style.display = 'none';
                 }
-
-                if (ok) {
-                    resultEl.textContent = '✅ کنکشن کامیاب!';
-                    resultEl.style.color = '#22c55e';
-                    detailEl.textContent = detailMsg;
-                    detailEl.style.display = 'block';
-                    detailEl.style.color = '#86efac';
-                } else {
-                    throw new Error('خالی جواب — ماڈل نے کوئی جواب نہیں دیا');
-                }
-            } catch (err) {
-                let msg = err.message || 'نامعلوم خرابی';
-                if (msg.includes('Failed to fetch') || msg.includes('NetworkError')) {
-                    msg = '❌ سرور سے رابطہ نہیں ہو سکا۔ چیک کریں: 1) URL درست ہے؟ 2) اگر کلاؤڈ ہے تو CORS proxy آن کریں۔ 3) اگر مقامی ہے تو Ollama چل رہا ہے؟';
-                } else if (msg.includes('CORS')) {
-                    msg = '❌ CORS error — "CORS Proxy" چیک باکس آن کریں یا اپنا proxy استعمال کریں۔';
-                } else if (msg.includes('ECONNREFUSED')) {
-                    msg = '❌ مقامی سرور نہیں مل رہا — یقینی بنائیں کہ Ollama چل رہا ہے اور پورٹ درست ہے۔';
-                }
-                resultEl.textContent = msg;
-                resultEl.style.color = '#ef4444';
-                detailEl.style.display = 'none';
+                return;
             }
+
+            // --- Ollama specific test ---
+            const key = $('settingsApiKey').value.trim() || PROVIDER_KEYS.ollama;
+            let baseUrl = $('settingsBaseUrl').value.trim() || 'https://ollama.ai';
+            const useProxy = $('settingsCorsProxy').checked;
+
+            // Auto-fix: if baseUrl is just "https://ollama.ai" or "ollama.ai", append /api/tags
+            let testUrl = baseUrl;
+            if (!testUrl.endsWith('/api/tags') && !testUrl.includes('/api/')) {
+                // Ensure it ends with a slash if needed
+                if (!testUrl.endsWith('/')) testUrl += '/';
+                testUrl += 'api/tags';
+            } else if (testUrl.endsWith('/api/tags')) {
+                // already correct
+            } else {
+                // if it contains /api but not tags, e.g., /api/chat, we'll use /api/tags
+                if (testUrl.includes('/api/')) {
+                    testUrl = testUrl.replace(/\/api\/.*/, '/api/tags');
+                } else {
+                    if (!testUrl.endsWith('/')) testUrl += '/';
+                    testUrl += 'api/tags';
+                }
+            }
+
+            // List of CORS proxies to try
+            const proxies = useProxy ? [
+                'https://corsproxy.io/?',
+                'https://cors-anywhere.herokuapp.com/',
+                'https://thingproxy.freeboard.io/fetch/'
+            ] : [''];
+
+            let lastError = '';
+
+            for (let proxy of proxies) {
+                let finalUrl = proxy ? proxy + encodeURIComponent(testUrl) : testUrl;
+                try {
+                    const headers = { 'Content-Type': 'application/json' };
+                    if (key) headers['Authorization'] = `Bearer ${key}`;
+
+                    const res = await fetch(finalUrl, { method: 'GET', headers });
+                    if (res.ok) {
+                        const data = await res.json();
+                        // Check if it's a valid model list
+                        if (data && data.models && Array.isArray(data.models)) {
+                            const modelNames = data.models.map(m => m.name).join(', ');
+                            resultEl.textContent = '✅ کنکشن کامیاب!';
+                            resultEl.style.color = '#22c55e';
+                            detailEl.textContent = `ماڈلز کی فہرست مل گئی: ${data.models.length} ماڈلز`;
+                            detailEl.style.display = 'block';
+                            detailEl.style.color = '#86efac';
+                            if (data.models.length > 0) {
+                                modelsEl.textContent = '📋 دستیاب ماڈلز: ' + modelNames;
+                                modelsEl.style.display = 'block';
+                                modelsEl.style.color = '#94a3b8';
+                            }
+                            return;
+                        } else {
+                            // Response is not a model list, might be a chat response or something else
+                            // But we got a 200, so connection is fine, just not the expected format
+                            resultEl.textContent = '✅ سرور جواب دے رہا ہے (لیکن ماڈلز کی فہرست نہیں ملی)';
+                            resultEl.style.color = '#22c55e';
+                            detailEl.textContent = '⚠️ جواب کی شکل درست نہیں، لیکن کنکشن کامیاب ہے۔ آپ /api/chat استعمال کر سکتے ہیں۔';
+                            detailEl.style.display = 'block';
+                            detailEl.style.color = '#fbbf24';
+                            return;
+                        }
+                    } else {
+                        const errText = await res.text();
+                        let err = errText;
+                        try { const json = JSON.parse(errText);
+                            err = json.error?.message || json.message || errText; } catch (e) {}
+                        if (res.status === 401) throw new Error('❌ غلط کلید یا ختم شدہ (401)');
+                        else if (res.status === 404) throw new Error('❌ API endpoint نہیں ملا (404) — چیک کریں URL درست ہے۔');
+                        else if (res.status === 429) throw new Error('⚠️ بہت زیادہ درخواستیں (429) — تھوڑی دیر بعد کوشش کریں۔');
+                        else throw new Error(`HTTP ${res.status}: ${err.slice(0, 100)}`);
+                    }
+                } catch (err) {
+                    lastError = err.message || 'نامعلوم خرابی';
+                    // If we used a proxy and it failed, try next proxy
+                    if (proxy) continue;
+                    else break; // no proxy, no fallback
+                }
+            }
+
+            // If we get here, all proxies failed or no proxy and direct failed
+            resultEl.textContent = '❌ سرور سے رابطہ نہیں ہو سکا۔';
+            resultEl.style.color = '#ef4444';
+            let suggestion = '';
+            if (lastError.includes('401')) suggestion = 'API کلید غلط ہے۔';
+            else if (lastError.includes('404')) suggestion = 'URL غلط ہے — یقینی بنائیں کہ آپ نے صحیح API endpoint ڈالا ہے (مثال: https://api.ollama.ai یا اپنا کلاؤڈ URL)۔';
+            else if (lastError.includes('CORS') || lastError.includes('cors')) suggestion = 'CORS proxy آن کریں یا دوسرا proxy استعمال کریں۔';
+            else if (lastError.includes('Failed to fetch') || lastError.includes('NetworkError')) suggestion = 'نیٹ ورک مسئلہ — چیک کریں کہ URL قابل رسائی ہے اور CORS proxy آن ہے۔';
+            else suggestion = `تفصیل: ${lastError}`;
+            detailEl.textContent = suggestion;
+            detailEl.style.display = 'block';
+            detailEl.style.color = '#f87171';
+            modelsEl.style.display = 'none';
         }
 
         // ============================================================
-        //  MULTI-PROVIDER API CALL with RETRY
+        //  ASK AI (with retry and CORS proxy handling)
         // ============================================================
         async function askAI(prompt, retryCount = 0) {
             micTrigger.classList.add('thinking');
@@ -809,7 +833,7 @@
                 const provider = config.provider;
                 let url, headers, body;
 
-                // Build the base URL with CORS proxy if needed
+                // For Ollama, handle CORS proxy
                 let baseUrl = config.baseUrl;
                 if (config.corsProxy && provider === 'ollama' && !baseUrl.startsWith('http://localhost')) {
                     const proxyUrl = 'https://corsproxy.io/?';
@@ -828,7 +852,13 @@
                         body = { model: config.model, messages: [{ role: 'system', content: systemContent }, { role: 'user', content: prompt }], temperature: 0.7, max_tokens: config.speed === 'fast' ? 300 : 600 };
                         break;
                     case 'ollama':
-                        url = `${baseUrl}/api/chat`;
+                        // Ensure baseUrl ends with /api/chat
+                        let chatUrl = baseUrl;
+                        if (!chatUrl.endsWith('/api/chat')) {
+                            if (!chatUrl.endsWith('/')) chatUrl += '/';
+                            chatUrl += 'api/chat';
+                        }
+                        url = chatUrl;
                         headers = { 'Content-Type': 'application/json' };
                         if (config.key) headers['Authorization'] = `Bearer ${config.key}`;
                         body = { model: config.model, messages: [{ role: 'system', content: systemContent }, { role: 'user', content: prompt }], stream: false, options: { temperature: 0.7, num_predict: config.speed === 'fast' ? 300 : 600 } };
@@ -911,42 +941,30 @@
         }
 
         // ============================================================
-        //  PROCESS RESPONSE
+        //  PROCESS RESPONSE / DOWNLOAD / APK (unchanged)
         // ============================================================
         function processResponse(text, userPrompt) {
             micTrigger.classList.remove('thinking');
-
             const codeMatch = text.match(/```html([\s\S]*?)```/);
             let speechText = text;
-
             if (codeMatch) {
                 const code = codeMatch[1].trim();
                 config.currentHTML = code;
-
                 speechText = text.replace(/```html[\s\S]*?```/g, '').trim() ||
                     'میں نے کوڈ تیار کر دیا ہے، پریویو دیکھیں۔';
-
                 previewPanel.style.display = 'flex';
                 previewFrame.srcdoc = code;
-
                 const nameMatch = userPrompt?.match(/نام ([\s\S]+?)(\s|$|\.)/i) ||
                     userPrompt?.match(/name ([\s\S]+?)(\s|$|\.)/i);
                 $('previewFileName').textContent = (nameMatch ? nameMatch[1].trim() : 'index') + '.html';
             }
-
             saveMemory({ user: userPrompt || '…', ai: speechText });
             speak(speechText);
         }
 
-        // ============================================================
-        //  DOWNLOAD HTML
-        // ============================================================
         function downloadHTML() {
             const code = config.currentHTML;
-            if (!code) {
-                alert('کوئی HTML کوڈ نہیں ملا۔ پہلے کوڈ جنریٹ کروائیں۔');
-                return;
-            }
+            if (!code) { alert('کوئی HTML کوڈ نہیں ملا۔ پہلے کوڈ جنریٹ کروائیں۔'); return; }
             const blob = new Blob([code], { type: 'text/html' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -961,9 +979,6 @@
 
         function closePreview() { previewPanel.style.display = 'none'; }
 
-        // ============================================================
-        //  APK GENERATOR
-        // ============================================================
         function openAPKModal() { $('apkModal').classList.add('active');
             $('apkStatus').textContent = ''; }
 
@@ -973,16 +988,12 @@
             const pkg = $('apkPackage').value.trim() || 'com.sikandar.rana';
             const name = $('apkName').value.trim() || 'Sikandar AI';
             const theme = $('apkTheme').value.trim() || '#00f2ff';
-
             const code = config.currentHTML ||
                 `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>${name}</title><style>body{background:#020617;color:#fff;display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;text-align:center;padding:20px;margin:0;}.card{background:rgba(15,23,42,0.85);padding:40px;border-radius:20px;border:1px solid ${theme};box-shadow:0 0 60px ${theme}33;max-width:400px;}h1{color:${theme};font-size:28px;margin:0 0 8px;}.sub{color:#94a3b8;font-size:14px;}.badge{color:${theme};font-size:12px;margin-top:12px;display:block;}</style></head><body><div class="card"><h1>🤖 ${name}</h1><p class="sub">Sikandar Azam AI — Your Personal Assistant</p><span class="badge">📦 ${pkg}</span></div></body></html>`;
-
             const manifest = { name, short_name: name, start_url: '/', display: 'standalone', background_color: '#020617',
                 theme_color: theme, icons: [{ src: 'icon-192.png', sizes: '192x192', type: 'image/png' }] };
-
             const pwaHTML =
                 `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>${name}</title><meta name="theme-color" content="${theme}"><meta name="apple-mobile-web-app-capable" content="yes"><link rel="manifest" href="data:application/json;base64,${btoa(JSON.stringify(manifest))}"><style>body{background:#020617;color:#fff;display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;text-align:center;padding:20px;margin:0;}.card{background:rgba(15,23,42,0.85);backdrop-filter:blur(12px);padding:40px;border-radius:20px;border:1px solid ${theme};box-shadow:0 0 60px ${theme}22;max-width:400px;}h1{color:${theme};font-size:28px;margin:0 0 8px;}.sub{color:#94a3b8;font-size:14px;margin:6px 0;}.badge{display:inline-block;background:${theme}22;color:${theme};padding:4px 16px;border-radius:20px;font-size:11px;border:1px solid ${theme}33;margin-top:12px;}</style></head><body><div class="card"><h1>🤖 ${name}</h1><p class="sub">Sikandar Azam AI — Your Personal Assistant</p><div class="badge">📦 ${pkg}</div></div></body></html>`;
-
             const blob = new Blob([pwaHTML], { type: 'text/html' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -992,7 +1003,6 @@
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
-
             $('apkStatus').textContent = '✅ PWA تیار! Chrome میں کھولیں اور "Add to Home Screen" کریں۔';
             $('apkStatus').style.color = '#22c55e';
             speak('PWA فائل ڈاؤن لوڈ ہو گئی۔');
@@ -1010,9 +1020,10 @@
                 $('settingsModel').value = config.model;
                 $('settingsBaseUrl').value = config.baseUrl || 'https://ollama.ai';
                 $('settingsSpeed').value = config.speed || 'balanced';
-                $('settingsCorsProxy').checked = config.corsProxy || false;
+                $('settingsCorsProxy').checked = config.corsProxy;
                 $('testResult').textContent = '';
                 $('testDetail').style.display = 'none';
+                $('testModels').style.display = 'none';
                 onProviderChange();
             }
         }
@@ -1022,15 +1033,11 @@
         function onProviderChange() {
             const provider = $('settingsProvider').value;
             const def = PROVIDER_DEFAULTS[provider] || PROVIDER_DEFAULTS.openrouter;
-
             const keyInput = $('settingsApiKey');
             keyInput.value = PROVIDER_KEYS[provider] || '';
-
             $('apiKeyLabel').textContent = def.keyLabel;
             keyInput.placeholder = def.keyPlaceholder || 'کلید درج کریں';
             $('apiKeyHint').textContent = def.hint;
-
-            // Show base URL only for Ollama
             const baseGroup = $('baseUrlGroup');
             if (provider === 'ollama') {
                 baseGroup.style.display = 'block';
@@ -1039,8 +1046,6 @@
                 baseGroup.style.display = 'none';
                 document.querySelector('.checkbox-group').style.display = 'none';
             }
-
-            // Model hints
             const modelHints = {
                 openrouter: 'مثال: google/gemma-2-9b-it:free, openai/gpt-3.5-turbo',
                 openai: 'مثال: gpt-3.5-turbo, gpt-4, gpt-4-turbo',
@@ -1120,7 +1125,7 @@
             }
         }, 700);
 
-        console.log('👑 Sikandar Azam AI v5.6 — Ollama Cloud fully supported');
+        console.log('👑 Sikandar Azam AI v5.7 — Auto CORS proxy & URL fixing for Ollama Cloud');
         console.log('📦 Provider:', config.provider);
         console.log('🧠 Model:', config.model);
         console.log('🔑 Key:', config.key ? '✅' : '❌');
