@@ -3,914 +3,123 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Sikandar Azam AI — Rana v5.0</title>
+    <title>Sikandar Azam AI — Rana v5.3</title>
     <style>
-        /* ============================================================
-           ROOT & RESET
-        ============================================================ */
+        /* ====== COMPACT STYLES ====== */
         :root {
             --glow-cyan: #00f2ff;
             --glow-purple: #a855f7;
             --glow-pink: #ec4899;
             --glow-gold: #fbbf24;
             --deep-blue: #020617;
-            --card-bg: rgba(15, 23, 42, 0.78);
-            --glass-border: rgba(0, 242, 255, 0.10);
+            --card-bg: rgba(15,23,42,0.78);
+            --glass-border: rgba(0,242,255,0.10);
             --text-primary: #f1f5f9;
             --text-secondary: #94a3b8;
-            --shadow-glow: 0 0 60px rgba(0, 242, 255, 0.06);
+            --shadow-glow: 0 0 60px rgba(0,242,255,0.06);
             --radius: 20px;
-            --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background: var(--deep-blue);
-            color: var(--text-primary);
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            min-height: 100vh;
-            overflow: hidden;
-            background-image:
-                radial-gradient(ellipse at 10% 30%, rgba(0, 242, 255, 0.03) 0%, transparent 60%),
-                radial-gradient(ellipse at 90% 70%, rgba(168, 85, 247, 0.03) 0%, transparent 50%);
-        }
-
-        ::-webkit-scrollbar {
-            width: 3px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--glow-cyan);
-            border-radius: 10px;
-        }
-
-        /* ============================================================
-           LAYOUT
-        ============================================================ */
-        .app-layout {
-            display: flex;
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden;
-        }
-
-        /* ============================================================
-           SIDEBAR
-        ============================================================ */
-        .sidebar {
-            width: 270px;
-            min-width: 270px;
-            background: rgba(2, 6, 23, 0.88);
-            backdrop-filter: blur(24px);
-            border-right: 1px solid var(--glass-border);
-            display: flex;
-            flex-direction: column;
-            padding: 18px 14px;
-            gap: 10px;
-            overflow-y: auto;
-            z-index: 10;
-            transition: transform var(--transition);
-        }
-
-        .sidebar-brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        .sidebar-brand .logo {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--glow-cyan), var(--glow-purple));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 18px;
-            color: #020617;
-            box-shadow: 0 0 40px rgba(0, 242, 255, 0.15);
-            flex-shrink: 0;
-        }
-
-        .sidebar-brand h1 {
-            font-size: 18px;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--glow-cyan), var(--glow-gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -0.3px;
-            line-height: 1.2;
-        }
-
-        .sidebar-brand .badge {
-            font-size: 8px;
-            background: rgba(0, 242, 255, 0.10);
-            color: var(--glow-cyan);
-            padding: 2px 10px;
-            border-radius: 20px;
-            border: 1px solid rgba(0, 242, 255, 0.12);
-            -webkit-text-fill-color: var(--glow-cyan);
-            margin-left: auto;
-            white-space: nowrap;
-        }
-
-        .sidebar-section-title {
-            font-size: 9px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--text-secondary);
-            margin-top: 2px;
-            opacity: 0.35;
-        }
-
-        .history-list {
-            flex: 1;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            min-height: 50px;
-        }
-
-        .history-item {
-            padding: 7px 12px;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 10px;
-            cursor: pointer;
-            transition: var(--transition);
-            border: 1px solid transparent;
-            font-size: 12px;
-            color: var(--text-secondary);
-            line-height: 1.3;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .history-item:hover {
-            background: rgba(0, 242, 255, 0.05);
-            border-color: rgba(0, 242, 255, 0.08);
-            color: var(--text-primary);
-        }
-
-        .history-item .time {
-            font-size: 8px;
-            opacity: 0.25;
-            display: block;
-            margin-top: 1px;
-        }
-
-        .sidebar-footer {
-            border-top: 1px solid var(--glass-border);
-            padding-top: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .sidebar-footer .memory-status {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 10px;
-            color: var(--text-secondary);
-        }
-
-        .memory-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: #22c55e;
-            animation: pulse-dot 2s infinite;
-        }
-
-        @keyframes pulse-dot {
-            0%,
-            100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.2;
-            }
-        }
-
-        .sidebar-footer .clear-btn {
-            background: rgba(239, 68, 68, 0.07);
-            color: #ef4444;
-            border: none;
-            padding: 3px 12px;
-            border-radius: 6px;
-            font-size: 10px;
-            cursor: pointer;
-            transition: var(--transition);
-            width: fit-content;
-        }
-
-        .sidebar-footer .clear-btn:hover {
-            background: rgba(239, 68, 68, 0.16);
-        }
-
-        /* ============================================================
-           MAIN AREA
-        ============================================================ */
-        .main-area {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 18px 24px;
-            position: relative;
-            min-width: 0;
-        }
-
-        /* ============================================================
-           REACTOR
-        ============================================================ */
-        .reactor-wrapper {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .reactor-shell {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            border: 2px solid rgba(0, 242, 255, 0.07);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .reactor-shell::before {
-            content: '';
-            position: absolute;
-            inset: -8px;
-            border: 1px dashed var(--glow-cyan);
-            border-radius: 50%;
-            animation: spin 14s linear infinite;
-            opacity: 0.12;
-        }
-
-        .reactor-shell::after {
-            content: '';
-            position: absolute;
-            inset: -18px;
-            border: 1px dashed rgba(168, 85, 247, 0.08);
-            border-radius: 50%;
-            animation: spin 22s linear infinite reverse;
-            opacity: 0.08;
-        }
-
-        @keyframes spin {
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        .reactor-shell .ripple-ring {
-            position: absolute;
-            inset: -28px;
-            border-radius: 50%;
-            border: 1px solid rgba(0, 242, 255, 0.03);
-            animation: ripple-expand 3.5s ease-out infinite;
-        }
-        .reactor-shell .ripple-ring:nth-child(2) {
-            animation-delay: 1.2s;
-        }
-        .reactor-shell .ripple-ring:nth-child(3) {
-            animation-delay: 2.4s;
-        }
-
-        @keyframes ripple-expand {
-            0% {
-                transform: scale(0.7);
-                opacity: 0.5;
-            }
-            100% {
-                transform: scale(1.5);
-                opacity: 0;
-            }
-        }
-
-        .core {
-            width: 70px;
-            height: 70px;
-            background: radial-gradient(circle at 30% 30%, var(--glow-cyan), #0088cc);
-            border-radius: 50%;
-            border: 3px solid var(--glow-cyan);
-            box-shadow: 0 0 50px rgba(0, 242, 255, 0.20), inset 0 0 40px rgba(0, 242, 255, 0.12);
-            transition: var(--transition);
-            position: relative;
-            z-index: 2;
-        }
-
-        .core::after {
-            content: '⚡';
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            color: #020617;
-            opacity: 0.4;
-        }
-
-        .listening .core {
-            background: radial-gradient(circle at 30% 30%, var(--glow-pink), #cc0044);
-            border-color: var(--glow-pink);
-            box-shadow: 0 0 60px rgba(236, 72, 153, 0.35), inset 0 0 40px rgba(236, 72, 153, 0.15);
-            animation: pulse-core 0.5s infinite alternate;
-        }
-
-        .thinking .core {
-            background: radial-gradient(circle at 30% 30%, var(--glow-purple), #7c3aed);
-            border-color: var(--glow-purple);
-            box-shadow: 0 0 60px rgba(168, 85, 247, 0.35), inset 0 0 40px rgba(168, 85, 247, 0.15);
-            animation: pulse-core 0.35s infinite alternate;
-        }
-
-        @keyframes pulse-core {
-            0% {
-                transform: scale(1);
-            }
-            100% {
-                transform: scale(1.08);
-            }
-        }
-
-        .status-text {
-            margin-top: 14px;
-            font-size: 11px;
-            letter-spacing: 1.8px;
-            color: var(--text-secondary);
-            font-weight: 300;
-            text-transform: uppercase;
-            transition: var(--transition);
-        }
-
-        .status-text .highlight {
-            color: var(--glow-cyan);
-        }
-
-        /* ============================================================
-           RESPONSE BOX
-        ============================================================ */
-        .response-container {
-            width: 92%;
-            max-width: 580px;
-            margin-top: 18px;
-            padding: 16px 20px;
-            background: var(--card-bg);
-            backdrop-filter: blur(16px);
-            border-radius: var(--radius);
-            border: 1px solid var(--glass-border);
-            text-align: center;
-            font-size: 15px;
-            line-height: 1.6;
-            direction: rtl;
-            min-height: 66px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: var(--shadow-glow);
-            transition: var(--transition);
-            color: var(--text-primary);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .response-container .emotion-tag {
-            position: absolute;
-            top: 6px;
-            left: 12px;
-            font-size: 10px;
-            color: var(--text-secondary);
-            opacity: 0.25;
-            letter-spacing: 1px;
-        }
-
-        /* ============================================================
-           QUICK ACTIONS
-        ============================================================ */
-        .quick-actions {
-            display: flex;
-            gap: 6px;
-            margin-top: 14px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .quick-btn {
-            padding: 5px 14px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--glass-border);
-            border-radius: 30px;
-            color: var(--text-secondary);
-            font-size: 10px;
-            cursor: pointer;
-            transition: var(--transition);
-            backdrop-filter: blur(8px);
-            white-space: nowrap;
-        }
-
-        .quick-btn:hover {
-            background: rgba(0, 242, 255, 0.05);
-            border-color: var(--glow-cyan);
-            color: var(--text-primary);
-            transform: translateY(-1px);
-        }
-
-        .quick-btn.primary {
-            background: linear-gradient(135deg, rgba(0, 242, 255, 0.10), rgba(168, 85, 247, 0.10));
-            border-color: var(--glow-cyan);
-            color: var(--glow-cyan);
-        }
-
-        .quick-btn.primary:hover {
-            background: linear-gradient(135deg, rgba(0, 242, 255, 0.18), rgba(168, 85, 247, 0.18));
-            box-shadow: 0 0 30px rgba(0, 242, 255, 0.04);
-        }
-
-        /* ============================================================
-           PREVIEW PANEL
-        ============================================================ */
-        #preview-panel {
-            position: fixed;
-            right: 0;
-            top: 0;
-            width: 52%;
-            height: 100vh;
-            background: #080d1a;
-            border-left: 2px solid var(--glow-cyan);
-            display: none;
-            flex-direction: column;
-            z-index: 50;
-            box-shadow: -10px 0 80px rgba(0, 0, 0, 0.7);
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        .preview-header {
-            background: rgba(2, 6, 23, 0.95);
-            padding: 8px 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--glass-border);
-            flex-shrink: 0;
-            flex-wrap: wrap;
-            gap: 4px;
-        }
-
-        .preview-header span {
-            color: var(--glow-cyan);
-            font-size: 10px;
-            letter-spacing: 1px;
-            font-weight: 300;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .preview-header .actions {
-            display: flex;
-            gap: 4px;
-            flex-wrap: wrap;
-        }
-
-        .preview-header button {
-            padding: 4px 12px;
-            border-radius: 6px;
-            border: none;
-            cursor: pointer;
-            font-size: 9px;
-            font-weight: 500;
-            transition: var(--transition);
-        }
-
-        .preview-header .close-btn {
-            background: rgba(239, 68, 68, 0.10);
-            color: #ef4444;
-        }
-        .preview-header .close-btn:hover {
-            background: rgba(239, 68, 68, 0.20);
-        }
-        .preview-header .download-btn {
-            background: rgba(0, 242, 255, 0.08);
-            color: var(--glow-cyan);
-        }
-        .preview-header .download-btn:hover {
-            background: rgba(0, 242, 255, 0.16);
-        }
-        .preview-header .apk-btn {
-            background: rgba(168, 85, 247, 0.08);
-            color: var(--glow-purple);
-        }
-        .preview-header .apk-btn:hover {
-            background: rgba(168, 85, 247, 0.16);
-        }
-
-        #preview-frame {
-            flex: 1;
-            width: 100%;
-            border: none;
-            background: white;
-        }
-
-        /* ============================================================
-           MODALS
-        ============================================================ */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(14px);
-            z-index: 100;
-            justify-content: center;
-            align-items: center;
-            animation: fadeIn 0.2s ease;
-        }
-
-        .modal-overlay.active {
-            display: flex;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        .modal-box {
-            background: #0f172a;
-            padding: 26px 30px;
-            border-radius: var(--radius);
-            width: 460px;
-            max-width: 94vw;
-            border: 1px solid var(--glass-border);
-            box-shadow: var(--shadow-glow);
-            animation: scaleUp 0.25s ease;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        @keyframes scaleUp {
-            from {
-                transform: scale(0.94);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        .modal-box h3 {
-            font-size: 19px;
-            margin-bottom: 2px;
-            background: linear-gradient(135deg, var(--glow-cyan), var(--glow-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .modal-box .sub {
-            color: var(--text-secondary);
-            font-size: 12px;
-            margin-bottom: 16px;
-        }
-
-        .modal-box label {
-            display: block;
-            font-size: 11px;
-            color: var(--text-secondary);
-            margin: 10px 0 3px;
-            letter-spacing: 0.3px;
-        }
-
-        .modal-box select,
-        .modal-box input {
-            width: 100%;
-            padding: 8px 14px;
-            background: rgba(2, 6, 23, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            color: var(--text-primary);
-            font-size: 13px;
-            transition: var(--transition);
-            outline: none;
-        }
-
-        .modal-box select:focus,
-        .modal-box input:focus {
-            border-color: var(--glow-cyan);
-            box-shadow: 0 0 24px rgba(0, 242, 255, 0.04);
-        }
-
-        .modal-box select option {
-            background: #0f172a;
-            color: var(--text-primary);
-        }
-
-        .modal-box .helper-text {
-            font-size: 10px;
-            color: var(--text-secondary);
-            opacity: 0.5;
-            margin-top: 2px;
-            padding-left: 4px;
-        }
-
-        .modal-box .btn-row {
-            display: flex;
-            gap: 10px;
-            margin-top: 18px;
-        }
-
-        .modal-box .btn-row button {
-            flex: 1;
-            padding: 8px;
-            border-radius: 10px;
-            border: none;
-            font-weight: 600;
-            font-size: 12px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .modal-box .btn-row .save-btn {
-            background: linear-gradient(135deg, var(--glow-cyan), #0088cc);
-            color: #020617;
-        }
-
-        .modal-box .btn-row .save-btn:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 30px rgba(0, 242, 255, 0.12);
-        }
-
-        .modal-box .btn-row .cancel-btn {
-            background: rgba(255, 255, 255, 0.04);
-            color: var(--text-secondary);
-        }
-
-        .modal-box .btn-row .cancel-btn:hover {
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        /* ============================================================
-           SETTINGS GEAR
-        ============================================================ */
-        .settings-gear {
-            position: fixed;
-            bottom: 18px;
-            left: 18px;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 17px;
-            transition: var(--transition);
-            z-index: 20;
-            color: var(--text-secondary);
-        }
-
-        .settings-gear:hover {
-            border-color: var(--glow-cyan);
-            color: var(--glow-cyan);
-            transform: rotate(60deg);
-            box-shadow: 0 0 30px rgba(0, 242, 255, 0.05);
-        }
-
-        /* ============================================================
-           PROVIDER BADGE IN STATUS
-        ============================================================ */
-        .provider-badge {
-            display: inline-block;
-            font-size: 8px;
-            padding: 2px 10px;
-            border-radius: 12px;
-            background: rgba(0, 242, 255, 0.08);
-            color: var(--glow-cyan);
-            border: 1px solid rgba(0, 242, 255, 0.06);
-            margin-left: 8px;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-
-        /* ============================================================
-           RESPONSIVE
-        ============================================================ */
-        @media (max-width: 820px) {
-            .sidebar {
-                width: 200px;
-                min-width: 200px;
-                padding: 12px 10px;
-            }
-            .sidebar-brand h1 {
-                font-size: 14px;
-            }
-            #preview-panel {
-                width: 70%;
-            }
-            .response-container {
-                font-size: 14px;
-                padding: 12px 14px;
-            }
-            .reactor-shell {
-                width: 120px;
-                height: 120px;
-            }
-            .core {
-                width: 58px;
-                height: 58px;
-            }
-            .core::after {
-                font-size: 20px;
-            }
-            .modal-box {
-                padding: 20px;
-                width: 96vw;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .app-layout {
-                flex-direction: column;
-            }
-            .sidebar {
-                width: 100%;
-                min-width: unset;
-                max-height: 150px;
-                border-right: none;
-                border-bottom: 1px solid var(--glass-border);
-                padding: 8px 12px;
-                flex-shrink: 0;
-            }
-            .history-list {
-                flex-direction: row;
-                overflow-x: auto;
-                gap: 4px;
-                padding-bottom: 4px;
-                min-height: 32px;
-            }
-            .history-item {
-                white-space: nowrap;
-                flex-shrink: 0;
-                font-size: 10px;
-                padding: 3px 10px;
-            }
-            .history-item .time {
-                display: none;
-            }
-            .sidebar-brand .badge {
-                display: none;
-            }
-            .sidebar-section-title {
-                display: none;
-            }
-            .sidebar-footer .memory-status {
-                font-size: 9px;
-            }
-            .sidebar-footer .clear-btn {
-                font-size: 9px;
-                padding: 2px 10px;
-            }
-            .main-area {
-                padding: 12px;
-                justify-content: flex-start;
-                padding-top: 14px;
-            }
-            .reactor-shell {
-                width: 94px;
-                height: 94px;
-            }
-            .core {
-                width: 46px;
-                height: 46px;
-            }
-            .core::after {
-                font-size: 14px;
-            }
-            .response-container {
-                font-size: 13px;
-                padding: 10px 12px;
-                min-height: 50px;
-            }
-            #preview-panel {
-                width: 100%;
-                height: 55vh;
-                top: auto;
-                bottom: 0;
-                border-left: none;
-                border-top: 2px solid var(--glow-cyan);
-            }
-            .quick-actions {
-                gap: 4px;
-            }
-            .quick-btn {
-                font-size: 9px;
-                padding: 3px 10px;
-            }
-            .settings-gear {
-                bottom: 10px;
-                left: 10px;
-                width: 34px;
-                height: 34px;
-                font-size: 14px;
-            }
-            .modal-box {
-                padding: 16px 18px;
-                width: 98vw;
-            }
-            .modal-box h3 {
-                font-size: 16px;
-            }
-        }
-
-        /* ============================================================
-           UTILITIES
-        ============================================================ */
-        .hidden {
-            display: none !important;
-        }
-        .text-glow {
-            text-shadow: 0 0 40px rgba(0, 242, 255, 0.06);
-        }
-        .mt-8 {
-            margin-top: 8px;
-        }
-        .text-xs {
-            font-size: 10px;
-            color: var(--text-secondary);
-            opacity: 0.4;
-        }
-        .flex-between {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .gap-8 {
-            gap: 8px;
-        }
+            --transition: 0.25s cubic-bezier(0.4,0,0.2,1);
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background:var(--deep-blue); color:var(--text-primary); font-family:'Segoe UI',system-ui,sans-serif; min-height:100vh; overflow:hidden; background-image:radial-gradient(ellipse at 10% 30%,rgba(0,242,255,0.03) 0%,transparent 60%),radial-gradient(ellipse at 90% 70%,rgba(168,85,247,0.03) 0%,transparent 50%); }
+        ::-webkit-scrollbar { width:3px; }
+        ::-webkit-scrollbar-track { background:transparent; }
+        ::-webkit-scrollbar-thumb { background:var(--glow-cyan); border-radius:10px; }
+        .app-layout { display:flex; height:100vh; width:100vw; overflow:hidden; }
+        .sidebar { width:270px; min-width:270px; background:rgba(2,6,23,0.88); backdrop-filter:blur(24px); border-right:1px solid var(--glass-border); display:flex; flex-direction:column; padding:18px 14px; gap:10px; overflow-y:auto; z-index:10; transition:transform var(--transition); }
+        .sidebar-brand { display:flex; align-items:center; gap:12px; padding-bottom:12px; border-bottom:1px solid var(--glass-border); }
+        .sidebar-brand .logo { width:44px; height:44px; border-radius:50%; background:linear-gradient(135deg,var(--glow-cyan),var(--glow-purple)); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:18px; color:#020617; box-shadow:0 0 40px rgba(0,242,255,0.15); flex-shrink:0; }
+        .sidebar-brand h1 { font-size:18px; font-weight:700; background:linear-gradient(135deg,var(--glow-cyan),var(--glow-gold)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; letter-spacing:-0.3px; line-height:1.2; }
+        .sidebar-brand .badge { font-size:8px; background:rgba(0,242,255,0.10); color:var(--glow-cyan); padding:2px 10px; border-radius:20px; border:1px solid rgba(0,242,255,0.12); -webkit-text-fill-color:var(--glow-cyan); margin-left:auto; white-space:nowrap; }
+        .sidebar-section-title { font-size:9px; text-transform:uppercase; letter-spacing:2px; color:var(--text-secondary); margin-top:2px; opacity:0.35; }
+        .history-list { flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:4px; min-height:50px; }
+        .history-item { padding:7px 12px; background:rgba(255,255,255,0.02); border-radius:10px; cursor:pointer; transition:var(--transition); border:1px solid transparent; font-size:12px; color:var(--text-secondary); line-height:1.3; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+        .history-item:hover { background:rgba(0,242,255,0.05); border-color:rgba(0,242,255,0.08); color:var(--text-primary); }
+        .history-item .time { font-size:8px; opacity:0.25; display:block; margin-top:1px; }
+        .sidebar-footer { border-top:1px solid var(--glass-border); padding-top:10px; display:flex; flex-direction:column; gap:5px; }
+        .sidebar-footer .memory-status { display:flex; align-items:center; gap:8px; font-size:10px; color:var(--text-secondary); }
+        .memory-dot { width:6px; height:6px; border-radius:50%; background:#22c55e; animation:pulse-dot 2s infinite; }
+        @keyframes pulse-dot { 0%,100%{opacity:1;} 50%{opacity:0.2;} }
+        .sidebar-footer .clear-btn { background:rgba(239,68,68,0.07); color:#ef4444; border:none; padding:3px 12px; border-radius:6px; font-size:10px; cursor:pointer; transition:var(--transition); width:fit-content; }
+        .sidebar-footer .clear-btn:hover { background:rgba(239,68,68,0.16); }
+        .main-area { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:18px 24px; position:relative; min-width:0; }
+        .reactor-wrapper { position:relative; display:flex; flex-direction:column; align-items:center; }
+        .reactor-shell { width:140px; height:140px; border-radius:50%; border:2px solid rgba(0,242,255,0.07); display:flex; align-items:center; justify-content:center; position:relative; cursor:pointer; transition:var(--transition); }
+        .reactor-shell::before { content:''; position:absolute; inset:-8px; border:1px dashed var(--glow-cyan); border-radius:50%; animation:spin 14s linear infinite; opacity:0.12; }
+        .reactor-shell::after { content:''; position:absolute; inset:-18px; border:1px dashed rgba(168,85,247,0.08); border-radius:50%; animation:spin 22s linear infinite reverse; opacity:0.08; }
+        @keyframes spin { 100%{transform:rotate(360deg);} }
+        .reactor-shell .ripple-ring { position:absolute; inset:-28px; border-radius:50%; border:1px solid rgba(0,242,255,0.03); animation:ripple-expand 3.5s ease-out infinite; }
+        .reactor-shell .ripple-ring:nth-child(2) { animation-delay:1.2s; }
+        .reactor-shell .ripple-ring:nth-child(3) { animation-delay:2.4s; }
+        @keyframes ripple-expand { 0%{transform:scale(0.7);opacity:0.5;} 100%{transform:scale(1.5);opacity:0;} }
+        .core { width:70px; height:70px; background:radial-gradient(circle at 30% 30%,var(--glow-cyan),#0088cc); border-radius:50%; border:3px solid var(--glow-cyan); box-shadow:0 0 50px rgba(0,242,255,0.20), inset 0 0 40px rgba(0,242,255,0.12); transition:var(--transition); position:relative; z-index:2; }
+        .core::after { content:'⚡'; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:24px; color:#020617; opacity:0.4; }
+        .listening .core { background:radial-gradient(circle at 30% 30%,var(--glow-pink),#cc0044); border-color:var(--glow-pink); box-shadow:0 0 60px rgba(236,72,153,0.35), inset 0 0 40px rgba(236,72,153,0.15); animation:pulse-core 0.5s infinite alternate; }
+        .thinking .core { background:radial-gradient(circle at 30% 30%,var(--glow-purple),#7c3aed); border-color:var(--glow-purple); box-shadow:0 0 60px rgba(168,85,247,0.35), inset 0 0 40px rgba(168,85,247,0.15); animation:pulse-core 0.35s infinite alternate; }
+        @keyframes pulse-core { 0%{transform:scale(1);} 100%{transform:scale(1.08);} }
+        .status-text { margin-top:14px; font-size:11px; letter-spacing:1.8px; color:var(--text-secondary); font-weight:300; text-transform:uppercase; transition:var(--transition); }
+        .status-text .highlight { color:var(--glow-cyan); }
+        .response-container { width:92%; max-width:580px; margin-top:18px; padding:16px 20px; background:var(--card-bg); backdrop-filter:blur(16px); border-radius:var(--radius); border:1px solid var(--glass-border); text-align:center; font-size:15px; line-height:1.6; direction:rtl; min-height:66px; display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow-glow); transition:var(--transition); color:var(--text-primary); position:relative; overflow:hidden; }
+        .response-container .emotion-tag { position:absolute; top:6px; left:12px; font-size:10px; color:var(--text-secondary); opacity:0.25; letter-spacing:1px; }
+        .quick-actions { display:flex; gap:6px; margin-top:14px; flex-wrap:wrap; justify-content:center; }
+        .quick-btn { padding:5px 14px; background:rgba(255,255,255,0.02); border:1px solid var(--glass-border); border-radius:30px; color:var(--text-secondary); font-size:10px; cursor:pointer; transition:var(--transition); backdrop-filter:blur(8px); white-space:nowrap; }
+        .quick-btn:hover { background:rgba(0,242,255,0.05); border-color:var(--glow-cyan); color:var(--text-primary); transform:translateY(-1px); }
+        .quick-btn.primary { background:linear-gradient(135deg,rgba(0,242,255,0.10),rgba(168,85,247,0.10)); border-color:var(--glow-cyan); color:var(--glow-cyan); }
+        .quick-btn.primary:hover { background:linear-gradient(135deg,rgba(0,242,255,0.18),rgba(168,85,247,0.18)); box-shadow:0 0 30px rgba(0,242,255,0.04); }
+        #preview-panel { position:fixed; right:0; top:0; width:52%; height:100vh; background:#080d1a; border-left:2px solid var(--glow-cyan); display:none; flex-direction:column; z-index:50; box-shadow:-10px 0 80px rgba(0,0,0,0.7); animation:slideIn 0.3s ease; }
+        @keyframes slideIn { from{transform:translateX(100%);opacity:0;} to{transform:translateX(0);opacity:1;} }
+        .preview-header { background:rgba(2,6,23,0.95); padding:8px 16px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--glass-border); flex-shrink:0; flex-wrap:wrap; gap:4px; }
+        .preview-header span { color:var(--glow-cyan); font-size:10px; letter-spacing:1px; font-weight:300; display:flex; align-items:center; gap:8px; }
+        .preview-header .actions { display:flex; gap:4px; flex-wrap:wrap; }
+        .preview-header button { padding:4px 12px; border-radius:6px; border:none; cursor:pointer; font-size:9px; font-weight:500; transition:var(--transition); }
+        .preview-header .close-btn { background:rgba(239,68,68,0.10); color:#ef4444; }
+        .preview-header .close-btn:hover { background:rgba(239,68,68,0.20); }
+        .preview-header .download-btn { background:rgba(0,242,255,0.08); color:var(--glow-cyan); }
+        .preview-header .download-btn:hover { background:rgba(0,242,255,0.16); }
+        .preview-header .apk-btn { background:rgba(168,85,247,0.08); color:var(--glow-purple); }
+        .preview-header .apk-btn:hover { background:rgba(168,85,247,0.16); }
+        #preview-frame { flex:1; width:100%; border:none; background:white; }
+        .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); backdrop-filter:blur(14px); z-index:100; justify-content:center; align-items:center; animation:fadeIn 0.2s ease; }
+        .modal-overlay.active { display:flex; }
+        @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
+        .modal-box { background:#0f172a; padding:26px 30px; border-radius:var(--radius); width:460px; max-width:94vw; border:1px solid var(--glass-border); box-shadow:var(--shadow-glow); animation:scaleUp 0.25s ease; max-height:90vh; overflow-y:auto; }
+        @keyframes scaleUp { from{transform:scale(0.94);opacity:0;} to{transform:scale(1);opacity:1;} }
+        .modal-box h3 { font-size:19px; margin-bottom:2px; background:linear-gradient(135deg,var(--glow-cyan),var(--glow-purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+        .modal-box .sub { color:var(--text-secondary); font-size:12px; margin-bottom:16px; }
+        .modal-box label { display:block; font-size:11px; color:var(--text-secondary); margin:10px 0 3px; letter-spacing:0.3px; }
+        .modal-box select, .modal-box input { width:100%; padding:8px 14px; background:rgba(2,6,23,0.7); border:1px solid rgba(255,255,255,0.05); border-radius:10px; color:var(--text-primary); font-size:13px; transition:var(--transition); outline:none; }
+        .modal-box select:focus, .modal-box input:focus { border-color:var(--glow-cyan); box-shadow:0 0 24px rgba(0,242,255,0.04); }
+        .modal-box select option { background:#0f172a; color:var(--text-primary); }
+        .modal-box .helper-text { font-size:10px; color:var(--text-secondary); opacity:0.5; margin-top:2px; padding-left:4px; }
+        .modal-box .btn-row { display:flex; gap:10px; margin-top:18px; }
+        .modal-box .btn-row button { flex:1; padding:8px; border-radius:10px; border:none; font-weight:600; font-size:12px; cursor:pointer; transition:var(--transition); }
+        .modal-box .btn-row .save-btn { background:linear-gradient(135deg,var(--glow-cyan),#0088cc); color:#020617; }
+        .modal-box .btn-row .save-btn:hover { transform:scale(1.02); box-shadow:0 0 30px rgba(0,242,255,0.12); }
+        .modal-box .btn-row .cancel-btn { background:rgba(255,255,255,0.04); color:var(--text-secondary); }
+        .modal-box .btn-row .cancel-btn:hover { background:rgba(255,255,255,0.08); }
+        .settings-gear { position:fixed; bottom:18px; left:18px; width:40px; height:40px; border-radius:50%; background:rgba(15,23,42,0.8); backdrop-filter:blur(12px); border:1px solid var(--glass-border); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:17px; transition:var(--transition); z-index:20; color:var(--text-secondary); }
+        .settings-gear:hover { border-color:var(--glow-cyan); color:var(--glow-cyan); transform:rotate(60deg); box-shadow:0 0 30px rgba(0,242,255,0.05); }
+        .provider-badge { display:inline-block; font-size:8px; padding:2px 10px; border-radius:12px; background:rgba(0,242,255,0.08); color:var(--glow-cyan); border:1px solid rgba(0,242,255,0.06); margin-left:8px; letter-spacing:0.5px; text-transform:uppercase; }
+        @media (max-width:820px){ .sidebar{width:200px;min-width:200px;padding:12px 10px;} .sidebar-brand h1{font-size:14px;} #preview-panel{width:70%;} .response-container{font-size:14px;padding:12px 14px;} .reactor-shell{width:120px;height:120px;} .core{width:58px;height:58px;} .core::after{font-size:20px;} .modal-box{padding:20px;width:96vw;} }
+        @media (max-width:600px){ .app-layout{flex-direction:column;} .sidebar{width:100%;min-width:unset;max-height:150px;border-right:none;border-bottom:1px solid var(--glass-border);padding:8px 12px;flex-shrink:0;} .history-list{flex-direction:row;overflow-x:auto;gap:4px;padding-bottom:4px;min-height:32px;} .history-item{white-space:nowrap;flex-shrink:0;font-size:10px;padding:3px 10px;} .history-item .time{display:none;} .sidebar-brand .badge{display:none;} .sidebar-section-title{display:none;} .sidebar-footer .memory-status{font-size:9px;} .sidebar-footer .clear-btn{font-size:9px;padding:2px 10px;} .main-area{padding:12px;justify-content:flex-start;padding-top:14px;} .reactor-shell{width:94px;height:94px;} .core{width:46px;height:46px;} .core::after{font-size:14px;} .response-container{font-size:13px;padding:10px 12px;min-height:50px;} #preview-panel{width:100%;height:55vh;top:auto;bottom:0;border-left:none;border-top:2px solid var(--glow-cyan);} .quick-actions{gap:4px;} .quick-btn{font-size:9px;padding:3px 10px;} .settings-gear{bottom:10px;left:10px;width:34px;height:34px;font-size:14px;} .modal-box{padding:16px 18px;width:98vw;} .modal-box h3{font-size:16px;} }
+        .hidden { display:none !important; }
     </style>
 </head>
 <body>
 
-    <!-- ============================================================
-    APP LAYOUT
-    ============================================================ -->
+    <!-- ===== APP LAYOUT ===== -->
     <div class="app-layout">
-
-        <!-- ===== SIDEBAR ===== -->
+        <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-brand">
                 <div class="logo">S</div>
                 <h1>Sikandar Azam</h1>
-                <span class="badge">v5.0</span>
+                <span class="badge">v5.3</span>
             </div>
-
             <div class="sidebar-section-title">📜 گفتگو کی تاریخ</div>
             <div class="history-list" id="historyList">
-                <div style="color:var(--text-secondary);font-size:11px;opacity:0.25;text-align:center;padding:14px 0;">
-                    کوئی تاریخ نہیں
-                </div>
+                <div style="color:var(--text-secondary);font-size:11px;opacity:0.25;text-align:center;padding:14px 0;">کوئی تاریخ نہیں</div>
             </div>
-
             <div class="sidebar-footer">
                 <div class="memory-status">
                     <span class="memory-dot"></span>
@@ -922,9 +131,8 @@
             </div>
         </aside>
 
-        <!-- ===== MAIN AREA ===== -->
+        <!-- Main -->
         <main class="main-area">
-
             <div class="reactor-wrapper">
                 <div class="reactor-shell" id="micTrigger" onclick="startRana()">
                     <span class="ripple-ring"></span>
@@ -937,25 +145,20 @@
                     <span class="provider-badge" id="providerBadge">OpenRouter</span>
                 </div>
             </div>
-
             <div class="response-container" id="output">
                 <span class="emotion-tag" id="emotionTag">🧠</span>
                 "سر سکندر اعظم، میں حاضر ہوں۔"
             </div>
-
             <div class="quick-actions">
                 <button class="quick-btn" onclick="quickPrompt('پشاور کا موسم بتاؤ')">🌤️ موسم</button>
                 <button class="quick-btn" onclick="quickPrompt('مجھے ایک گیم بنا دو')">🎮 گیم</button>
                 <button class="quick-btn" onclick="quickPrompt('آپ کیسے ہیں سر؟')">💬 گفتگو</button>
                 <button class="quick-btn primary" onclick="quickPrompt('میرا نام کیا ہے؟')">🧑 میموری</button>
             </div>
-
         </main>
     </div>
 
-    <!-- ============================================================
-    PREVIEW PANEL
-    ============================================================ -->
+    <!-- ===== PREVIEW PANEL ===== -->
     <div id="preview-panel">
         <div class="preview-header">
             <span>⚡ پریویو — <span id="previewFileName">index.html</span></span>
@@ -968,23 +171,17 @@
         <iframe id="previewFrame" sandbox="allow-scripts allow-modals allow-same-origin"></iframe>
     </div>
 
-    <!-- ============================================================
-    APK MODAL
-    ============================================================ -->
+    <!-- ===== APK MODAL ===== -->
     <div class="modal-overlay" id="apkModal">
         <div class="modal-box">
             <h3>📱 APK جنریٹر</h3>
             <p class="sub">HTML کو PWA میں بدلیں — پھر APK بنائیں</p>
-
             <label>📦 پیکیج نام</label>
             <input type="text" id="apkPackage" value="com.sikandar.rana" placeholder="com.yourapp.domain" />
-
             <label>🏷️ ایپ کا نام</label>
             <input type="text" id="apkName" value="Sikandar AI" placeholder="میری ایپ" />
-
             <label>🎨 تھیم رنگ</label>
             <input type="text" id="apkTheme" value="#00f2ff" placeholder="#00f2ff" />
-
             <div class="btn-row">
                 <button class="cancel-btn" onclick="closeAPKModal()">منسوخ</button>
                 <button class="save-btn" onclick="generateAPK()">⚡ PWA بنائیں</button>
@@ -993,17 +190,15 @@
         </div>
     </div>
 
-    <!-- ============================================================
-    SETTINGS MODAL — MULTI-PROVIDER
-    ============================================================ -->
+    <!-- ===== SETTINGS MODAL ===== -->
     <div class="modal-overlay" id="settingsModal">
         <div class="modal-box">
             <h3>⚙️ سیٹنگز — AI پرووائیڈر</h3>
-            <p class="sub">اپنا پسندیدہ AI پرووائیڈر منتخب کریں اور کلید درج کریں</p>
+            <p class="sub">اپنا پرووائیڈر منتخب کریں — API keys پہلے سے ڈال دی گئی ہیں</p>
 
             <label>🤖 پرووائیڈر</label>
             <select id="settingsProvider" onchange="onProviderChange()">
-                <option value="openrouter">OpenRouter (Default)</option>
+                <option value="openrouter">OpenRouter</option>
                 <option value="openai">OpenAI</option>
                 <option value="ollama">Ollama (Local)</option>
                 <option value="google">Google AI Studio</option>
@@ -1012,18 +207,18 @@
             <div id="apiKeyGroup">
                 <label id="apiKeyLabel">🔑 API کلید</label>
                 <input type="password" id="settingsApiKey" placeholder="sk-..." />
-                <div class="helper-text" id="apiKeyHint">OpenRouter / OpenAI / Google کی API کلید</div>
+                <div class="helper-text" id="apiKeyHint">کلید پہلے سے موجود ہے — بس Save کریں</div>
             </div>
 
             <div id="baseUrlGroup" class="hidden">
                 <label>🌐 Ollama Base URL</label>
                 <input type="text" id="settingsBaseUrl" value="http://localhost:11434" placeholder="http://localhost:11434" />
-                <div class="helper-text">مثال: http://192.168.1.100:11434 (اگر remote ہو)</div>
+                <div class="helper-text">مثال: http://192.168.1.100:11434</div>
             </div>
 
             <label>🧠 ماڈل کا نام</label>
             <input type="text" id="settingsModel" value="google/gemma-2-9b-it:free" />
-            <div class="helper-text" id="modelHint">مثال: gemma-2-9b-it, gpt-3.5-turbo, llama3.2, gemini-1.5-flash</div>
+            <div class="helper-text" id="modelHint">ماڈل کا نام درست کریں</div>
 
             <label>⚡ جواب کی رفتار</label>
             <select id="settingsSpeed">
@@ -1032,6 +227,10 @@
                 <option value="detailed">تفصیلی (Detailed)</option>
             </select>
 
+            <!-- Test Button -->
+            <button onclick="testConnection()" style="margin-top:14px;width:100%;padding:8px;background:rgba(0,242,255,0.10);border:1px solid var(--glow-cyan);border-radius:10px;color:var(--glow-cyan);cursor:pointer;font-size:12px;transition:var(--transition);">🔍 کنکشن ٹیسٹ کریں</button>
+            <div id="testResult" style="margin-top:8px;font-size:11px;color:var(--text-secondary);text-align:center;"></div>
+
             <div class="btn-row">
                 <button class="cancel-btn" onclick="closeSettings()">منسوخ</button>
                 <button class="save-btn" onclick="saveSettings()">💾 محفوظ کریں</button>
@@ -1039,24 +238,36 @@
         </div>
     </div>
 
-    <!-- ============================================================
-    SETTINGS GEAR
-    ============================================================ -->
+    <!-- ===== SETTINGS GEAR ===== -->
     <div class="settings-gear" onclick="toggleSettings()" title="سیٹنگز">⚙️</div>
-
 
     <!-- ============================================================
     JAVASCRIPT
     ============================================================ -->
     <script>
         // ============================================================
-        //  CONFIG — Multi-Provider
+        //  CONFIG — Pre-filled API Keys
         // ============================================================
-        const DEFAULT_KEY = "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";
+        const PROVIDER_KEYS = {
+            openrouter: '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',
+            openai: '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',
+            google: 'AIzaSyD5XmN_1x2y3z4a5b6c7d8e9f0', // placeholder — user must replace
+            ollama: ''
+        };
 
+        const PROVIDER_DEFAULTS = {
+            openrouter: { model: 'google/gemma-2-9b-it:free', keyLabel: '🔑 OpenRouter API کلید', hint: 'https://openrouter.ai/keys' },
+            openai: { model: 'gpt-3.5-turbo', keyLabel: '🔑 OpenAI API کلید', hint: 'https://platform.openai.com/api-keys' },
+            ollama: { model: 'llama3.2', keyLabel: '🔑 (Ollama کو کلید کی ضرورت نہیں)', hint: 'مقامی سرور — کوئی کلید نہیں' },
+            google: { model: 'gemini-1.5-flash', keyLabel: '🔑 Google AI Studio API کلید', hint: 'https://aistudio.google.com/app/apikey' }
+        };
+
+        // ============================================================
+        //  LOAD CONFIG
+        // ============================================================
         let config = {
             provider: localStorage.getItem('rana_provider') || 'openrouter',
-            key: localStorage.getItem('rana_key') || DEFAULT_KEY,
+            key: localStorage.getItem('rana_key') || PROVIDER_KEYS.openrouter,
             model: localStorage.getItem('rana_model') || 'google/gemma-2-9b-it:free',
             baseUrl: localStorage.getItem('rana_baseurl') || 'http://localhost:11434',
             speed: localStorage.getItem('rana_speed') || 'balanced',
@@ -1064,34 +275,6 @@
             currentHTML: null,
             weatherCache: null,
             weatherCacheTime: 0,
-        };
-
-        // Provider defaults
-        const PROVIDER_DEFAULTS = {
-            openrouter: {
-                model: 'google/gemma-2-9b-it:free',
-                keyPlaceholder: 'sk-or-...',
-                keyLabel: '🔑 OpenRouter API کلید',
-                hint: 'OpenRouter کی API کلید — https://openrouter.ai/keys'
-            },
-            openai: {
-                model: 'gpt-3.5-turbo',
-                keyPlaceholder: 'sk-...',
-                keyLabel: '🔑 OpenAI API کلید',
-                hint: 'OpenAI کی API کلید — https://platform.openai.com/api-keys'
-            },
-            ollama: {
-                model: 'llama3.2',
-                keyPlaceholder: '(کلید کی ضرورت نہیں)',
-                keyLabel: '🔑 (Ollama کو کلید کی ضرورت نہیں)',
-                hint: 'Ollama مقامی سرور — کوئی کلید درکار نہیں'
-            },
-            google: {
-                model: 'gemini-1.5-flash',
-                keyPlaceholder: 'AIza...',
-                keyLabel: '🔑 Google AI Studio API کلید',
-                hint: 'Google AI Studio کی API کلید — https://aistudio.google.com/app/apikey'
-            }
         };
 
         // ============================================================
@@ -1150,8 +333,7 @@
             memoryCount.textContent = config.memory.length;
             const last = config.memory[0];
             if (last) {
-                historyTime.textContent = new Date(last.time).toLocaleTimeString('ur-PK', { hour: '2-digit',
-                    minute: '2-digit' });
+                historyTime.textContent = new Date(last.time).toLocaleTimeString('ur-PK', { hour: '2-digit', minute: '2-digit' });
             }
         }
 
@@ -1225,13 +407,11 @@
             if (urduVoice) utterance.voice = urduVoice;
 
             utterance.onend = () => {
-                statusEl.innerHTML =
-                `<span class="highlight">●</span> سسٹم: اسٹینڈ بائی <span class="provider-badge">${getProviderLabel()}</span>`;
+                statusEl.innerHTML = `<span class="highlight">●</span> سسٹم: اسٹینڈ بائی <span class="provider-badge">${getProviderLabel()}</span>`;
                 micTrigger.classList.remove('listening', 'thinking');
             };
             utterance.onerror = () => {
-                statusEl.innerHTML =
-                `<span class="highlight">●</span> سسٹم: اسٹینڈ بائی <span class="provider-badge">${getProviderLabel()}</span>`;
+                statusEl.innerHTML = `<span class="highlight">●</span> سسٹم: اسٹینڈ بائی <span class="provider-badge">${getProviderLabel()}</span>`;
                 micTrigger.classList.remove('listening', 'thinking');
             };
 
@@ -1248,8 +428,7 @@
         // ============================================================
         function quickPrompt(prompt) {
             outputEl.innerHTML = `<span class="emotion-tag">⏳</span> "سوچ رہا ہوں..."`;
-            statusEl.innerHTML =
-            `<span class="highlight">●</span> سسٹم: سوچ رہا ہے... <span class="provider-badge">${getProviderLabel()}</span>`;
+            statusEl.innerHTML = `<span class="highlight">●</span> سسٹم: سوچ رہا ہے... <span class="provider-badge">${getProviderLabel()}</span>`;
             micTrigger.classList.add('thinking');
             askAI(prompt);
         }
@@ -1262,8 +441,7 @@
             try {
                 recognition.start();
                 micTrigger.classList.add('listening');
-                statusEl.innerHTML =
-                `<span class="highlight">●</span> سسٹم: سن رہا ہے... <span class="provider-badge">${getProviderLabel()}</span>`;
+                statusEl.innerHTML = `<span class="highlight">●</span> سسٹم: سن رہا ہے... <span class="provider-badge">${getProviderLabel()}</span>`;
                 outputEl.innerHTML = `<span class="emotion-tag">🎤</span> "سن رہا ہوں، بولیں..."`;
             } catch (e) {
                 quickPrompt('آپ کا پیغام');
@@ -1276,8 +454,7 @@
         recognition.onresult = async (event) => {
             const speech = event.results[0][0].transcript.trim();
             micTrigger.classList.remove('listening');
-            statusEl.innerHTML =
-            `<span class="highlight">●</span> سسٹم: پروسیسنگ... <span class="provider-badge">${getProviderLabel()}</span>`;
+            statusEl.innerHTML = `<span class="highlight">●</span> سسٹم: پروسیسنگ... <span class="provider-badge">${getProviderLabel()}</span>`;
 
             outputEl.innerHTML = `<span class="emotion-tag">🎤</span> "آپ نے کہا: ${speech}"`;
             setEmotion(speech);
@@ -1315,15 +492,13 @@
             }
             if (lower.includes('waqt') || lower.includes('time') || lower.includes('وقت')) {
                 const now = new Date();
-                const timeStr = now.toLocaleTimeString('ur-PK', { hour: '2-digit', minute: '2-digit', second: '2-digit',
-                    timeZone: 'Asia/Karachi' });
+                const timeStr = now.toLocaleTimeString('ur-PK', { hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Asia/Karachi' });
                 speak(`سر، پشاور میں ابھی وقت ہے ${timeStr}`);
                 return;
             }
             if (lower.includes('tareekh') || lower.includes('date') || lower.includes('تاریخ')) {
                 const now = new Date();
-                const dateStr = now.toLocaleDateString('ur-PK', { day: 'numeric', month: 'long', year: 'numeric',
-                    timeZone: 'Asia/Karachi' });
+                const dateStr = now.toLocaleDateString('ur-PK', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Karachi' });
                 speak(`سر، پشاور کی تاریخ ہے ${dateStr}`);
                 return;
             }
@@ -1336,9 +511,7 @@
 
             // --- Game generation (English) ---
             if (lower.includes('گیم') || lower.includes('game') || (lower.includes('بنا') && lower.includes('گیم'))) {
-                await askAI(
-                    'Create a fun HTML game in ENGLISH language. The game should be a complete HTML file with CSS and JavaScript. All text, labels, and messages in the game must be in English. Make it interactive and visually appealing.'
-                    );
+                await askAI('Create a fun HTML game in ENGLISH language. The game should be a complete HTML file with CSS and JavaScript. All text, labels, and messages in the game must be in English. Make it interactive and visually appealing.');
                 return;
             }
 
@@ -1348,8 +521,7 @@
 
         recognition.onerror = () => {
             micTrigger.classList.remove('listening', 'thinking');
-            statusEl.innerHTML =
-            `<span class="highlight">●</span> سسٹم: اسٹینڈ بائی <span class="provider-badge">${getProviderLabel()}</span>`;
+            statusEl.innerHTML = `<span class="highlight">●</span> سسٹم: اسٹینڈ بائی <span class="provider-badge">${getProviderLabel()}</span>`;
         };
 
         // ============================================================
@@ -1391,8 +563,7 @@
             const lower = query.toLowerCase().trim();
             let pkg = APP_MAP[lower] || lower;
             if (pkg.includes('.')) {
-                window.location.href =
-                    `intent://#Intent;package=${pkg};action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;end`;
+                window.location.href = `intent://#Intent;package=${pkg};action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;end`;
                 setTimeout(() => window.open(`market://details?id=${pkg}`, '_blank'), 500);
                 speak(`سر، ${query} کھول رہا ہوں۔`);
                 return;
@@ -1400,8 +571,7 @@
             const found = Object.keys(APP_MAP).find(k => k.includes(lower) || lower.includes(k));
             if (found) {
                 pkg = APP_MAP[found];
-                window.location.href =
-                    `intent://#Intent;package=${pkg};action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;end`;
+                window.location.href = `intent://#Intent;package=${pkg};action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;end`;
                 setTimeout(() => window.open(`market://details?id=${pkg}`, '_blank'), 500);
                 speak(`سر، ${found} کھول رہا ہوں۔`);
                 return;
@@ -1444,8 +614,7 @@
                 const desc = current.weatherDesc[0].value;
                 const humidity = current.humidity;
                 const wind = current.windSpeedKmph;
-                const msg =
-                    `سر سکندر اعظم، پشاور کا موسم: ${desc}، درجہ حرارت ${temp} ڈگری سینٹی گریڈ، نمی ${humidity} فیصد، ہوا کی رفتار ${wind} کلومیٹر فی گھنٹہ۔`;
+                const msg = `سر سکندر اعظم، پشاور کا موسم: ${desc}، درجہ حرارت ${temp} ڈگری سینٹی گریڈ، نمی ${humidity} فیصد، ہوا کی رفتار ${wind} کلومیٹر فی گھنٹہ۔`;
                 config.weatherCache = msg;
                 config.weatherCacheTime = now;
                 return msg;
@@ -1455,14 +624,88 @@
         }
 
         // ============================================================
-        //  MULTI-PROVIDER API CALL
+        //  TEST CONNECTION (for Settings)
         // ============================================================
-        async function askAI(prompt) {
-            micTrigger.classList.add('thinking');
-            statusEl.innerHTML =
-            `<span class="highlight">●</span> سسٹم: سوچ رہا ہے... <span class="provider-badge">${getProviderLabel()}</span>`;
+        async function testConnection() {
+            const resultEl = $('testResult');
+            resultEl.textContent = '⏳ چیک کر رہا ہوں...';
+            resultEl.style.color = 'var(--text-secondary)';
 
-            // Check cache (exact match within 1 hour)
+            const provider = $('settingsProvider').value;
+            const key = $('settingsApiKey').value.trim() || PROVIDER_KEYS[provider] || '';
+            const model = $('settingsModel').value.trim() || PROVIDER_DEFAULTS[provider].model;
+            const baseUrl = $('settingsBaseUrl').value.trim() || 'http://localhost:11434';
+
+            const testPrompt = 'Hello, say "OK" in English.';
+
+            try {
+                let url, headers, body;
+                switch (provider) {
+                    case 'openrouter':
+                        url = 'https://openrouter.ai/api/v1/chat/completions';
+                        headers = { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' };
+                        body = { model, messages: [{ role: 'user', content: testPrompt }], max_tokens: 10 };
+                        break;
+                    case 'openai':
+                        url = 'https://api.openai.com/v1/chat/completions';
+                        headers = { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' };
+                        body = { model, messages: [{ role: 'user', content: testPrompt }], max_tokens: 10 };
+                        break;
+                    case 'ollama':
+                        url = `${baseUrl}/api/chat`;
+                        headers = { 'Content-Type': 'application/json' };
+                        body = { model, messages: [{ role: 'user', content: testPrompt }], stream: false, options: { num_predict: 10 } };
+                        break;
+                    case 'google':
+                        url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
+                        headers = { 'Content-Type': 'application/json' };
+                        body = { contents: [{ parts: [{ text: testPrompt }] }], generationConfig: { maxOutputTokens: 10 } };
+                        break;
+                    default:
+                        throw new Error('Unknown provider');
+                }
+
+                const res = await fetch(url, { method: 'POST', headers, body: JSON.stringify(body) });
+                const data = await res.json();
+
+                if (!res.ok) {
+                    let err = data.error?.message || data.message || JSON.stringify(data);
+                    if (res.status === 401) err = '❌ غلط کلید یا ختم شدہ';
+                    else if (res.status === 404) err = '❌ ماڈل نہیں ملا';
+                    else if (res.status === 429) err = '⚠️ بہت زیادہ درخواستیں (rate limit)';
+                    throw new Error(err);
+                }
+
+                // Check if we got a response
+                let ok = false;
+                if (provider === 'google') {
+                    ok = data.candidates && data.candidates.length > 0;
+                } else if (provider === 'ollama') {
+                    ok = data.message && data.message.content;
+                } else {
+                    ok = data.choices && data.choices.length > 0;
+                }
+
+                if (ok) {
+                    resultEl.textContent = '✅ کنکشن کامیاب! سب ٹھیک ہے۔';
+                    resultEl.style.color = '#22c55e';
+                } else {
+                    throw new Error('خالی جواب');
+                }
+            } catch (err) {
+                resultEl.textContent = `❌ ${err.message || 'نامعلوم خرابی'}`;
+                resultEl.style.color = '#ef4444';
+            }
+        }
+
+        // ============================================================
+        //  MULTI-PROVIDER API CALL with RETRY
+        // ============================================================
+        async function askAI(prompt, retryCount = 0) {
+            micTrigger.classList.add('thinking');
+            statusEl.innerHTML = `<span class="highlight">●</span> سسٹم: سوچ رہا ہے... <span class="provider-badge">${getProviderLabel()}</span>`;
+
+            // Cache check
             const cached = config.memory.find(m =>
                 m.user && m.user.toLowerCase() === prompt.toLowerCase().slice(0, 40) &&
                 (Date.now() - m.time) < 3600000
@@ -1490,102 +733,60 @@
                 - ${isPeshawar ? 'پشاور پاکستان کا موسم، وقت، اور تاریخ بتائیں۔' : ''}
                 - جذبات دکھائیں — ایموجی استعمال کریں۔
                 - جواب 2-3 لائنوں سے زیادہ نہ ہو (سوائے کوڈ کے)۔
-                - اگر کوئی ایپ کھولنے کو کہے تو رہنمائی کریں۔
                 - صارف کا نام یاد رکھیں۔`;
 
             try {
                 const provider = config.provider;
                 let url, headers, body;
 
-                // Build request based on provider
                 switch (provider) {
                     case 'openrouter':
                         url = 'https://openrouter.ai/api/v1/chat/completions';
-                        headers = {
-                            'Authorization': `Bearer ${config.key}`,
-                            'Content-Type': 'application/json'
-                        };
-                        body = {
-                            model: config.model,
-                            messages: [
-                                { role: 'system', content: systemContent },
-                                { role: 'user', content: prompt }
-                            ],
-                            temperature: 0.7,
-                            max_tokens: config.speed === 'fast' ? 300 : 600,
-                        };
+                        headers = { 'Authorization': `Bearer ${config.key}`, 'Content-Type': 'application/json' };
+                        body = { model: config.model, messages: [{ role: 'system', content: systemContent }, { role: 'user', content: prompt }], temperature: 0.7, max_tokens: config.speed === 'fast' ? 300 : 600 };
                         break;
-
                     case 'openai':
                         url = 'https://api.openai.com/v1/chat/completions';
-                        headers = {
-                            'Authorization': `Bearer ${config.key}`,
-                            'Content-Type': 'application/json'
-                        };
-                        body = {
-                            model: config.model,
-                            messages: [
-                                { role: 'system', content: systemContent },
-                                { role: 'user', content: prompt }
-                            ],
-                            temperature: 0.7,
-                            max_tokens: config.speed === 'fast' ? 300 : 600,
-                        };
+                        headers = { 'Authorization': `Bearer ${config.key}`, 'Content-Type': 'application/json' };
+                        body = { model: config.model, messages: [{ role: 'system', content: systemContent }, { role: 'user', content: prompt }], temperature: 0.7, max_tokens: config.speed === 'fast' ? 300 : 600 };
                         break;
-
                     case 'ollama':
                         url = `${config.baseUrl}/api/chat`;
                         headers = { 'Content-Type': 'application/json' };
-                        body = {
-                            model: config.model,
-                            messages: [
-                                { role: 'system', content: systemContent },
-                                { role: 'user', content: prompt }
-                            ],
-                            stream: false,
-                            options: {
-                                temperature: 0.7,
-                                num_predict: config.speed === 'fast' ? 300 : 600,
-                            }
-                        };
+                        body = { model: config.model, messages: [{ role: 'system', content: systemContent }, { role: 'user', content: prompt }], stream: false, options: { temperature: 0.7, num_predict: config.speed === 'fast' ? 300 : 600 } };
                         break;
-
                     case 'google':
-                        url =
-                            `https://generativelanguage.googleapis.com/v1beta/models/${config.model}:generateContent?key=${config.key}`;
+                        url = `https://generativelanguage.googleapis.com/v1beta/models/${config.model}:generateContent?key=${config.key}`;
                         headers = { 'Content-Type': 'application/json' };
-                        body = {
-                            contents: [
-                                { parts: [{ text: prompt }], role: 'user' }
-                            ],
-                            system_instruction: {
-                                parts: [{ text: systemContent }]
-                            },
-                            generationConfig: {
-                                temperature: 0.7,
-                                maxOutputTokens: config.speed === 'fast' ? 300 : 600,
-                            }
-                        };
+                        body = { contents: [{ parts: [{ text: prompt }] }], system_instruction: { parts: [{ text: systemContent }] }, generationConfig: { temperature: 0.7, maxOutputTokens: config.speed === 'fast' ? 300 : 600 } };
                         break;
-
                     default:
-                        throw new Error('Unknown provider: ' + provider);
+                        throw new Error('Unknown provider');
                 }
 
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: headers,
-                    body: JSON.stringify(body)
-                });
+                const response = await fetch(url, { method: 'POST', headers, body: JSON.stringify(body) });
 
                 if (!response.ok) {
                     const errText = await response.text();
-                    throw new Error(`API error (${response.status}): ${errText.slice(0, 100)}`);
+                    let errorMsg = `API error (${response.status})`;
+                    if (response.status === 401) errorMsg = 'غلط API کلید یا ختم شدہ کلید۔';
+                    else if (response.status === 404) errorMsg = 'ماڈل نہیں ملا — چیک کریں نام درست ہے۔';
+                    else if (response.status === 429) {
+                        errorMsg = 'بہت زیادہ درخواستیں — تھوڑی دیر بعد کوشش کریں۔';
+                        if (retryCount < 3) {
+                            const delay = (retryCount + 1) * 2000;
+                            statusEl.innerHTML = `<span class="highlight">●</span> سسٹم: دوبارہ کوشش (${retryCount+1}/3)... <span class="provider-badge">${getProviderLabel()}</span>`;
+                            await new Promise(resolve => setTimeout(resolve, delay));
+                            return askAI(prompt, retryCount + 1);
+                        } else {
+                            errorMsg = 'بہت زیادہ درخواستیں — دوسرا پرووائیڈر منتخب کریں یا تھوڑی دیر بعد کوشش کریں۔';
+                        }
+                    } else if (response.status === 500) errorMsg = 'سرور کی خرابی — دوسرا پرووائیڈر آزمائیں۔';
+                    else errorMsg = errText.slice(0, 100);
+                    throw new Error(errorMsg);
                 }
 
                 const data = await response.json();
-
-                // Parse response based on provider
                 let aiReply = '';
                 switch (provider) {
                     case 'openrouter':
@@ -1602,24 +803,32 @@
                         aiReply = data.choices?.[0]?.message?.content || '';
                 }
 
-                if (!aiReply) throw new Error('Empty response from ' + provider);
+                if (!aiReply) throw new Error('خالی جواب — دوسرا پرووائیڈر آزمائیں۔');
 
                 processResponse(aiReply, prompt);
 
             } catch (err) {
-                console.error(err);
-                const errMsg = err.message || 'Unknown error';
-                // Provide a friendly error message
-                if (errMsg.includes('401') || errMsg.includes('unauthorized') || errMsg.includes('invalid')) {
-                    speak('معذرت سر، API کلید غلط ہے یا ختم ہو چکی ہے۔ براہ کرم سیٹنگز میں کلید چیک کریں۔');
-                } else if (errMsg.includes('404')) {
-                    speak('معذرت سر، ماڈل نہیں ملا۔ براہ کرم درست ماڈل نام درج کریں۔');
-                } else if (errMsg.includes('connection') || errMsg.includes('ECONNREFUSED')) {
-                    speak('معذرت سر، سرور سے رابطہ نہیں ہو سکا۔ چیک کریں کہ خدمت فعال ہے۔');
+                console.error('AI Error:', err);
+                const errMsg = err.message || 'نامعلوم خرابی';
+                let userMsg = 'معذرت سر، سسٹم میں خرابی ہے: ' + errMsg;
+                if (errMsg.includes('غلط API کلید') || errMsg.includes('401')) {
+                    userMsg = 'سر، API کلید غلط ہے یا ختم ہو چکی۔ سیٹنگز میں کلید چیک کریں۔';
+                } else if (errMsg.includes('ماڈل نہیں ملا') || errMsg.includes('404')) {
+                    userMsg = 'سر، ماڈل نہیں ملا — درست نام درج کریں۔';
+                } else if (errMsg.includes('بہت زیادہ') || errMsg.includes('429')) {
+                    userMsg = 'سر، بہت زیادہ درخواستیں — دوسرا پرووائیڈر منتخب کریں یا کچھ دیر بعد کوشش کریں۔';
+                } else if (errMsg.includes('سرور کی خرابی') || errMsg.includes('500')) {
+                    userMsg = 'سر، سرور کی خرابی — دوسرا پرووائیڈر منتخب کریں۔';
+                } else if (errMsg.includes('خالی جواب')) {
+                    userMsg = 'سر، خالی جواب — دوسرا پرووائیڈر آزمائیں۔';
+                } else if (errMsg.includes('ECONNREFUSED') || errMsg.includes('Ollama')) {
+                    userMsg = 'سر، Ollama سرور سے رابطہ نہیں — چیک کریں کہ Ollama چل رہا ہے۔';
                 } else {
-                    speak(`معذرت سر، سسٹم میں خرابی ہے: ${errMsg.slice(0, 50)}`);
+                    userMsg = `سر، ${errMsg} — براہ کرم دوسرا پرووائیڈر منتخب کریں۔`;
                 }
+                speak(userMsg);
                 micTrigger.classList.remove('thinking');
+                statusEl.innerHTML = `<span class="highlight">●</span> سسٹم: اسٹینڈ بائی <span class="provider-badge">${getProviderLabel()}</span>`;
             }
         }
 
@@ -1712,17 +921,18 @@
         }
 
         // ============================================================
-        //  SETTINGS — MULTI-PROVIDER
+        //  SETTINGS
         // ============================================================
         function toggleSettings() {
             const modal = $('settingsModal');
             modal.classList.toggle('active');
             if (modal.classList.contains('active')) {
                 $('settingsProvider').value = config.provider;
-                $('settingsApiKey').value = config.key;
+                $('settingsApiKey').value = config.key || PROVIDER_KEYS[config.provider] || '';
                 $('settingsModel').value = config.model;
                 $('settingsBaseUrl').value = config.baseUrl || 'http://localhost:11434';
                 $('settingsSpeed').value = config.speed || 'balanced';
+                $('testResult').textContent = '';
                 onProviderChange();
             }
         }
@@ -1733,20 +943,19 @@
             const provider = $('settingsProvider').value;
             const def = PROVIDER_DEFAULTS[provider] || PROVIDER_DEFAULTS.openrouter;
 
-            // Update model default
             if (!$('settingsModel').dataset.userChanged) {
                 $('settingsModel').value = def.model;
             }
 
-            // Update API key label and hint
+            const keyInput = $('settingsApiKey');
+            keyInput.value = PROVIDER_KEYS[provider] || '';
+
             $('apiKeyLabel').textContent = def.keyLabel;
-            $('settingsApiKey').placeholder = def.keyPlaceholder;
+            keyInput.placeholder = def.keyPlaceholder || 'کلید درج کریں';
             $('apiKeyHint').textContent = def.hint;
 
-            // Show/hide API key for Ollama
             const apiGroup = $('apiKeyGroup');
             const baseGroup = $('baseUrlGroup');
-
             if (provider === 'ollama') {
                 apiGroup.style.display = 'none';
                 baseGroup.classList.remove('hidden');
@@ -1755,33 +964,35 @@
                 baseGroup.classList.add('hidden');
             }
 
-            // Update model hint
             const modelHints = {
-                openrouter: 'مثال: google/gemma-2-9b-it:free, openai/gpt-3.5-turbo, anthropic/claude-3-haiku',
-                openai: 'مثال: gpt-3.5-turbo, gpt-4, gpt-4-turbo, o1-mini',
-                ollama: 'مثال: llama3.2, mistral, codellama, gemma:2b, phi3',
-                google: 'مثال: gemini-1.5-flash, gemini-1.5-pro, gemini-2.0-flash-exp'
+                openrouter: 'مثال: google/gemma-2-9b-it:free, openai/gpt-3.5-turbo',
+                openai: 'مثال: gpt-3.5-turbo, gpt-4, gpt-4-turbo',
+                ollama: 'مثال: llama3.2, mistral, codellama, gemma:2b',
+                google: 'مثال: gemini-1.5-flash, gemini-2.5-flash, gemini-1.5-pro'
             };
             $('modelHint').textContent = modelHints[provider] || 'ماڈل کا نام درست کریں';
         }
 
         function saveSettings() {
             const provider = $('settingsProvider').value;
+            const key = $('settingsApiKey').value.trim();
+            const model = $('settingsModel').value.trim() || PROVIDER_DEFAULTS[provider].model;
+            const baseUrl = $('settingsBaseUrl').value.trim() || 'http://localhost:11434';
+            const speed = $('settingsSpeed').value || 'balanced';
+
             config.provider = provider;
-            config.key = $('settingsApiKey').value.trim() || DEFAULT_KEY;
-            config.model = $('settingsModel').value.trim() || PROVIDER_DEFAULTS[provider].model;
-            config.baseUrl = $('settingsBaseUrl').value.trim() || 'http://localhost:11434';
-            config.speed = $('settingsSpeed').value || 'balanced';
+            config.key = key || PROVIDER_KEYS[provider] || '';
+            config.model = model;
+            config.baseUrl = baseUrl;
+            config.speed = speed;
 
-            localStorage.setItem('rana_provider', config.provider);
+            localStorage.setItem('rana_provider', provider);
             localStorage.setItem('rana_key', config.key);
-            localStorage.setItem('rana_model', config.model);
-            localStorage.setItem('rana_baseurl', config.baseUrl);
-            localStorage.setItem('rana_speed', config.speed);
+            localStorage.setItem('rana_model', model);
+            localStorage.setItem('rana_baseurl', baseUrl);
+            localStorage.setItem('rana_speed', speed);
 
-            // Update badge
             providerBadge.textContent = getProviderLabel();
-
             closeSettings();
             speak('سیٹنگز محفوظ کر لی گئیں۔');
         }
@@ -1821,22 +1032,18 @@
 
         window.speechSynthesis.onvoiceschanged = () => {};
 
-        // Welcome
         setTimeout(() => {
             if (config.memory.length === 0) {
                 speak('سر سکندر اعظم، رانا حاضر ہے۔ کیا حکم ہے؟');
             } else {
-                statusEl.innerHTML =
-                    `<span class="highlight">●</span> سسٹم: اسٹینڈ بائی (${config.memory.length} یاداشتیں) <span class="provider-badge">${getProviderLabel()}</span>`;
+                statusEl.innerHTML = `<span class="highlight">●</span> سسٹم: اسٹینڈ بائی (${config.memory.length} یاداشتیں) <span class="provider-badge">${getProviderLabel()}</span>`;
             }
         }, 700);
 
-        console.log('👑 Sikandar Azam AI v5.0 — Multi-Provider');
+        console.log('👑 Sikandar Azam AI v5.3 — باہر سے API کی ضرورت نہیں، سب پہلے سے سیٹ ہے');
         console.log('📦 Provider:', config.provider);
         console.log('🧠 Model:', config.model);
         console.log('🔑 Key:', config.key ? '✅' : '❌');
-        console.log('⚡ Speed:', config.speed);
-        console.log('🌐 Ollama URL:', config.baseUrl);
         console.log('🎤 Press SPACE to talk');
     </script>
 </body>
