@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Sikandar Azam AI — Rana v5.3</title>
+    <title>Sikandar Azam AI — Rana v5.4</title>
     <style>
-        /* ====== COMPACT STYLES ====== */
+        /* ====== STYLES (unchanged for brevity) ====== */
         :root {
             --glow-cyan: #00f2ff;
             --glow-purple: #a855f7;
@@ -103,6 +103,7 @@
         @media (max-width:820px){ .sidebar{width:200px;min-width:200px;padding:12px 10px;} .sidebar-brand h1{font-size:14px;} #preview-panel{width:70%;} .response-container{font-size:14px;padding:12px 14px;} .reactor-shell{width:120px;height:120px;} .core{width:58px;height:58px;} .core::after{font-size:20px;} .modal-box{padding:20px;width:96vw;} }
         @media (max-width:600px){ .app-layout{flex-direction:column;} .sidebar{width:100%;min-width:unset;max-height:150px;border-right:none;border-bottom:1px solid var(--glass-border);padding:8px 12px;flex-shrink:0;} .history-list{flex-direction:row;overflow-x:auto;gap:4px;padding-bottom:4px;min-height:32px;} .history-item{white-space:nowrap;flex-shrink:0;font-size:10px;padding:3px 10px;} .history-item .time{display:none;} .sidebar-brand .badge{display:none;} .sidebar-section-title{display:none;} .sidebar-footer .memory-status{font-size:9px;} .sidebar-footer .clear-btn{font-size:9px;padding:2px 10px;} .main-area{padding:12px;justify-content:flex-start;padding-top:14px;} .reactor-shell{width:94px;height:94px;} .core{width:46px;height:46px;} .core::after{font-size:14px;} .response-container{font-size:13px;padding:10px 12px;min-height:50px;} #preview-panel{width:100%;height:55vh;top:auto;bottom:0;border-left:none;border-top:2px solid var(--glow-cyan);} .quick-actions{gap:4px;} .quick-btn{font-size:9px;padding:3px 10px;} .settings-gear{bottom:10px;left:10px;width:34px;height:34px;font-size:14px;} .modal-box{padding:16px 18px;width:98vw;} .modal-box h3{font-size:16px;} }
         .hidden { display:none !important; }
+        .text-xs { font-size:10px; color:var(--text-secondary); opacity:0.4; }
     </style>
 </head>
 <body>
@@ -114,7 +115,7 @@
             <div class="sidebar-brand">
                 <div class="logo">S</div>
                 <h1>Sikandar Azam</h1>
-                <span class="badge">v5.3</span>
+                <span class="badge">v5.4</span>
             </div>
             <div class="sidebar-section-title">📜 گفتگو کی تاریخ</div>
             <div class="history-list" id="historyList">
@@ -194,7 +195,7 @@
     <div class="modal-overlay" id="settingsModal">
         <div class="modal-box">
             <h3>⚙️ سیٹنگز — AI پرووائیڈر</h3>
-            <p class="sub">اپنا پرووائیڈر منتخب کریں — API keys پہلے سے ڈال دی گئی ہیں</p>
+            <p class="sub">اپنا پرووائیڈر منتخب کریں — تمام API keys پہلے سے سیٹ ہیں</p>
 
             <label>🤖 پرووائیڈر</label>
             <select id="settingsProvider" onchange="onProviderChange()">
@@ -204,21 +205,23 @@
                 <option value="google">Google AI Studio</option>
             </select>
 
+            <!-- API Key group - always visible for all providers -->
             <div id="apiKeyGroup">
                 <label id="apiKeyLabel">🔑 API کلید</label>
-                <input type="password" id="settingsApiKey" placeholder="sk-..." />
+                <input type="password" id="settingsApiKey" placeholder="کلید درج کریں" />
                 <div class="helper-text" id="apiKeyHint">کلید پہلے سے موجود ہے — بس Save کریں</div>
             </div>
 
-            <div id="baseUrlGroup" class="hidden">
+            <!-- Base URL for Ollama -->
+            <div id="baseUrlGroup">
                 <label>🌐 Ollama Base URL</label>
                 <input type="text" id="settingsBaseUrl" value="http://localhost:11434" placeholder="http://localhost:11434" />
                 <div class="helper-text">مثال: http://192.168.1.100:11434</div>
             </div>
 
             <label>🧠 ماڈل کا نام</label>
-            <input type="text" id="settingsModel" value="google/gemma-2-9b-it:free" />
-            <div class="helper-text" id="modelHint">ماڈل کا نام درست کریں</div>
+            <input type="text" id="settingsModel" value="qwen3.5:9b" />
+            <div class="helper-text" id="modelHint">مثال: qwen3.5:9b, llama3.2, mistral</div>
 
             <label>⚡ جواب کی رفتار</label>
             <select id="settingsSpeed">
@@ -246,19 +249,19 @@
     ============================================================ -->
     <script>
         // ============================================================
-        //  CONFIG — Pre-filled API Keys
+        //  CONFIG — Pre-filled API Keys (including Ollama key)
         // ============================================================
         const PROVIDER_KEYS = {
             openrouter: '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',
             openai: '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',
             google: 'AIzaSyD5XmN_1x2y3z4a5b6c7d8e9f0', // placeholder — user must replace
-            ollama: ''
+            ollama: '8f4ffc1f18aa4f1c9c3ee2f103929880.W4tEHscaC7e_p1HrT2cstpB9'  // ADDED
         };
 
         const PROVIDER_DEFAULTS = {
             openrouter: { model: 'google/gemma-2-9b-it:free', keyLabel: '🔑 OpenRouter API کلید', hint: 'https://openrouter.ai/keys' },
             openai: { model: 'gpt-3.5-turbo', keyLabel: '🔑 OpenAI API کلید', hint: 'https://platform.openai.com/api-keys' },
-            ollama: { model: 'llama3.2', keyLabel: '🔑 (Ollama کو کلید کی ضرورت نہیں)', hint: 'مقامی سرور — کوئی کلید نہیں' },
+            ollama: { model: 'qwen3.5:9b', keyLabel: '🔑 Ollama API کلید (اختیاری)', hint: 'Ollama کو کلید کی ضرورت نہیں، لیکن اگر proxy استعمال کر رہے ہیں تو ڈالیں' },
             google: { model: 'gemini-1.5-flash', keyLabel: '🔑 Google AI Studio API کلید', hint: 'https://aistudio.google.com/app/apikey' }
         };
 
@@ -266,9 +269,9 @@
         //  LOAD CONFIG
         // ============================================================
         let config = {
-            provider: localStorage.getItem('rana_provider') || 'openrouter',
-            key: localStorage.getItem('rana_key') || PROVIDER_KEYS.openrouter,
-            model: localStorage.getItem('rana_model') || 'google/gemma-2-9b-it:free',
+            provider: localStorage.getItem('rana_provider') || 'ollama',  // default to ollama for user
+            key: localStorage.getItem('rana_key') || PROVIDER_KEYS.ollama,
+            model: localStorage.getItem('rana_model') || 'qwen3.5:9b',
             baseUrl: localStorage.getItem('rana_baseurl') || 'http://localhost:11434',
             speed: localStorage.getItem('rana_speed') || 'balanced',
             memory: JSON.parse(localStorage.getItem('rana_memory') || '[]'),
@@ -654,6 +657,8 @@
                     case 'ollama':
                         url = `${baseUrl}/api/chat`;
                         headers = { 'Content-Type': 'application/json' };
+                        // If key is provided, add it as a header (some proxies use it)
+                        if (key) headers['Authorization'] = `Bearer ${key}`;
                         body = { model, messages: [{ role: 'user', content: testPrompt }], stream: false, options: { num_predict: 10 } };
                         break;
                     case 'google':
@@ -676,7 +681,6 @@
                     throw new Error(err);
                 }
 
-                // Check if we got a response
                 let ok = false;
                 if (provider === 'google') {
                     ok = data.candidates && data.candidates.length > 0;
@@ -753,6 +757,7 @@
                     case 'ollama':
                         url = `${config.baseUrl}/api/chat`;
                         headers = { 'Content-Type': 'application/json' };
+                        if (config.key) headers['Authorization'] = `Bearer ${config.key}`;  // Use key if provided
                         body = { model: config.model, messages: [{ role: 'system', content: systemContent }, { role: 'user', content: prompt }], stream: false, options: { temperature: 0.7, num_predict: config.speed === 'fast' ? 300 : 600 } };
                         break;
                     case 'google':
@@ -822,7 +827,7 @@
                 } else if (errMsg.includes('خالی جواب')) {
                     userMsg = 'سر، خالی جواب — دوسرا پرووائیڈر آزمائیں۔';
                 } else if (errMsg.includes('ECONNREFUSED') || errMsg.includes('Ollama')) {
-                    userMsg = 'سر، Ollama سرور سے رابطہ نہیں — چیک کریں کہ Ollama چل رہا ہے۔';
+                    userMsg = 'سر، Ollama سرور سے رابطہ نہیں — چیک کریں کہ Ollama چل رہا ہے اور Base URL درست ہے۔';
                 } else {
                     userMsg = `سر، ${errMsg} — براہ کرم دوسرا پرووائیڈر منتخب کریں۔`;
                 }
@@ -943,31 +948,32 @@
             const provider = $('settingsProvider').value;
             const def = PROVIDER_DEFAULTS[provider] || PROVIDER_DEFAULTS.openrouter;
 
-            if (!$('settingsModel').dataset.userChanged) {
-                $('settingsModel').value = def.model;
-            }
-
+            // Always show API key field, but update label/hint
             const keyInput = $('settingsApiKey');
-            keyInput.value = PROVIDER_KEYS[provider] || '';
+            // Pre-fill with stored key for this provider if available
+            const storedKey = localStorage.getItem('rana_key');
+            // If switching, show the default for that provider
+            if (!keyInput.dataset.userChanged) {
+                keyInput.value = PROVIDER_KEYS[provider] || '';
+            }
 
             $('apiKeyLabel').textContent = def.keyLabel;
             keyInput.placeholder = def.keyPlaceholder || 'کلید درج کریں';
             $('apiKeyHint').textContent = def.hint;
 
-            const apiGroup = $('apiKeyGroup');
+            // Always show base URL group (for Ollama it's essential, for others it's hidden)
             const baseGroup = $('baseUrlGroup');
             if (provider === 'ollama') {
-                apiGroup.style.display = 'none';
-                baseGroup.classList.remove('hidden');
+                baseGroup.style.display = 'block';
             } else {
-                apiGroup.style.display = 'block';
-                baseGroup.classList.add('hidden');
+                baseGroup.style.display = 'none';
             }
 
+            // Update model hint
             const modelHints = {
                 openrouter: 'مثال: google/gemma-2-9b-it:free, openai/gpt-3.5-turbo',
                 openai: 'مثال: gpt-3.5-turbo, gpt-4, gpt-4-turbo',
-                ollama: 'مثال: llama3.2, mistral, codellama, gemma:2b',
+                ollama: 'مثال: qwen3.5:9b, llama3.2, mistral, gemma:2b',
                 google: 'مثال: gemini-1.5-flash, gemini-2.5-flash, gemini-1.5-pro'
             };
             $('modelHint').textContent = modelHints[provider] || 'ماڈل کا نام درست کریں';
@@ -1040,10 +1046,11 @@
             }
         }, 700);
 
-        console.log('👑 Sikandar Azam AI v5.3 — باہر سے API کی ضرورت نہیں، سب پہلے سے سیٹ ہے');
+        console.log('👑 Sikandar Azam AI v5.4 — Ollama API key now included');
         console.log('📦 Provider:', config.provider);
         console.log('🧠 Model:', config.model);
         console.log('🔑 Key:', config.key ? '✅' : '❌');
+        console.log('🌐 Base URL:', config.baseUrl);
         console.log('🎤 Press SPACE to talk');
     </script>
 </body>
