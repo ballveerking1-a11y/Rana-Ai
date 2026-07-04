@@ -2,336 +2,291 @@
 <html lang="ur" dir="rtl">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sikandar AI Master v11.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Sikandar AI v12.0</title>
     
-    <!-- External Assets -->
+    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&family=Noto+Nastaliq+Urdu&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
-            --cyan: #00f2ff;
-            --blue: #0066ff;
-            --bg: #000b18;
-            --glass: rgba(0, 20, 40, 0.85);
-            --border: rgba(0, 242, 255, 0.25);
-            --shadow: 0 0 30px rgba(0, 242, 255, 0.2);
+            --primary: #00f2ff;
+            --secondary: #7000ff;
+            --bg: #010409;
+            --card: #0d1117;
+            --border: rgba(0, 242, 255, 0.2);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
             background-color: var(--bg);
-            background-image: radial-gradient(circle at center, #001a33 0%, #000b18 100%);
             color: white;
             font-family: 'Rajdhani', sans-serif;
             height: 100vh;
+            display: flex;
+            flex-direction: column;
             overflow: hidden;
-            display: flex;
         }
 
-        /* --- SIDEBAR HISTORY --- */
-        .sidebar {
-            width: 320px;
-            background: var(--glass);
-            border-left: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            backdrop-filter: blur(15px);
-            z-index: 100;
-        }
-
-        .sidebar-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--border);
-            font-family: 'Orbitron';
-            color: var(--cyan);
-            font-size: 14px;
-            display: flex; justify-content: space-between;
-        }
-
-        #historyList {
-            flex: 1;
-            overflow-y: auto;
+        /* --- MOBILE HEADER --- */
+        header {
             padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            background: var(--card);
         }
+        header h1 { font-family: 'Orbitron'; font-size: 18px; color: var(--primary); letter-spacing: 2px; }
 
-        .history-card {
-            background: rgba(255,255,255,0.03);
-            border-right: 3px solid var(--cyan);
-            padding: 10px;
-            margin-bottom: 10px;
-            font-size: 12px;
-            border-radius: 4px;
-        }
-
-        /* --- MAIN INTERFACE --- */
-        .main-container {
+        /* --- MAIN VIEWPORT --- */
+        main {
             flex: 1;
             display: flex;
             flex-direction: column;
-            position: relative;
-        }
-
-        .core-section {
-            flex: 1;
-            display: flex;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
+            position: relative;
+            padding: 20px;
         }
 
-        .neural-arc {
+        /* ARC REACTOR MIC */
+        .reactor-core {
+            width: 220px; height: 220px;
             position: relative;
-            width: 300px; height: 300px;
             display: flex; align-items: center; justify-content: center;
             cursor: pointer;
         }
-
         .ring {
-            position: absolute;
-            border-radius: 50%;
-            border: 2px solid transparent;
-            border-top: 2px solid var(--cyan);
-            animation: rotate var(--s) linear infinite;
+            position: absolute; border-radius: 50%; border: 2px solid transparent;
+            border-top-color: var(--primary); animation: spin var(--s) linear infinite;
         }
-        .ring-1 { width: 100%; height: 100%; --s: 6s; opacity: 0.2; }
-        .ring-2 { width: 80%; height: 80%; --s: 4s; border-top-color: var(--blue); opacity: 0.5; }
-        .ring-3 { width: 60%; height: 60%; --s: 2s; box-shadow: inset 0 0 20px var(--cyan); }
-
-        .center-node {
-            width: 80px; height: 80px;
-            background: radial-gradient(circle, var(--cyan), var(--blue));
-            border-radius: 50%;
-            box-shadow: 0 0 50px var(--cyan);
-            z-index: 10;
+        .r1 { width: 100%; height: 100%; --s: 5s; opacity: 0.3; }
+        .r2 { width: 80%; height: 80%; --s: 3s; border-top-color: var(--secondary); }
+        .r3 { width: 60%; height: 60%; --s: 2s; box-shadow: inset 0 0 20px var(--primary); }
+        
+        .core-center {
+            width: 70px; height: 70px;
+            background: var(--primary); border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            transition: 0.3s;
+            box-shadow: 0 0 40px var(--primary); z-index: 10;
         }
+        .core-center i { color: black; font-size: 24px; }
+        
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        .listening .center-node {
-            animation: pulse 0.8s infinite alternate;
-            background: #ff004c;
-            box-shadow: 0 0 60px #ff004c;
-        }
-
-        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.2); } }
-
-        /* --- OUTPUT PANEL --- */
-        .output-panel {
-            height: 180px;
-            background: rgba(0,0,0,0.6);
-            border-top: 2px solid var(--border);
-            padding: 25px;
+        /* --- CONSOLE / OUTPUT --- */
+        .output-box {
+            width: 100%;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 30px;
+            min-height: 120px;
             font-family: 'Noto Nastaliq Urdu', serif;
-            font-size: 20px;
+            font-size: 18px;
             text-align: center;
-            color: var(--cyan);
-            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex; align-items: center; justify-content: center;
         }
 
-        /* --- SETTINGS MODAL --- */
+        /* --- BOTTOM NAVIGATION --- */
+        nav {
+            height: 70px;
+            background: var(--card);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .nav-item { color: #8b949e; font-size: 20px; cursor: pointer; transition: 0.3s; }
+        .nav-item.active { color: var(--primary); text-shadow: 0 0 10px var(--primary); }
+
+        /* --- MODALS --- */
         .modal {
             position: fixed; inset: 0; background: rgba(0,0,0,0.9);
             display: none; align-items: center; justify-content: center; z-index: 1000;
+            padding: 20px;
         }
-        .modal-box {
-            background: #001226; border: 1px solid var(--cyan);
-            padding: 30px; border-radius: 10px; width: 420px;
-            box-shadow: var(--shadow);
+        .modal-content {
+            background: var(--card); border: 1px solid var(--primary);
+            padding: 25px; border-radius: 20px; width: 100%; max-width: 400px;
         }
-        .modal-box h2 { font-family: 'Orbitron'; margin-bottom: 20px; color: var(--cyan); }
+        .modal-content h2 { font-family: 'Orbitron'; color: var(--primary); margin-bottom: 20px; font-size: 16px; }
         .input-group { margin-bottom: 15px; }
-        .input-group label { display: block; font-size: 11px; margin-bottom: 5px; color: var(--blue); }
+        .input-group label { display: block; font-size: 11px; margin-bottom: 5px; color: #8b949e; }
         .input-group input {
-            width: 100%; padding: 12px; background: rgba(255,255,255,0.05);
-            border: 1px solid var(--border); color: white; outline: none;
+            width: 100%; padding: 12px; background: #161b22;
+            border: 1px solid #30363d; color: white; border-radius: 8px; outline: none;
         }
-        .btn-prime {
-            width: 100%; padding: 15px; background: var(--cyan);
-            color: black; font-weight: bold; border: none; cursor: pointer;
-            font-family: 'Orbitron';
+        .btn-test {
+            width: 100%; padding: 12px; background: transparent; border: 1px solid var(--secondary);
+            color: var(--secondary); border-radius: 8px; margin-bottom: 10px; cursor: pointer;
         }
-
-        /* --- CONTROLS --- */
-        .floating-ctrl {
-            position: absolute; bottom: 200px; left: 30px;
-            display: flex; flex-direction: column; gap: 15px;
-        }
-        .ctrl-btn {
-            width: 55px; height: 55px; border-radius: 50%;
-            background: var(--glass); border: 1px solid var(--border);
-            color: var(--cyan); cursor: pointer; display: flex; align-items: center; justify-content: center;
+        .btn-save {
+            width: 100%; padding: 12px; background: var(--primary); color: black;
+            font-weight: bold; border: none; border-radius: 8px; cursor: pointer;
         }
 
+        /* --- PREVIEW PANEL --- */
         #preview-panel {
-            position: fixed; top: 0; right: -100%; width: 100%; height: 100%;
-            background: white; z-index: 2000; transition: 0.5s;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: white; z-index: 2000; transform: translateY(100%);
+            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
+        #preview-panel.active { transform: translateY(0); }
+        .preview-header {
+            background: #000; color: white; padding: 15px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .preview-header button {
+            background: var(--primary); color: black; border: none;
+            padding: 8px 15px; border-radius: 5px; font-weight: bold;
+        }
+
+        /* --- LOGS MODAL --- */
+        #logsModal .log-item {
+            padding: 10px; border-bottom: 1px solid #30363d; font-size: 13px;
+        }
+
     </style>
 </head>
 <body>
 
-    <!-- Sidebar History -->
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <span>NEURAL LOGS</span>
-            <i class="fas fa-brain"></i>
-        </div>
-        <div id="historyList"></div>
-        <div id="stats" style="padding:15px; font-size:10px; color:var(--cyan); opacity:0.5; font-family:'Orbitron';">
-            PAK TIME: <span id="clock">00:00:00</span>
-        </div>
-    </aside>
+    <header>
+        <h1>SIKANDAR AI v12</h1>
+    </header>
 
-    <!-- Main -->
-    <main class="main-container">
-        <div class="core-section">
-            <div class="neural-arc" id="arcBody" onclick="startSikandar()">
-                <div class="ring ring-1"></div>
-                <div class="ring ring-2"></div>
-                <div class="ring ring-3"></div>
-                <div class="center-node">
-                    <i class="fas fa-microphone fa-2x" style="color:black;"></i>
-                </div>
+    <main>
+        <div class="reactor-core" id="micBtn" onclick="startSikandar()">
+            <div class="ring r1"></div>
+            <div class="ring r2"></div>
+            <div class="ring r3"></div>
+            <div class="core-center" id="coreNode">
+                <i class="fas fa-microphone"></i>
             </div>
-            <p id="statusTxt" style="margin-top:30px; font-family:'Orbitron'; letter-spacing:4px; font-size:12px; color:var(--cyan);">SYSTEM ONLINE</p>
         </div>
 
-        <div class="output-panel" id="mainDisplay">
-            "خوش آمدید، سکندر اعظم سر۔ میں آپ کے حکم کا منتظر ہوں۔"
-        </div>
+        <div id="statusLabel" style="font-size: 10px; color: var(--primary); margin-top: 15px; letter-spacing: 2px;">ONLINE</div>
 
-        <!-- Buttons -->
-        <div class="floating-ctrl">
-            <button class="ctrl-btn" onclick="toggleSettings()"><i class="fas fa-cog"></i></button>
-            <button class="ctrl-btn" onclick="togglePreview()"><i class="fas fa-code"></i></button>
+        <div class="output-box" id="outputConsole">
+            "سکندر اعظم سر، میں آپ کا منتظر ہوں۔"
         </div>
     </main>
 
-    <!-- Modals -->
+    <nav>
+        <div class="nav-item" onclick="toggleModal('logsModal')"><i class="fas fa-history"></i></div>
+        <div class="nav-item active" onclick="location.reload()"><i class="fas fa-home"></i></div>
+        <div class="nav-item" onclick="toggleModal('settingsModal')"><i class="fas fa-sliders-h"></i></div>
+    </nav>
+
+    <!-- Settings Modal -->
     <div class="modal" id="settingsModal">
-        <div class="modal-box">
-            <h2>SYSTEM CONFIG</h2>
+        <div class="modal-content">
+            <h2>SYSTEM SETTINGS</h2>
             <div class="input-group">
-                <label>GROQ CLOUD KEY</label>
-                <input type="password" id="apiKey" placeholder="Enter API Key">
+                <label>GROQ API KEY</label>
+                <input type="password" id="apiKey" placeholder="Enter Key">
             </div>
             <div class="input-group">
-                <label>ACTIVE MODEL</label>
+                <label>MODEL</label>
                 <input type="text" id="modelName" value="llama3-70b-8192">
             </div>
-            <button class="btn-prime" onclick="saveSettings()">CALIBRATE SYSTEM</button>
-            <p onclick="toggleSettings()" style="text-align:center; color:red; margin-top:15px; cursor:pointer;">ABORT</p>
+            <button class="btn-test" id="testBtn" onclick="testConnection()">TEST CONNECTION</button>
+            <button class="btn-save" onclick="saveSettings()">SAVE & APPLY</button>
+            <p onclick="toggleModal('settingsModal')" style="text-align:center; color:red; margin-top:15px; font-size:12px; cursor:pointer;">CLOSE</p>
+        </div>
+    </div>
+
+    <!-- Logs Modal -->
+    <div class="modal" id="logsModal">
+        <div class="modal-content" style="max-height: 80vh; overflow-y: auto;">
+            <h2>CONVERSATION LOGS</h2>
+            <div id="logsContainer"></div>
+            <button class="btn-save" style="margin-top: 20px;" onclick="toggleModal('logsModal')">BACK</button>
         </div>
     </div>
 
     <!-- Preview Panel -->
     <div id="preview-panel">
-        <div style="background:#111; color:var(--cyan); padding:10px; display:flex; justify-content:space-between;">
-            <span style="font-family:'Orbitron';">CODE RENDERER (ENGLISH)</span>
-            <button onclick="togglePreview()" style="color:red; background:none; border:none; cursor:pointer;">CLOSE</button>
+        <div class="preview-header">
+            <span>LIVE PREVIEW</span>
+            <div>
+                <button onclick="downloadCode()" style="background:#2ecc71; margin-right:5px;"><i class="fas fa-download"></i></button>
+                <button onclick="togglePreview()" style="background:#e74c3c;">X</button>
+            </div>
         </div>
-        <iframe id="previewFrame" style="width:100%; height:calc(100% - 40px); border:none;"></iframe>
+        <iframe id="previewFrame" style="width:100%; height:calc(100% - 60px); border:none;"></iframe>
     </div>
 
     <script>
-        // --- Memory & Config ---
-        let appState = {
-            key: localStorage.getItem('sk_key_v11') || '',
-            model: localStorage.getItem('sk_model_v11') || 'llama3-70b-8192',
-            history: JSON.parse(localStorage.getItem('sk_history_v11') || '[]')
+        // --- Persistence Layer ---
+        let appData = {
+            apiKey: localStorage.getItem('sk_v12_key') || '',
+            model: localStorage.getItem('sk_v12_model') || 'llama3-70b-8192',
+            history: JSON.parse(localStorage.getItem('sk_v12_history') || '[]')
         };
 
-        const mainDisplay = document.getElementById('mainDisplay');
-        const historyList = document.getElementById('historyList');
+        const outputConsole = document.getElementById('outputConsole');
+        const logsContainer = document.getElementById('logsContainer');
 
-        // --- Clock Update ---
-        function updateClock() {
-            const now = new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Karachi', hour12: false });
-            document.getElementById('clock').innerText = now;
-        }
-        setInterval(updateClock, 1000);
-
-        // --- Voice Setup ---
+        // --- Voice Logic ---
         const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
         recognition.lang = 'ur-PK';
 
         recognition.onstart = () => {
-            document.getElementById('arcBody').classList.add('listening');
-            document.getElementById('statusTxt').innerText = 'NEURAL CAPTURE ACTIVE';
+            document.getElementById('coreNode').style.background = '#ff004c';
+            document.getElementById('statusLabel').innerText = 'LISTENING...';
         };
 
         recognition.onend = () => {
-            document.getElementById('arcBody').classList.remove('listening');
-            document.getElementById('statusTxt').innerText = 'SYSTEM STANDBY';
+            document.getElementById('coreNode').style.background = 'var(--primary)';
+            document.getElementById('statusLabel').innerText = 'ONLINE';
         };
 
-        recognition.onresult = (event) => {
-            const transcript = event.results[0][0].transcript;
-            processBrain(transcript);
+        recognition.onresult = (e) => {
+            const transcript = e.results[0][0].transcript;
+            handleCommand(transcript);
         };
 
         function startSikandar() {
-            if(!appState.key) {
-                speak("سکندر اعظم سر، براہ کرم پہلے سیٹنگز میں اے پی آئی کی سیٹ کریں۔");
-                toggleSettings();
+            if(!appData.apiKey) {
+                speak("سکندر اعظم سر، براہ کرم پہلے سیٹنگز میں اے پی آئی کی ڈالیں۔");
+                toggleModal('settingsModal');
                 return;
             }
             recognition.start();
         }
 
-        // --- Command Brain ---
-        async function processBrain(input) {
-            updateHistoryUI("آپ: " + input);
-
-            // 1. WhatsApp Logic
-            if (input.includes('WhatsApp') || input.includes('واٹس ایپ')) {
-                if (input.includes('میسج')) {
-                    speak("سکندر اعظم سر، کس نمبر پر میسج بھیجنا ہے؟ (نمبر بتائیں)");
-                    // Special logic for WhatsApp flow could be added here
-                    // Current shortcut: Opens WA Search
-                    window.open(`whatsapp://send?text=Hello from Sikandar AI`, '_blank');
-                    return;
-                }
-            }
-
-            // 2. Apps Launcher (Package Names)
-            const packageMap = {
-                'یوٹیوب': 'com.google.android.youtube',
-                'فیس بک': 'com.facebook.katana',
-                'پلے اسٹور': 'com.android.vending',
-                'گوگل': 'com.google.android.googlequicksearchbox'
-            };
-
-            for (let app in packageMap) {
-                if (input.includes(app)) {
-                    speak(`سکندر اعظم سر، ${app} کھول رہا ہوں۔`);
-                    window.location.href = `intent://#Intent;package=${packageMap[app]};action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;end`;
-                    return;
-                }
-            }
-
-            // 3. Time/Date Logic
-            if (input.includes('وقت') || input.includes('ٹائم')) {
-                const pakTime = new Date().toLocaleTimeString('ur-PK', { timeZone: 'Asia/Karachi' });
-                speak(`سکندر اعظم سر، ابھی پاکستان میں وقت ${pakTime} ہو رہا ہے۔`);
+        // --- Brain ---
+        async function handleCommand(cmd) {
+            updateLogs("User: " + cmd);
+            
+            // Time Logic
+            if(cmd.includes('وقت') || cmd.includes('ٹائم')) {
+                const time = new Date().toLocaleTimeString('ur-PK', {timeZone: 'Asia/Karachi'});
+                speak(`سکندر اعظم سر، ابھی وقت ${time} ہو رہا ہے۔`);
                 return;
             }
 
-            // 4. AI Deep Processing
-            askAI(input);
+            // WhatsApp Logic
+            if(cmd.includes('واٹس ایپ') || cmd.includes('WhatsApp')) {
+                speak("سکندر اعظم سر، واٹس ایپ کھول رہا ہوں۔");
+                window.location.href = "intent://#Intent;package=com.whatsapp;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;end";
+                return;
+            }
+
+            askAI(cmd);
         }
 
         async function askAI(prompt) {
-            mainDisplay.innerText = "پروسیسنگ، سکندر اعظم سر...";
+            outputConsole.innerText = "سکندر اعظم سر، میں سوچ رہا ہوں...";
             
-            // Context Awareness: Sending history to AI
+            // Include History for perfect memory
             const messages = [
-                { role: "system", content: "Your name is Sikandar AI. Always address user as 'Sikandar Azam Sir'. Respond in Urdu. IMPORTANT: Any code (HTML/CSS/JS) you generate must be in ENGLISH language only. Use the provided conversation history to understand the context." },
-                ...appState.history.slice(-10), // Send last 10 messages
+                { role: "system", content: "Your name is Sikandar AI. Always address user as 'Sikandar Azam Sir'. Respond in professional Urdu. Generate code in ENGLISH only. You remember everything from the history below." },
+                ...appData.history.slice(-6),
                 { role: "user", content: prompt }
             ];
 
@@ -339,76 +294,117 @@
                 const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
                     method: "POST",
                     headers: {
-                        "Authorization": `Bearer ${appState.key}`,
+                        "Authorization": `Bearer ${appData.apiKey}`,
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({
-                        model: appState.model,
-                        messages: messages
-                    })
+                    body: JSON.stringify({ model: appData.model, messages: messages })
                 });
 
                 const data = await response.json();
+                if(data.error) throw new Error(data.error.message);
+                
                 const aiReply = data.choices[0].message.content;
 
-                // Save to History
-                appState.history.push({ role: "user", content: prompt });
-                appState.history.push({ role: "assistant", content: aiReply });
-                if(appState.history.length > 20) appState.history.shift();
-                localStorage.setItem('sk_history_v11', JSON.stringify(appState.history));
+                // Store memory
+                appData.history.push({ role: "user", content: prompt });
+                appData.history.push({ role: "assistant", content: aiReply });
+                if(appData.history.length > 20) appData.history.shift();
+                localStorage.setItem('sk_v12_history', JSON.stringify(appData.history));
 
-                if (aiReply.includes("```html")) {
+                if(aiReply.includes("```html")) {
                     const code = aiReply.match(/```html([\s\S]*?)```/)[1].trim();
+                    window.lastCode = code;
                     document.getElementById('previewFrame').srcdoc = code;
                     togglePreview();
-                    speak("سکندر اعظم سر، میں نے انگریزی زبان میں کوڈ تیار کر دیا ہے۔ آپ پریویو دیکھ سکتے ہیں۔");
+                    speak("سکندر اعظم سر، میں نے کوڈ تیار کر دیا ہے، آپ ڈاؤن لوڈ کر سکتے ہیں۔");
                 } else {
                     speak(aiReply);
                 }
-
             } catch (err) {
-                speak("سکندر اعظم سر، معذرت، اے پی آئی کنکشن میں مسئلہ ہے۔");
+                speak("معذرت سکندر اعظم سر، کنکشن میں خرابی آئی ہے۔ براہ کرم سیٹنگز میں ٹیسٹ کریں۔");
             }
         }
 
+        // --- Connection Testing ---
+        async function testConnection() {
+            const btn = document.getElementById('testBtn');
+            const key = document.getElementById('apiKey').value;
+            if(!key) return alert("Please enter API Key first!");
+            
+            btn.innerText = "TESTING...";
+            btn.style.color = "orange";
+
+            try {
+                const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                    method: "POST",
+                    headers: { "Authorization": `Bearer ${key}`, "Content-Type": "application/json" },
+                    body: JSON.stringify({ model: "llama3-8b-8192", messages: [{role:"user", content:"hi"}], max_tokens: 5 })
+                });
+                
+                if(res.ok) {
+                    btn.innerText = "CONNECTION SUCCESSFUL!";
+                    btn.style.borderColor = "#2ecc71";
+                    btn.style.color = "#2ecc71";
+                } else {
+                    throw new Error();
+                }
+            } catch (e) {
+                btn.innerText = "CONNECTION FAILED!";
+                btn.style.borderColor = "#e74c3c";
+                btn.style.color = "#e74c3c";
+            }
+        }
+
+        // --- Helpers ---
         function speak(text) {
-            mainDisplay.innerText = text;
-            updateHistoryUI("AI: " + text);
+            outputConsole.innerText = text;
+            updateLogs("AI: " + text);
             const uttr = new SpeechSynthesisUtterance(text);
             uttr.lang = 'ur-PK';
             window.speechSynthesis.speak(uttr);
         }
 
-        function updateHistoryUI(msg) {
-            const card = document.createElement('div');
-            card.className = 'history-card';
-            card.innerText = msg;
-            historyList.prepend(card);
-        }
-
-        // --- System Handlers ---
-        function toggleSettings() {
-            const m = document.getElementById('settingsModal');
-            document.getElementById('apiKey').value = appState.key;
+        function toggleModal(id) {
+            const m = document.getElementById(id);
+            if(id === 'settingsModal') {
+                document.getElementById('apiKey').value = appData.apiKey;
+            }
+            if(id === 'logsModal') renderLogs();
             m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
         }
 
         function saveSettings() {
-            appState.key = document.getElementById('apiKey').value;
-            appState.model = document.getElementById('modelName').value;
-            localStorage.setItem('sk_key_v11', appState.key);
-            localStorage.setItem('sk_model_v11', appState.model);
-            alert("SYSTEM CALIBRATED!");
-            toggleSettings();
+            appData.apiKey = document.getElementById('apiKey').value;
+            appData.model = document.getElementById('modelName').value;
+            localStorage.setItem('sk_v12_key', appData.apiKey);
+            localStorage.setItem('sk_v12_model', appData.model);
+            alert("SETTINGS SAVED!");
+            toggleModal('settingsModal');
         }
 
         function togglePreview() {
-            const p = document.getElementById('preview-panel');
-            p.style.right = (p.style.right === '0px') ? '-100%' : '0px';
+            document.getElementById('preview-panel').classList.toggle('active');
         }
 
-        // Init History
-        appState.history.forEach(m => updateHistoryUI(`${m.role === 'user' ? 'آپ' : 'AI'}: ${m.content}`));
+        function downloadCode() {
+            const blob = new Blob([window.lastCode], {type: 'text/html'});
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = "Sikandar_Azam_Project.html";
+            a.click();
+        }
+
+        function updateLogs(msg) {
+            const logItem = document.createElement('div');
+            logItem.className = 'log-item';
+            logItem.innerText = msg;
+            logsContainer.prepend(logItem);
+        }
+
+        function renderLogs() {
+            logsContainer.innerHTML = "";
+            appData.history.forEach(h => updateLogs(`${h.role === 'user' ? 'آپ' : 'AI'}: ${h.content}`));
+        }
     </script>
 </body>
 </html>
